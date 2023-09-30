@@ -1,6 +1,6 @@
 import { Container } from '@chakra-ui/react'
 import { Route, Routes } from 'react-router-dom'
-import Header from './components/Header'
+import Header from './components/Header/Header'
 import PostPage from './pages/PostPage'
 import UserPage from './pages/UserPage'
 

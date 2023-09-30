@@ -1,4 +1,4 @@
-import UserHeader from '../components/UserHeader'
+import UserHeader from '../components/Header/UserHeader'
 
 const UserPage = () => {
   return (
