@@ -32,16 +32,31 @@ const UserHeader = () => {
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
       ></Box>
-      <Flex justifyContent={'space-between'} w={'full'}>
+      <Flex justifyContent={'center'} w={'full'}>
         <Box>
+          <Avatar
+            mt={'-20'}
+            name="Fiki Aprian"
+            src="/fiki1.jpg"
+            border={'2px solid white'}
+            size={{
+              base: 'xl',
+              md: '2xl',
+            }}
+          />
+        </Box>
+      </Flex>
+
+      <Flex justifyContent={'center'} w={'full'}>
+        <Box ml={'10'} mt={-4}>
           <Text fontSize={'2xl'} fontWeight={'bold'}>
             Fiki Aprian
           </Text>
           <Flex gap={2} alignItems={'center'}>
-            <Text fontSize={'sm'}>fikiap23</Text>
+            <Text fontSize={'sm'}>@fikiap23</Text>
             <Text
               fontSize={'xs'}
-              bg={'gray.dark'}
+              bg={'gray.300'}
               color={'gray.light'}
               p={1}
               borderRadius={'full'}
@@ -50,23 +65,15 @@ const UserHeader = () => {
             </Text>
           </Flex>
         </Box>
-        <Box>
-          <Avatar
-            mt={'-10'}
-            name="Fiki Aprian"
-            src="/fiki1.jpg"
-            size={{
-              base: 'lg',
-              md: 'xl',
-            }}
-          />
-        </Box>
       </Flex>
 
-      <Text>
-        Ada saatnya tujuan hidup berubah, menjadi sederhana dan tak lagi rumit.
-        Hanya satu yang ingin dicapai Bahagia.
-      </Text>
+      <Flex w={'full'} justifyContent={'center'} gap={6} px={4}>
+        <Text align={'center'}>
+          Ada saatnya tujuan hidup berubah, menjadi sederhana dan tak lagi
+          rumit. Hanya satu yang ingin dicapai Bahagia.
+        </Text>
+      </Flex>
+
       <Flex w={'full'} justifyContent={'space-between'}>
         <Flex gap={2} alignItems={'center'}>
           <Text color={'gray.light'}>3.2K followers</Text>
