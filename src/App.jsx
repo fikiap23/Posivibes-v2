@@ -6,7 +6,7 @@ import UserPage from './pages/UserPage'
 
 function App() {
   return (
-    <Container maxWidth={'620px'}>
+    <Container maxWidth={'620px'} fontFamily={'arial'}>
       <Header />
       <Routes>
         <Route path="/:username" element={<UserPage />} />

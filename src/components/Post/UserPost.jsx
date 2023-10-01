@@ -53,7 +53,10 @@ const UserPost = ({
           </Flex>
         </Flex>
         <Flex flex={1} flexDirection={'column'} gap={2}>
-          <Text fontSize={'md'} fontWeight={'bold'}>
+          <Text
+            fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
+            fontWeight={'bold'}
+          >
             {postTitle}
           </Text>
 
@@ -69,7 +72,7 @@ const UserPost = ({
               </Link>
             </Box>
           )}
-          <Text fontSize={'sm'}>{postContent}</Text>
+          <Text fontSize={{ base: 'sm', md: 'md' }}>{postContent}</Text>
           <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
           <Flex gap={2} alignItems={'center'} justifyContent={'space-between'}>
             <Button
