@@ -3,31 +3,47 @@ import { Avatar } from '@chakra-ui/avatar'
 import { Image } from '@chakra-ui/image'
 import { Box, Flex, Text } from '@chakra-ui/layout'
 import { BsThreeDots } from 'react-icons/bs'
-import { AiOutlineHeart } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { FaRegComment } from 'react-icons/fa6'
 import { BiRepost } from 'react-icons/bi'
 import { PiShareFat } from 'react-icons/pi'
 import { Link } from 'react-router-dom'
-import { Button } from '@chakra-ui/react'
+import { Button, useColorMode } from '@chakra-ui/react'
+import { useState } from 'react'
 
-// import { useState } from 'react'
-
-const UserPost = () => {
-  //   const [liked, setLiked] = useState(false)
+const UserPost = ({
+  postImg,
+  postTitle,
+  postContent,
+  likes,
+  comments,
+  reposts,
+}) => {
+  const [liked, setLiked] = useState(false)
+  const { colorMode } = useColorMode()
   return (
-    <Link to={'/fikiap23/post/1'}>
-      <Flex gap={3} mb={4} py={5} bg="white" color="black" px={4}>
-        <Flex flexDirection={'column'} alignItems={'center'}>
+    <>
+      <Box gap={3} mb={4} py={5} bg="white" color="black" px={4}>
+        <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2}>
           <Avatar size="md" name="Fiki Aprian" src="/fiki1.jpg" />
-        </Flex>
-        <Flex flex={1} flexDirection={'column'} gap={2}>
           <Flex justifyContent={'space-between'} w={'full'}>
             <Flex w={'full'} alignItems={'center'}>
               <Text fontSize={'sm'} fontWeight={'bold'}>
                 fikiap23
               </Text>
               <Image src="/verified.png" w={4} h={4} ml={1} />
+              <Text
+                fontSize={'sm'}
+                color={'blue.300'}
+                ml={2}
+                cursor={'pointer'}
+                textDecoration={'none'}
+                _hover={{ textDecoration: 'underline' }}
+              >
+                Follow
+              </Text>
             </Flex>
+
             <Flex gap={4} alignItems={'center'}>
               <Text fontStyle={'sm'} color={'gray.light'}>
                 1d
@@ -35,45 +51,57 @@ const UserPost = () => {
               <BsThreeDots />
             </Flex>
           </Flex>
-
+        </Flex>
+        <Flex flex={1} flexDirection={'column'} gap={2}>
           <Text fontSize={'md'} fontWeight={'bold'}>
-            Biarkan yang lalu berlalu{' '}
+            {postTitle}
           </Text>
 
-          <Box
-            borderRadius={6}
-            overflow={'hidden'}
-            border={'1px solid'}
-            borderColor={'gray.light'}
-          >
-            <Image src={'/post3.jpg'} alt={''} w={'full'} />
-          </Box>
-          <Text fontSize={'sm'}>
-            Untukmu yang kini sedang beristirahat, entah beristirahat dari
-            mencintai atau memperjuangkan sesuatu, tenangkanlah hati dan jiwa,
-            jangan terburu-buru mengambil keputusan. Kuatkan lewat doa dan
-            tanyakan pada hati perihal apa yang sebenarnya dicari. Jangan
-            terburu-buru, ya!
-          </Text>
+          {postImg && (
+            <Box
+              borderRadius={6}
+              overflow={'hidden'}
+              border={'1px solid'}
+              borderColor={'gray.light'}
+            >
+              <Link to={'/fikiap23/post/1'}>
+                <Image src={postImg} alt={''} w={'full'} />
+              </Link>
+            </Box>
+          )}
+          <Text fontSize={'sm'}>{postContent}</Text>
           <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
           <Flex gap={2} alignItems={'center'} justifyContent={'space-between'}>
             <Button
               bg={'gray.light'}
+              color={colorMode === 'dark' ? 'white' : 'white'}
               borderRadius={'full'}
               _hover={{ bg: 'gray.dark' }}
             >
-              Save
+              See more
             </Button>
-            <Flex gap={2} alignItems={'center'}>
-              <AiOutlineHeart className="w-6 h-6 " />
-              <FaRegComment className="w-6 h-6 " />
-              <BiRepost className="w-6 h-6 " />
-              <PiShareFat className="w-6 h-6 " />
+            <Flex gap={4} alignItems={'center'}>
+              {liked ? (
+                <AiFillHeart
+                  className="w-6 h-6 cursor-pointer"
+                  style={{ color: 'red' }}
+                  onClick={() => setLiked(false)}
+                />
+              ) : (
+                <AiOutlineHeart
+                  className="w-6 h-6 cursor-pointer"
+                  onClick={() => setLiked(true)}
+                />
+              )}
+
+              <FaRegComment className="w-6 h-6  cursor-pointer" />
+              <BiRepost className="w-6 h-6  cursor-pointer" />
+              <PiShareFat className="w-6 h-6  cursor-pointer" />
             </Flex>
           </Flex>
         </Flex>
-      </Flex>
-    </Link>
+      </Box>
+    </>
   )
 }
 
