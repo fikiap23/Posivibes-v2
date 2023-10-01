@@ -10,6 +10,7 @@ import { PiShareFat } from 'react-icons/pi'
 import { Link } from 'react-router-dom'
 import { Button, useColorMode } from '@chakra-ui/react'
 import { useState } from 'react'
+import Comment from '../Comments/Comment'
 
 const UserPost = ({
   postImg,
@@ -21,6 +22,7 @@ const UserPost = ({
 }) => {
   const [liked, setLiked] = useState(false)
   const { colorMode } = useColorMode()
+  const [showComments, setShowComments] = useState(false)
   return (
     <>
       <Box gap={3} mb={4} py={5} bg="white" color="black" px={4}>
@@ -97,12 +99,25 @@ const UserPost = ({
                 />
               )}
 
-              <FaRegComment className="w-6 h-6  cursor-pointer" />
+              <FaRegComment
+                className="w-6 h-6  cursor-pointer"
+                onClick={() => setShowComments(!showComments)}
+              />
               <BiRepost className="w-6 h-6  cursor-pointer" />
               <PiShareFat className="w-6 h-6  cursor-pointer" />
             </Flex>
           </Flex>
         </Flex>
+        {showComments && (
+          <Comment
+            userAvatar={'/fiki1.jpg'}
+            username={'fikiap23'}
+            comment={'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
+            likes={200}
+            createdAt={'27 Jul 2022'}
+            key={1}
+          />
+        )}
       </Box>
     </>
   )

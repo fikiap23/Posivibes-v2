@@ -190,6 +190,7 @@ const PostPage = () => {
             comment={'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
             likes={200}
             key={1}
+            createdAt={'27 Jul 2022'}
           />
         )}
       </Box>
