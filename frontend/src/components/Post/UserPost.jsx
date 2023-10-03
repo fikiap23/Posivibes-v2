@@ -10,7 +10,7 @@ import { PiShareFat } from 'react-icons/pi'
 import { Link } from 'react-router-dom'
 import { Button, useColorMode } from '@chakra-ui/react'
 import { useState } from 'react'
-import Comment from '../Comments/Comment'
+import Comment from '../Reactions/Comment'
 
 const UserPost = ({
   postImg,

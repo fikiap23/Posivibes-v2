@@ -2,18 +2,31 @@
 import { Avatar } from '@chakra-ui/avatar'
 import { Image } from '@chakra-ui/image'
 import { Box, Flex, Text } from '@chakra-ui/layout'
-import { BsThreeDots } from 'react-icons/bs'
+import { BsFilterLeft, BsThreeDots } from 'react-icons/bs'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { FaRegComment } from 'react-icons/fa6'
 import { BiRepost } from 'react-icons/bi'
 import { PiShareFat } from 'react-icons/pi'
+import {} from 'react-icons/bs'
 
 import { useState } from 'react'
-import Comment from '../components/Comments/Comment'
+import Comment from '../components/Reactions/Comment'
+import ListLikes from '../components/Reactions/ListLikes'
+import Repost from '../components/Reactions/Repost'
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItemOption,
+  MenuList,
+  MenuOptionGroup,
+  useColorMode,
+} from '@chakra-ui/react'
 
 const PostPage = () => {
   const [liked, setLiked] = useState(false)
   const [isTabActive, setIsTabActive] = useState('comments')
+  const { colorMode } = useColorMode()
 
   return (
     <>
@@ -180,9 +193,34 @@ const PostPage = () => {
                 <PiShareFat className="w-6 h-6  cursor-pointer" />
               </Flex>
             </Flex>
+            <Flex gap={4} alignItems={'center'}>
+              <Menu>
+                <MenuButton
+                  color={colorMode === 'dark' ? 'black' : 'black'}
+                  as={Button}
+                  rightIcon={<BsFilterLeft />}
+                >
+                  Filter
+                </MenuButton>
+                <MenuList color={colorMode === 'dark' ? 'white' : 'black'}>
+                  <MenuOptionGroup defaultValue="newest">
+                    <MenuItemOption value={'newest'}>Terbaru</MenuItemOption>
+                    <MenuItemOption value={'oldest'}>Terlama</MenuItemOption>
+                    <MenuItemOption value={'likes'}>Terbaik</MenuItemOption>
+                  </MenuOptionGroup>
+                </MenuList>
+              </Menu>
+            </Flex>
           </Flex>
         </Flex>
         <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
+        {isTabActive === 'likes' && (
+          <>
+            <ListLikes name={'fikiap23'} img={'/fiki1.jpg'} />
+            <ListLikes name={'fikiap23'} img={'/fiki1.jpg'} />
+            <ListLikes name={'fikiap23'} img={'/fiki1.jpg'} />
+          </>
+        )}
         {isTabActive === 'comments' && (
           <Comment
             userAvatar={'/fiki1.jpg'}
@@ -192,6 +230,14 @@ const PostPage = () => {
             key={1}
             createdAt={'27 Jul 2022'}
           />
+        )}
+
+        {isTabActive === 'reposts' && (
+          <>
+            <Repost />
+            <Repost />
+            <Repost />
+          </>
         )}
       </Box>
     </>
