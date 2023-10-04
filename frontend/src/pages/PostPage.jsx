@@ -30,7 +30,15 @@ const PostPage = () => {
 
   return (
     <>
-      <Box gap={3} mb={4} py={5} bg="white" color="black" px={4}>
+      <Box
+        gap={3}
+        mb={4}
+        py={5}
+        bg="white"
+        color="black"
+        px={4}
+        borderRadius={6}
+      >
         <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2}>
           <Avatar size="md" name="Fiki Aprian" src="/fiki1.jpg" />
           <Flex justifyContent={'space-between'} w={'full'}>
