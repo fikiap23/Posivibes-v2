@@ -10,8 +10,8 @@ const ListLikes = ({ name, img }) => {
             <Avatar
               size={{
                 sm: 'sm',
-                md: 'md',
-                lg: 'md',
+                md: 'sm',
+                lg: 'sm',
               }}
               name={name}
               src={img}

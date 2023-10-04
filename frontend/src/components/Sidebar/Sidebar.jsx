@@ -8,13 +8,14 @@ import { AiOutlineSetting } from 'react-icons/ai'
 const Sidebar = () => {
   const { colorMode } = useColorMode()
   return (
-    <Box w={'30%'} className="sticky top-0 h-[100vh]">
+    <Box className="w-[10%] md:w-[15%] lg:w-[30%]  sticky top-0 h-[100vh] hidden md:block">
       <Flex flexDirection={'column'} gap={2} ml={12}>
         <Text
           fontSize={40}
           fontWeight={'bold'}
           bgGradient="linear(to-l,  #FF0000, #0000FF)"
           bgClip="text"
+          className="hidden lg:block"
         >
           Posivibes
         </Text>
@@ -28,7 +29,7 @@ const Sidebar = () => {
           padding={'2'}
         >
           <Icon as={BiHome} />
-          <Text>Home</Text>
+          <Text className="hidden lg:block">Home</Text>
         </Flex>
         <Flex
           gap={4}
@@ -40,7 +41,7 @@ const Sidebar = () => {
           padding={'2'}
         >
           <Icon as={SiAzuredataexplorer} />
-          <Text>Explor</Text>
+          <Text className="hidden lg:block">Explor</Text>
         </Flex>
         <Flex
           gap={4}
@@ -52,7 +53,7 @@ const Sidebar = () => {
           padding={'2'}
         >
           <Icon as={HiOutlineLightningBolt} />
-          <Text>Activity</Text>
+          <Text className="hidden lg:block">Activity</Text>
         </Flex>
         <Flex
           gap={4}
@@ -64,7 +65,7 @@ const Sidebar = () => {
           padding={'2'}
         >
           <Icon as={BiMessageAltDetail} />
-          <Text>Message</Text>
+          <Text className="hidden lg:block">Message</Text>
         </Flex>
         <Flex
           gap={4}
@@ -76,7 +77,7 @@ const Sidebar = () => {
           padding={'2'}
         >
           <Icon as={MdOutlineManageAccounts} />
-          <Text>Account</Text>
+          <Text className="hidden lg:block">Account</Text>
         </Flex>
         <Flex
           gap={4}
@@ -88,7 +89,7 @@ const Sidebar = () => {
           padding={'2'}
         >
           <Icon as={AiOutlineSetting} />
-          <Text>Settings</Text>
+          <Text className="hidden lg:block">Settings</Text>
         </Flex>
         <Button
           w={'full'}
@@ -98,7 +99,7 @@ const Sidebar = () => {
           _hover={{ bg: 'blue.500' }}
         >
           <Icon as={MdOutlineCreate} />
-          <Text>Create Post</Text>
+          <Text className="hidden lg:block">Create Post</Text>
         </Button>
       </Flex>
     </Box>
