@@ -1,9 +1,14 @@
-import { Flex, Image, useColorMode } from '@chakra-ui/react'
+import { Box, Flex, Image, useColorMode } from '@chakra-ui/react'
+import Hamberger from '../Sidebar/Hamberger'
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   return (
-    <Flex justifyContent={'center'} mt={6} mb={6}>
+    <Flex mt={6} mb={6} justifyContent={{ sm: 'space-between', md: 'center' }}>
+      <Box className="md:hidden">
+        <Hamberger />
+      </Box>
+
       <Image
         src={colorMode === 'dark' ? '/light-logo.svg' : '/dark-logo.svg'}
         cursor={'pointer'}
@@ -11,6 +16,10 @@ const Header = () => {
         width={12}
         onClick={toggleColorMode}
       />
+
+      <Box className="md:hidden">
+        <Hamberger />
+      </Box>
     </Flex>
   )
 }
