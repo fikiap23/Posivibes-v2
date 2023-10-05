@@ -1,19 +1,22 @@
-import { Box } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
+import SuggestedUser from './SuggestedUser'
 
 const Rightbar = () => {
   return (
-    <Box
+    <Flex
       w={'30%'}
+      gap={4}
       direction={'column'}
       className="sticky top-0 h-[100vh] hidden lg:block"
     >
-      <div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio laboriosam
-        cumque tempore ullam aperiam esse ab, consequatur accusamus nihil harum
-        recusandae nostrum nam vitae eveniet deserunt sapiente ducimus
-        consectetur obcaecati?
-      </div>
-    </Box>
+      <Text fontSize={20} fontWeight={'bold'} my={2}>
+        Suggested User
+      </Text>
+      <SuggestedUser />
+      <SuggestedUser />
+      <SuggestedUser />
+      <SuggestedUser />
+    </Flex>
   )
 }
 
