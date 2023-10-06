@@ -1,5 +1,6 @@
 import User from '../models/userModel.js'
 import bcrypt from 'bcryptjs'
+import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js'
 const signupUser = async (req, res) => {
   try {
     // property yg ada di req.body
@@ -26,6 +27,8 @@ const signupUser = async (req, res) => {
 
     // buat response
     if (newUser) {
+      // generate token
+      generateTokenAndSetCookie(newUser._id, res)
       res.status(201).json({
         message: 'User created successfully',
         data: {
@@ -45,5 +48,44 @@ const signupUser = async (req, res) => {
     console.log('error di signup', error.message)
   }
 }
+const loginUser = async (req, res) => {
+  try {
+    const { username, password } = req.body
+    const user = await User.findOne({ username })
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user?.password || ''
+    )
 
-export { signupUser }
+    if (!user || !isPasswordCorrect)
+      return res.status(400).json({ error: 'Invalid username or password' })
+
+    generateTokenAndSetCookie(user._id, res)
+
+    res.status(200).json({
+      message: 'User logged in successfully',
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        username: user.username,
+        bio: user.bio,
+        profilePic: user.profilePic,
+      },
+    })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+    console.log('Error in loginUser: ', error.message)
+  }
+}
+
+const logoutUser = (req, res) => {
+  try {
+    res.cookie('jwt', '', { maxAge: 1 })
+    res.status(200).json({ message: 'User logged out successfully' })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+    console.log('Error in logout: ', err.message)
+  }
+}
+export { signupUser, loginUser, logoutUser }
