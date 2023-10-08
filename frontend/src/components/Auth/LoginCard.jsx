@@ -18,6 +18,8 @@ import {
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
+import { useSetRecoilState } from 'recoil'
+import authScreenAtom from '../../atoms/authAtom'
 
 const Blur = (props) => {
   return (
@@ -43,6 +45,7 @@ const Blur = (props) => {
 
 export default function LoginCard() {
   const [showPassword, setShowPassword] = useState(false)
+  const setAuthScreen = useSetRecoilState(authScreenAtom)
   return (
     <Box position={'relative'}>
       <Container
@@ -150,7 +153,14 @@ export default function LoginCard() {
             <Stack pt={6}>
               <Text align={'center'} color={'black'}>
                 {"Don't have an account?"}{' '}
-                <Link color={'blue.400'}>Sign Up</Link>
+                <Link
+                  color={'blue.400'}
+                  onClick={() => {
+                    setAuthScreen('signup')
+                  }}
+                >
+                  Sign Up
+                </Link>
               </Text>
             </Stack>
           </Box>

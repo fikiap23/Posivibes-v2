@@ -19,6 +19,9 @@ import {
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
+import { useSetRecoilState } from 'recoil'
+import authScreenAtom from '../../atoms/authAtom'
+import useShowToast from '../../hooks/useShowToast'
 
 const Blur = (props) => {
   return (
@@ -44,6 +47,38 @@ const Blur = (props) => {
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false)
+  const setAuthScreen = useSetRecoilState(authScreenAtom)
+  const [inputs, setInputs] = useState({
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+  })
+
+  const showToast = useShowToast()
+
+  const handleSignup = async () => {
+    // console.log(inputs)
+    try {
+      const response = await fetch('/v1/api/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputs),
+      })
+      const data = await response.json()
+      // console.log(data)
+      if (data.error) {
+        showToast('Error', data.error, 'error')
+        return
+      }
+
+      localStorage.setItem('user-posivibes', JSON.stringify(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <Box position={'relative'}>
       <Container
@@ -99,6 +134,8 @@ export default function SignupCard() {
           <Box as={'form'} mt={10}>
             <Stack spacing={4}>
               <Input
+                onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
+                value={inputs.name}
                 placeholder="Fullname"
                 bg={'gray.100'}
                 border={0}
@@ -110,6 +147,10 @@ export default function SignupCard() {
               <HStack>
                 <Box>
                   <Input
+                    onChange={(e) =>
+                      setInputs({ ...inputs, username: e.target.value })
+                    }
+                    value={inputs.username}
                     type="text"
                     placeholder="Username"
                     bg={'gray.100'}
@@ -122,6 +163,10 @@ export default function SignupCard() {
                 </Box>
                 <Box>
                   <Input
+                    onChange={(e) =>
+                      setInputs({ ...inputs, email: e.target.value })
+                    }
+                    value={inputs.email}
                     type="email"
                     placeholder="Email address"
                     bg={'gray.100'}
@@ -136,6 +181,10 @@ export default function SignupCard() {
               <FormControl id="password" isRequired>
                 <InputGroup>
                   <Input
+                    onChange={(e) =>
+                      setInputs({ ...inputs, password: e.target.value })
+                    }
+                    value={inputs.password}
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
                     bg={'gray.100'}
@@ -172,12 +221,21 @@ export default function SignupCard() {
                 bgGradient: 'linear(to-r, blue.400,blue.200)',
                 boxShadow: 'xl',
               }}
+              onClick={handleSignup}
             >
               Sign Up
             </Button>
             <Stack pt={6}>
               <Text align={'center'} color={'black'}>
-                Already have an account? <Link color={'blue.400'}>Login</Link>
+                Already have an account?{' '}
+                <Link
+                  color={'blue.400'}
+                  onClick={() => {
+                    setAuthScreen('login')
+                  }}
+                >
+                  Login
+                </Link>
               </Text>
             </Stack>
           </Box>
