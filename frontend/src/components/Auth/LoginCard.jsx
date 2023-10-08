@@ -20,6 +20,8 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import authScreenAtom from '../../atoms/authAtom'
+import userAtom from '../../atoms/userAtom'
+import useShowToast from '../../hooks/useShowToast'
 
 const Blur = (props) => {
   return (
@@ -46,6 +48,37 @@ const Blur = (props) => {
 export default function LoginCard() {
   const [showPassword, setShowPassword] = useState(false)
   const setAuthScreen = useSetRecoilState(authScreenAtom)
+  const setUser = useSetRecoilState(userAtom)
+  const [loading, setLoading] = useState(false)
+
+  const [inputs, setInputs] = useState({
+    username: '',
+    password: '',
+  })
+  const showToast = useShowToast()
+  const handleLogin = async () => {
+    setLoading(true)
+    try {
+      const res = await fetch('/v1/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputs),
+      })
+      const data = await res.json()
+      if (data.error) {
+        showToast('Error', data.error, 'error')
+        return
+      }
+      localStorage.setItem('user-threads', JSON.stringify(data))
+      setUser(data)
+    } catch (error) {
+      showToast('Error', error, 'error')
+    } finally {
+      setLoading(false)
+    }
+  }
   return (
     <Box position={'relative'}>
       <Container
@@ -100,6 +133,13 @@ export default function LoginCard() {
             <Stack spacing={4}>
               <Input
                 placeholder="Enter username or email"
+                value={inputs.username}
+                onChange={(e) =>
+                  setInputs((inputs) => ({
+                    ...inputs,
+                    username: e.target.value,
+                  }))
+                }
                 bg={'gray.100'}
                 border={0}
                 color={'gray.500'}
@@ -111,6 +151,13 @@ export default function LoginCard() {
               <FormControl id="password" isRequired>
                 <InputGroup>
                   <Input
+                    value={inputs.password}
+                    onChange={(e) =>
+                      setInputs((inputs) => ({
+                        ...inputs,
+                        password: e.target.value,
+                      }))
+                    }
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
                     bg={'gray.100'}
@@ -138,6 +185,9 @@ export default function LoginCard() {
               </FormControl>
             </Stack>
             <Button
+              loadingText="Logging in"
+              onClick={handleLogin}
+              isLoading={loading}
               fontFamily={'heading'}
               mt={8}
               w={'full'}
@@ -148,7 +198,7 @@ export default function LoginCard() {
                 boxShadow: 'xl',
               }}
             >
-              Sign Up
+              Login
             </Button>
             <Stack pt={6}>
               <Text align={'center'} color={'black'}>
