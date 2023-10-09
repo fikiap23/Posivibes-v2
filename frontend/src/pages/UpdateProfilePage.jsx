@@ -35,104 +35,147 @@ export default function UpdateProfilePage() {
   const showToast = useShowToast()
 
   const { handleImageChange, imgUrl } = usePreviewImg()
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (updating) return
+    setUpdating(true)
+    try {
+      const res = await fetch(`v1/api/users/update/${user.data._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
+      })
+      const data = await res.json() // updated user object
+      if (data.error) {
+        showToast('Error', data.error, 'error')
+        return
+      }
+      showToast('Success', 'Profile updated successfully', 'success')
+      setUser(data)
+      localStorage.setItem('user-posivibes', JSON.stringify(data))
+    } catch (error) {
+      showToast('Error', error, 'error')
+    } finally {
+      setUpdating(false)
+    }
+  }
   return (
-    <Flex align={'center'} justify={'center'}>
-      <Stack
-        spacing={4}
-        w={'full'}
-        maxW={'md'}
-        bg={useColorModeValue('white', 'gray.dark')}
-        rounded={'xl'}
-        boxShadow={'lg'}
-        p={6}
-      >
-        <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Edit Profile
-        </Heading>
-        <FormControl id="userName">
-          <Stack direction={['column', 'row']} spacing={6}>
-            <Center>
-              <Avatar
-                size="xl"
-                boxShadow={'md'}
-                src={imgUrl || user.data.profilePic}
-              />
-            </Center>
-            <Center w="full">
-              <Button w="full" onClick={() => fileRef.current.click()}>
-                Change Photo
-              </Button>
-              <Input
-                type={'file'}
-                hidden
-                ref={fileRef}
-                onChange={handleImageChange}
-              />
-            </Center>
+    <form onSubmit={handleSubmit}>
+      <Flex align={'center'} justify={'center'}>
+        <Stack
+          spacing={4}
+          w={'full'}
+          maxW={'md'}
+          bg={useColorModeValue('white', 'gray.dark')}
+          rounded={'xl'}
+          boxShadow={'lg'}
+          p={6}
+        >
+          <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
+            Edit Profile
+          </Heading>
+          <FormControl id="profilePic">
+            <Stack direction={['column', 'row']} spacing={6}>
+              <Center>
+                <Avatar
+                  size="xl"
+                  boxShadow={'md'}
+                  src={imgUrl || user.data.profilePic}
+                />
+              </Center>
+              <Center w="full">
+                <Button w="full" onClick={() => fileRef.current.click()}>
+                  Change Photo
+                </Button>
+                <Input
+                  type={'file'}
+                  hidden
+                  ref={fileRef}
+                  onChange={handleImageChange}
+                />
+              </Center>
+            </Stack>
+          </FormControl>
+          <FormControl id="username">
+            <FormLabel>Username</FormLabel>
+            <Input
+              value={inputs.username}
+              onChange={(e) =>
+                setInputs({ ...inputs, username: e.target.value })
+              }
+              placeholder="UserName"
+              _placeholder={{ color: 'gray.500' }}
+              type="text"
+            />
+          </FormControl>
+          <FormControl id="name">
+            <FormLabel>name</FormLabel>
+            <Input
+              value={inputs.name}
+              onChange={(e) => setInputs({ ...inputs, name: e.target.value })}
+              placeholder="name"
+              _placeholder={{ color: 'gray.500' }}
+              type="text"
+            />
+          </FormControl>
+          <FormControl id="email">
+            <FormLabel>Email address</FormLabel>
+            <Input
+              value={inputs.email}
+              onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
+              placeholder="your-email@example.com"
+              _placeholder={{ color: 'gray.500' }}
+              type="email"
+            />
+          </FormControl>
+          <FormControl id="bio">
+            <FormLabel>Bio</FormLabel>
+            <Textarea
+              onChange={(e) => setInputs({ ...inputs, bio: e.target.value })}
+              value={inputs.bio}
+              placeholder="your bio"
+              _placeholder={{ color: 'gray.500' }}
+            />
+          </FormControl>
+          <FormControl id="password">
+            <FormLabel>Password</FormLabel>
+            <Input
+              value={inputs.password}
+              onChange={(e) =>
+                setInputs({ ...inputs, password: e.target.value })
+              }
+              placeholder="password"
+              _placeholder={{ color: 'gray.500' }}
+              type="password"
+            />
+          </FormControl>
+          <Stack spacing={6} direction={['column', 'row']}>
+            <Button
+              bg={'red.400'}
+              color={'white'}
+              w="full"
+              _hover={{
+                bg: 'red.500',
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              bg={'blue.400'}
+              color={'white'}
+              w="full"
+              _hover={{
+                bg: 'blue.500',
+              }}
+            >
+              Submit
+            </Button>
           </Stack>
-        </FormControl>
-        <FormControl id="userName">
-          <FormLabel>Username</FormLabel>
-          <Input
-            value={inputs.username}
-            onChange={(e) => setInputs({ ...inputs, username: e.target.value })}
-            placeholder="UserName"
-            _placeholder={{ color: 'gray.500' }}
-            type="text"
-          />
-        </FormControl>
-        <FormControl id="email">
-          <FormLabel>Email address</FormLabel>
-          <Input
-            value={inputs.email}
-            onChange={(e) => setInputs({ ...inputs, email: e.target.value })}
-            placeholder="your-email@example.com"
-            _placeholder={{ color: 'gray.500' }}
-            type="email"
-          />
-        </FormControl>
-        <FormControl id="email">
-          <FormLabel>Bio</FormLabel>
-          <Textarea
-            onChange={(e) => setInputs({ ...inputs, bio: e.target.value })}
-            value={inputs.bio}
-            placeholder="your bio"
-            _placeholder={{ color: 'gray.500' }}
-          />
-        </FormControl>
-        <FormControl id="password">
-          <FormLabel>Password</FormLabel>
-          <Input
-            value={inputs.password}
-            onChange={(e) => setInputs({ ...inputs, password: e.target.value })}
-            placeholder="password"
-            _placeholder={{ color: 'gray.500' }}
-            type="password"
-          />
-        </FormControl>
-        <Stack spacing={6} direction={['column', 'row']}>
-          <Button
-            bg={'red.400'}
-            color={'white'}
-            w="full"
-            _hover={{
-              bg: 'red.500',
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            bg={'blue.400'}
-            color={'white'}
-            w="full"
-            _hover={{
-              bg: 'blue.500',
-            }}
-          >
-            Submit
-          </Button>
         </Stack>
-      </Stack>
-    </Flex>
+      </Flex>
+    </form>
   )
 }
