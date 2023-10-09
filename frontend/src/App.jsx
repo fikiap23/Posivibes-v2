@@ -12,7 +12,7 @@ import UserPage from './pages/UserPage'
 
 function App() {
   const user = useRecoilValue(userAtom)
-  console.log(user)
+  // console.log(user)
   return (
     <>
       <Header />

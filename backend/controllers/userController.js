@@ -2,6 +2,7 @@ import User from '../models/userModel.js'
 import bcrypt from 'bcryptjs'
 import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js'
 import mongoose from 'mongoose'
+import { v2 as cloudinary } from 'cloudinary'
 const signupUser = async (req, res) => {
   try {
     // property yg ada di req.body

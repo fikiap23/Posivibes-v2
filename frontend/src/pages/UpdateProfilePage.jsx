@@ -22,10 +22,10 @@ import usePreviewImg from '../hooks/usePreviewImg'
 export default function UpdateProfilePage() {
   const [user, setUser] = useRecoilState(userAtom)
   const [inputs, setInputs] = useState({
-    name: user.data.name,
-    username: user.data.username,
-    email: user.data.email,
-    bio: user.data.bio,
+    name: user.name,
+    username: user.username,
+    email: user.email,
+    bio: user.bio,
     password: '',
   })
   //   console.log(user)
@@ -40,7 +40,7 @@ export default function UpdateProfilePage() {
     if (updating) return
     setUpdating(true)
     try {
-      const res = await fetch(`v1/api/users/update/${user.data._id}`, {
+      const res = await fetch(`v1/api/users/update/${user._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export default function UpdateProfilePage() {
                 <Avatar
                   size="xl"
                   boxShadow={'md'}
-                  src={imgUrl || user.data.profilePic}
+                  src={imgUrl || user.profilePic}
                 />
               </Center>
               <Center w="full">
