@@ -7,6 +7,7 @@ import Header from './components/Header/Header'
 import AuthPage from './pages/AuthPage'
 import HomePage from './pages/HomePage'
 import PostPage from './pages/PostPage'
+import UpdateProfilePage from './pages/UpdateProfilePage'
 import UserPage from './pages/UserPage'
 
 function App() {
@@ -26,6 +27,10 @@ function App() {
             <Route
               path="/auth"
               element={!user ? <AuthPage /> : <Navigate to={'/'} />}
+            />
+            <Route
+              path="/update"
+              element={user ? <UpdateProfilePage /> : <Navigate to={'/auth'} />}
             />
             <Route path="/:username" element={<UserPage />} />
             <Route path="/:username/post/:pid" element={<PostPage />} />
