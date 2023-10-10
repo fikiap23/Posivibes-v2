@@ -16,10 +16,6 @@ const Header = () => {
         width={12}
         onClick={toggleColorMode}
       />
-
-      <Box className="md:hidden">
-        <Hamberger />
-      </Box>
     </Flex>
   )
 }

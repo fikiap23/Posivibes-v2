@@ -26,18 +26,13 @@ const LogoutButton = () => {
 
       localStorage.removeItem('user-posivibes')
       setUser(null)
+      showToast('Success', 'Logged out successfully', 'success')
     } catch (error) {
       showToast('Error', error, 'error')
     }
   }
   return (
-    <Button
-      position={'fixed'}
-      top={'30px'}
-      right={'30px'}
-      size={'sm'}
-      onClick={handleLogout}
-    >
+    <Button size={'sm'} onClick={handleLogout}>
       <FiLogOut size={20} />
     </Button>
   )
