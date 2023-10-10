@@ -28,6 +28,7 @@ const UserHeader = ({ user }) => {
       showToast('Error', 'Please login first', 'error')
       return
     }
+    if (updating) return
     setUpdating(true)
     try {
       const res = await fetch(`/v1/api/users/follow/${user._id}`, {
