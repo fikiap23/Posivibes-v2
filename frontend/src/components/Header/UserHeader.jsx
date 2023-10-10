@@ -15,10 +15,11 @@ const UserHeader = ({ user }) => {
   const showToast = useShowToast()
   const { colorMode } = useColorMode()
   const currentUser = useRecoilValue(userAtom)
-  console.log(currentUser)
+  // console.log(currentUser)
   const [following, setFollowing] = useState(
-    user.followers.includes(currentUser._id)
+    currentUser && user.followers.includes(currentUser._id)
   )
+
   // console.log(following)
 
   const [updating, setUpdating] = useState(false)
@@ -122,7 +123,7 @@ const UserHeader = ({ user }) => {
         <Text align={'center'}>{user.bio}</Text>
       </Flex>
 
-      {currentUser._id === user._id && (
+      {currentUser && user && currentUser._id === user._id && (
         <Link as={RouterLink} to={'/update'}>
           <Button size={'sm'}>Edit Profile</Button>
         </Link>
@@ -169,7 +170,7 @@ const UserHeader = ({ user }) => {
         </Flex>
       </Flex>
 
-      {currentUser._id !== user._id && (
+      {currentUser && user && currentUser._id === user._id && (
         <Flex w={'full'} justifyContent={'center'} gap={6}>
           <Button
             colorScheme={'blue'}
