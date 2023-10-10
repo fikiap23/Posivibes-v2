@@ -93,14 +93,13 @@ const UserHeader = ({ user }) => {
               md: '2xl',
             }}
           />
-          <Text
-            fontSize={'2xl'}
-            fontWeight={'bold'}
-            textTransform={'capitalize'}
-          >
-            {user.name}
-          </Text>
         </Box>
+      </Flex>
+
+      <Flex justifyContent={'center'} w={'full'} mt={-4}>
+        <Text fontSize={'2xl'} fontWeight={'bold'} textTransform={'capitalize'}>
+          {user.name}
+        </Text>
       </Flex>
 
       <Flex justifyContent={'center'} w={'full'}>
