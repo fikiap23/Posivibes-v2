@@ -15,7 +15,7 @@ const UserHeader = ({ user }) => {
   const showToast = useShowToast()
   const { colorMode } = useColorMode()
   const currentUser = useRecoilValue(userAtom)
-  // console.log(currentUser)
+  console.log(currentUser)
   const [following, setFollowing] = useState(
     user.followers.includes(currentUser._id)
   )

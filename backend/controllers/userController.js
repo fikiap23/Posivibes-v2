@@ -32,15 +32,12 @@ const signupUser = async (req, res) => {
       // generate token
       generateTokenAndSetCookie(newUser._id, res)
       res.status(201).json({
-        message: 'User created successfully',
-        data: {
-          _id: newUser._id,
-          name: newUser.name,
-          email: newUser.email,
-          username: newUser.username,
-          bio: newUser.bio,
-          profilePic: newUser.profilePic,
-        },
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        username: newUser.username,
+        bio: newUser.bio,
+        profilePic: newUser.profilePic,
       })
     } else {
       res.status(400).json({ error: 'Invalid user data' })
@@ -65,15 +62,12 @@ const loginUser = async (req, res) => {
     generateTokenAndSetCookie(user._id, res)
 
     res.status(200).json({
-      message: 'User logged in successfully',
-      data: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        username: user.username,
-        bio: user.bio,
-        profilePic: user.profilePic,
-      },
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      bio: user.bio,
+      profilePic: user.profilePic,
     })
   } catch (error) {
     res.status(500).json({ error: error.message })
