@@ -163,6 +163,7 @@ export default function UpdateProfilePage() {
               Cancel
             </Button>
             <Button
+              isLoading={updating}
               type="submit"
               bg={'blue.400'}
               color={'white'}
