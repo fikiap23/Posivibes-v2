@@ -1,15 +1,42 @@
 import { Container, Flex } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import UserHeader from '../components/Header/UserHeader'
 import UserPost from '../components/Post/UserPost'
 import Rightbar from '../components/Rightbar/Rightbar'
 import Sidebar from '../components/Sidebar/Sidebar'
+import useShowToast from '../hooks/useShowToast'
 
 const UserPage = () => {
+  const [user, seUser] = useState(null)
+  const { username } = useParams()
+  const showToast = useShowToast()
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const res = await fetch(`/v1/api/users/profile/${username}`)
+        const data = await res.json()
+        // console.log(data)
+        if (data.error) {
+          showToast('Error', data.error, 'error')
+          return
+        }
+        seUser(data)
+      } catch (error) {
+        showToast('Error', error, 'error')
+      }
+    }
+
+    getUser()
+  }, [showToast, username])
+
+  if (!user) return null
+
   return (
     <Flex>
       <Sidebar />
       <Container maxWidth={'620px'}>
-        <UserHeader />
+        <UserHeader user={user} />
         <UserPost
           likes={1200}
           comments={1200}
