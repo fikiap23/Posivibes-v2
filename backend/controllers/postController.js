@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary'
 
 const createPost = async (req, res) => {
   try {
-    const { postedBy, title, text } = req.body
+    const { postedBy, title = null, text } = req.body
     let { img } = req.body
 
     if (!postedBy || !text) {
