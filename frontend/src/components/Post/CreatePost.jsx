@@ -4,6 +4,7 @@ import {
   CloseButton,
   Flex,
   FormControl,
+  FormLabel,
   Image,
   Input,
   Modal,
@@ -26,15 +27,14 @@ import useShowToast from '../../hooks/useShowToast'
 import postsAtom from '../../atoms/postsAtom'
 import { useParams } from 'react-router-dom'
 import { MdOutlineCreate } from 'react-icons/md'
-
-const MAX_CHAR = 500
-
+const MAX_CHAR = 100
 const CreatePost = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [postText, setPostText] = useState('')
+  const [titlePostText, setTitlePostText] = useState('')
   const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg()
   const imageRef = useRef(null)
-  const [remainingChar, setRemainingChar] = useState(MAX_CHAR)
+  const [remainingChar, setRemainingChar] = useState(0)
   const user = useRecoilValue(userAtom)
   const showToast = useShowToast()
   const [loading, setLoading] = useState(false)
@@ -43,14 +43,22 @@ const CreatePost = () => {
 
   const handleTextChange = (e) => {
     const inputText = e.target.value
+    e.target.style.height = '0px'
+    e.target.style.height = e.target.scrollHeight + 'px'
+    setPostText(inputText)
+    setRemainingChar(inputText.length)
+  }
+
+  const handleTitlePostTextChange = (e) => {
+    const inputText = e.target.value
+    e.target.style.height = '0px'
+    e.target.style.height = e.target.scrollHeight + 'px'
 
     if (inputText.length > MAX_CHAR) {
       const truncatedText = inputText.slice(0, MAX_CHAR)
-      setPostText(truncatedText)
-      setRemainingChar(0)
+      setTitlePostText(truncatedText)
     } else {
-      setPostText(inputText)
-      setRemainingChar(MAX_CHAR - inputText.length)
+      setTitlePostText(inputText)
     }
   }
 
@@ -64,6 +72,7 @@ const CreatePost = () => {
         },
         body: JSON.stringify({
           postedBy: user._id,
+          title: titlePostText,
           text: postText,
           img: imgUrl,
         }),
@@ -109,12 +118,26 @@ const CreatePost = () => {
         <ModalContent>
           <ModalHeader>Create Post</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody>
+            <FormControl mb={4}>
+              <FormLabel>Title (maks 100 charcter)</FormLabel>
+              <Textarea
+                placeholder="Post title goes here.."
+                onChange={handleTitlePostTextChange}
+                value={titlePostText}
+                style={{
+                  minHeight: '0px', // Tinggi awal yang lebih kecil
+                  resize: 'none',
+                  overflow: 'hidden',
+                }}
+              />
+            </FormControl>
             <FormControl>
               <Textarea
                 placeholder="Post content goes here.."
                 onChange={handleTextChange}
                 value={postText}
+                style={{ resize: 'none', overflow: 'hidden' }}
               />
               <Text
                 fontSize="xs"
@@ -123,7 +146,7 @@ const CreatePost = () => {
                 m={'1'}
                 color={'gray.800'}
               >
-                {remainingChar}/{MAX_CHAR}
+                {remainingChar}
               </Text>
 
               <Input
