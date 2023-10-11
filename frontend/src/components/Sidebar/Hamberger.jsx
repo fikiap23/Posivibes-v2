@@ -17,15 +17,19 @@ import { MdOutlineManageAccounts } from 'react-icons/md'
 import { AiOutlineSetting } from 'react-icons/ai'
 
 import CreatePost from '../Post/CreatePost'
-import LogoutButton from '../Auth/LogoutButton'
+
 import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import { Link } from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi'
+import useLogout from '../../hooks/useLogout'
+import { FiLogOut } from 'react-icons/fi'
 
 const Hamberger = () => {
   const user = useRecoilValue(userAtom)
   const { colorMode } = useColorMode()
+  const logout = useLogout()
+  const { toggleColorMode } = useColorMode()
   return (
     <Menu>
       <MenuButton
@@ -39,11 +43,13 @@ const Hamberger = () => {
           {user && (
             <Flex flexDirection={'column'} gap={2} ml={12}>
               <Text
+                cursor={'pointer'}
                 fontSize={40}
                 fontWeight={'bold'}
                 bgGradient="linear(to-l,  #FF0000, #0000FF)"
                 bgClip="text"
                 ml={10}
+                onClick={toggleColorMode}
               >
                 PS
               </Text>
@@ -141,8 +147,9 @@ const Hamberger = () => {
                     : { bg: 'gray.700' }
                 }
                 padding={'2'}
+                onClick={logout}
               >
-                <LogoutButton />
+                <Icon as={FiLogOut} />
                 <Text>Logout</Text>
               </Flex>
               <CreatePost />

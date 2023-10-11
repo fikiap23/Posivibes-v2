@@ -5,15 +5,17 @@ import { HiOutlineLightningBolt } from 'react-icons/hi'
 import { MdOutlineManageAccounts } from 'react-icons/md'
 import { AiOutlineSetting } from 'react-icons/ai'
 import CreatePost from '../Post/CreatePost'
-import LogoutButton from '../Auth/LogoutButton'
+
 import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
-import { FiLogIn } from 'react-icons/fi'
+import { FiLogIn, FiLogOut } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import useLogout from '../../hooks/useLogout'
 
 const Sidebar = () => {
   const user = useRecoilValue(userAtom)
   const { colorMode } = useColorMode()
+  const logout = useLogout()
   return (
     <Box className="w-[10%] md:w-[15%] lg:w-[30%]  sticky top-0 h-[100vh] hidden md:block">
       {user && (
@@ -107,8 +109,9 @@ const Sidebar = () => {
               colorMode === 'light' ? { bg: 'gray.200' } : { bg: 'gray.700' }
             }
             padding={'2'}
+            onClick={logout}
           >
-            <LogoutButton />
+            <Icon as={FiLogOut} />
             <Text className="hidden lg:block">Logout</Text>
           </Flex>
           <CreatePost />
