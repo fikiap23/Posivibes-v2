@@ -8,9 +8,12 @@ const postSchema = mongoose.Schema(
       ref: 'User',
       required: true,
     },
-    text: {
+    title: {
       type: String,
       maxLength: 500,
+    },
+    text: {
+      type: String,
     },
     img: {
       type: String,

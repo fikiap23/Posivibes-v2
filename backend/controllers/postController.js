@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary'
 
 const createPost = async (req, res) => {
   try {
-    const { postedBy, text } = req.body
+    const { postedBy, title, text } = req.body
     let { img } = req.body
 
     if (!postedBy || !text) {
@@ -22,19 +22,12 @@ const createPost = async (req, res) => {
       return res.status(401).json({ error: 'Unauthorized to create post' })
     }
 
-    const maxLength = 500
-    if (text.length > maxLength) {
-      return res
-        .status(400)
-        .json({ error: `Text must be less than ${maxLength} characters` })
-    }
-
     if (img) {
       const uploadedResponse = await cloudinary.uploader.upload(img)
       img = uploadedResponse.secure_url
     }
 
-    const newPost = new Post({ postedBy, text, img })
+    const newPost = new Post({ postedBy, text, title, img })
     await newPost.save()
 
     res.status(201).json(newPost)
