@@ -135,15 +135,17 @@ const getFeedPosts = async (req, res) => {
   try {
     const userId = req.user._id
     const user = await User.findById(userId)
+
     if (!user) {
       return res.status(404).json({ error: 'User not found' })
     }
 
     const following = user.following
 
-    const feedPosts = await Post.find({ postedBy: { $in: following } }).sort({
-      createdAt: -1,
-    })
+    // Menggunakan $in untuk mencakup postingan dari orang yang diikuti dan postingan sendiri
+    const feedPosts = await Post.find({
+      $or: [{ postedBy: { $in: following } }, { postedBy: userId }],
+    }).sort({ createdAt: -1 })
 
     res.status(200).json(feedPosts)
   } catch (err) {
