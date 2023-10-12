@@ -169,7 +169,7 @@ const UserHeader = ({ user }) => {
         </Flex>
       </Flex>
 
-      {currentUser && user && currentUser._id === user._id && (
+      {currentUser._id !== user._id && (
         <Flex w={'full'} justifyContent={'center'} gap={6}>
           <Button
             colorScheme={'blue'}
