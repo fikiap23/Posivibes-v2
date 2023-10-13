@@ -171,6 +171,45 @@ const getUserPosts = async (req, res) => {
   }
 }
 
+const deleteReply = async (req, res) => {
+  try {
+    const postId = req.params.postId // Ganti dengan parameter yang sesuai
+    const replyId = req.params.replyId // Ganti dengan parameter yang sesuai
+    const userId = req.user._id
+
+    const post = await Post.findById(postId)
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' })
+    }
+
+    // Temukan indeks balasan yang ingin dihapus
+    const replyIndex = post.replies.findIndex((reply) => reply._id == replyId)
+
+    // Pastikan balasan ditemukan dan bahwa pengguna yang mencoba menghapus balasan adalah pemiliknya
+    if (replyIndex === -1) {
+      return res.status(404).json({ error: 'Reply not found' })
+    }
+
+    const reply = post.replies[replyIndex]
+
+    if (reply.userId.toString() != userId.toString()) {
+      return res
+        .status(403)
+        .json({ error: 'You are not authorized to delete this reply' })
+    }
+
+    // Hapus balasan dari array replies
+    post.replies.splice(replyIndex, 1)
+
+    // Simpan perubahan ke dalam database
+    await post.save()
+
+    res.status(200).json({ message: 'Reply deleted successfully' })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
+
 export {
   createPost,
   getPost,
@@ -179,4 +218,5 @@ export {
   replyToPost,
   getFeedPosts,
   getUserPosts,
+  deleteReply,
 }
