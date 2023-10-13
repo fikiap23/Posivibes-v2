@@ -1,4 +1,4 @@
-import { Container, Flex, Spinner } from '@chakra-ui/react'
+import { Box, Container, Flex, Spinner, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
@@ -58,7 +58,13 @@ const UserPage = () => {
       <Sidebar />
       <Container maxWidth={'620px'}>
         <UserHeader user={user} />
-        {!fetchingPosts && posts.length === 0 && <h1>User has not posts.</h1>}
+        {!fetchingPosts && posts.length === 0 && (
+          <Box w={'full'} textAlign={'center'} mt={12} h={'sm'}>
+            <Text fontSize="xl" color="gray.600">
+              {` ${username} has no posts.`}
+            </Text>
+          </Box>
+        )}
         {fetchingPosts && (
           <Flex justifyContent={'center'} my={12}>
             <Spinner size={'xl'} />
