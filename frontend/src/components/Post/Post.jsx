@@ -21,16 +21,18 @@ import { DeleteIcon } from '@chakra-ui/icons'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import postsAtom from '../../atoms/postsAtom'
+import CreateComent from '../Reactions/CreateComent'
 
 const Post = ({ post, postedBy }) => {
-  const [liked, setLiked] = useState(false)
   const { colorMode } = useColorMode()
   const [showComments, setShowComments] = useState(false)
   const [user, setUser] = useState(null)
   const showToast = useShowToast()
   const currentUser = useRecoilValue(userAtom)
-  const [posts, setPosts] = useRecoilState(postsAtom)
   const navigate = useNavigate()
+  const [liked, setLiked] = useState(post.likes.includes(currentUser?._id))
+  const [posts, setPosts] = useRecoilState(postsAtom)
+  const [isLiking, setIsLiking] = useState(false)
 
   useEffect(() => {
     const getUser = async () => {
@@ -68,6 +70,52 @@ const Post = ({ post, postedBy }) => {
       setPosts(posts.filter((p) => p._id !== post._id))
     } catch (error) {
       showToast('Error', error.message, 'error')
+    }
+  }
+
+  const handleLikeAndUnlike = async () => {
+    if (!currentUser)
+      return showToast('Error', 'You must be logged in to like a post', 'error')
+    if (isLiking) return
+    setIsLiking(true)
+    try {
+      const res = await fetch('/v1/api/posts/like/' + post._id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const data = await res.json()
+      if (data.error) return showToast('Error', data.error, 'error')
+
+      if (!liked) {
+        // add the id of the current currentUser to post.likes array
+        const updatedPosts = posts.map((p) => {
+          if (p._id === post._id) {
+            return { ...p, likes: [...p.likes, currentUser._id] }
+          }
+          return p
+        })
+        setPosts(updatedPosts)
+      } else {
+        // remove the id of the current currentUser from post.likes array
+        const updatedPosts = posts.map((p) => {
+          if (p._id === post._id) {
+            return {
+              ...p,
+              likes: p.likes.filter((id) => id !== currentUser._id),
+            }
+          }
+          return p
+        })
+        setPosts(updatedPosts)
+      }
+
+      setLiked(!liked)
+    } catch (error) {
+      showToast('Error', error.message, 'error')
+    } finally {
+      setIsLiking(false)
     }
   }
 
@@ -173,7 +221,7 @@ const Post = ({ post, postedBy }) => {
                   <AiFillHeart
                     className="w-6 h-6 cursor-pointer"
                     style={{ color: 'red' }}
-                    onClick={() => setLiked(false)}
+                    onClick={handleLikeAndUnlike}
                   />
                   <Text>{post.likes.length}</Text>
                 </Flex>
@@ -181,7 +229,7 @@ const Post = ({ post, postedBy }) => {
                 <Flex gap={1}>
                   <AiOutlineHeart
                     className="w-6 h-6 cursor-pointer"
-                    onClick={() => setLiked(true)}
+                    onClick={handleLikeAndUnlike}
                   />
                   <Text>{post.likes.length}</Text>
                 </Flex>
@@ -200,14 +248,21 @@ const Post = ({ post, postedBy }) => {
           </Flex>
         </Flex>
         {showComments && (
-          <Comment
-            userAvatar={'/fiki1.jpg'}
-            username={'fikiap23'}
-            comment={'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}
-            likes={200}
-            createdAt={'27 Jul 2022'}
-            key={1}
-          />
+          <>
+            {currentUser != null && (
+              <CreateComent post={post} currentUser={currentUser} />
+            )}
+            <Comment
+              userAvatar={'/fiki1.jpg'}
+              username={'fikiap23'}
+              comment={
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+              }
+              likes={200}
+              createdAt={'27 Jul 2022'}
+              key={1}
+            />
+          </>
         )}
       </Box>
     </>
