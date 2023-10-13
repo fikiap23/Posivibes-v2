@@ -9,7 +9,7 @@ import { BiRepost } from 'react-icons/bi'
 import { PiShareFat } from 'react-icons/pi'
 import {} from 'react-icons/bs'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Comment from '../components/Reactions/Comment'
 import ListLikes from '../components/Reactions/ListLikes'
 import Repost from '../components/Reactions/Repost'
@@ -22,14 +22,79 @@ import {
   MenuOptionGroup,
   useColorMode,
   Container,
+  Spinner,
 } from '@chakra-ui/react'
 import Rightbar from '../components/Rightbar/Rightbar'
 import Sidebar from '../components/Sidebar/Sidebar'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import useShowToast from '../hooks/useShowToast'
+import { useNavigate, useParams } from 'react-router-dom'
+import postsAtom from '../atoms/postsAtom'
+import userAtom from '../atoms/userAtom'
+import useGetUserProfile from '../hooks/useGetUserProfile'
+import { formatDistanceToNow } from 'date-fns'
+import { DeleteIcon } from '@chakra-ui/icons'
 
 const PostPage = () => {
   const [liked, setLiked] = useState(false)
   const [isTabActive, setIsTabActive] = useState('comments')
   const { colorMode } = useColorMode()
+  const { user, loading } = useGetUserProfile()
+  const [posts, setPosts] = useRecoilState(postsAtom)
+  const showToast = useShowToast()
+  const { pid } = useParams()
+  const currentUser = useRecoilValue(userAtom)
+  const navigate = useNavigate()
+
+  const currentPost = posts[0]
+
+  useEffect(() => {
+    const getPost = async () => {
+      setPosts([])
+      try {
+        const res = await fetch(`/v1/api/posts/${pid}`)
+        const data = await res.json()
+        if (data.error) {
+          showToast('Error', data.error, 'error')
+          return
+        }
+        setPosts([data])
+      } catch (error) {
+        showToast('Error', error.message, 'error')
+      }
+    }
+    getPost()
+  }, [showToast, pid, setPosts])
+
+  const handleDeletePost = async () => {
+    try {
+      if (!window.confirm('Are you sure you want to delete this post?')) return
+
+      const res = await fetch(`/v1/api/posts/${currentPost._id}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json()
+      if (data.error) {
+        showToast('Error', data.error, 'error')
+        return
+      }
+      showToast('Success', 'Post deleted', 'success')
+      navigate(`/${user.username}`)
+    } catch (error) {
+      showToast('Error', error.message, 'error')
+    }
+  }
+
+  if (!user && loading) {
+    return (
+      <Flex justifyContent={'center'}>
+        <Spinner size={'xl'} />
+      </Flex>
+    )
+  }
+
+  if (!currentPost) return null
+  console.log('currentPost', currentPost)
 
   return (
     <Flex>
@@ -45,11 +110,11 @@ const PostPage = () => {
           borderRadius={6}
         >
           <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2}>
-            <Avatar size="md" name="Fiki Aprian" src="/fiki1.jpg" />
+            <Avatar size="md" name={user.name} src={user.profilePic} />
             <Flex justifyContent={'space-between'} w={'full'}>
               <Flex w={'full'} alignItems={'center'}>
                 <Text fontSize={'sm'} fontWeight={'bold'}>
-                  fikiap23
+                  {user.username}
                 </Text>
                 <Image src="/verified.png" w={4} h={4} ml={1} />
                 <Text
@@ -65,9 +130,21 @@ const PostPage = () => {
               </Flex>
 
               <Flex gap={4} alignItems={'center'}>
-                <Text fontStyle={'sm'} color={'gray.light'}>
-                  1d
+                <Text
+                  fontSize={'xs'}
+                  width={36}
+                  textAlign={'right'}
+                  color={'gray.light'}
+                >
+                  {formatDistanceToNow(new Date(currentPost.createdAt))} ago
                 </Text>
+                {currentUser?._id === user._id && (
+                  <DeleteIcon
+                    size={20}
+                    cursor={'pointer'}
+                    onClick={handleDeletePost}
+                  />
+                )}
                 <BsThreeDots />
               </Flex>
             </Flex>
@@ -77,8 +154,7 @@ const PostPage = () => {
               fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
               fontWeight={'bold'}
             >
-              {' '}
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              {currentPost.title}
             </Text>
 
             <Box
@@ -89,7 +165,7 @@ const PostPage = () => {
             >
               <Image src={'/post1.png'} alt={''} w={'full'} />
             </Box>
-            <Text fontSize={{ base: 'sm', md: 'md' }}>lorem ipsum</Text>
+            <Text fontSize={{ base: 'sm', md: 'md' }}>{currentPost.text}</Text>
             <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
             <Flex
               gap={2}

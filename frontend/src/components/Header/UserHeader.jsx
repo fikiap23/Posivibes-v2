@@ -76,7 +76,7 @@ const UserHeader = ({ user }) => {
       <Box
         className="md:h-[300px] lg:h-[400px] h-[250px]"
         w={'full'}
-        backgroundImage="url('/post2.jpg')"
+        backgroundImage="url('/post3.jpg')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
