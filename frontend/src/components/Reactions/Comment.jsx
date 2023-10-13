@@ -6,13 +6,13 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BsThreeDots } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
 
-const Comment = ({ userAvatar, createdAt, comment, username, likes }) => {
+const Comment = ({ reply }) => {
   const [liked, setLiked] = useState(false)
 
   return (
     <>
       <Flex gap={4} py={2} my={2} w={'full'}>
-        <Avatar src={userAvatar} size={'sm'} />
+        <Avatar src={reply.userProfilePic} name={reply.username} size={'sm'} />
         <Flex
           gap={1}
           w={'full'}
@@ -26,16 +26,16 @@ const Comment = ({ userAvatar, createdAt, comment, username, likes }) => {
             alignItems={'center'}
           >
             <Text fontSize="sm" fontWeight="bold">
-              {username}
+              {reply.username}
             </Text>
             <Flex gap={2} alignItems={'center'}>
               <Text fontSize={'sm'} color={'gray.light'}>
-                {createdAt}
+                {/* {createdAt} */}
               </Text>
               <BsThreeDots />
             </Flex>
           </Flex>
-          <Text>{comment}</Text>
+          <Text>{reply.text}</Text>
           <Flex gap={4} alignItems={'center'}>
             {liked ? (
               <AiFillHeart
@@ -52,9 +52,9 @@ const Comment = ({ userAvatar, createdAt, comment, username, likes }) => {
 
             <FaRegComment className="w-6 h-6  cursor-pointer" />
           </Flex>
-          <Text fontSize={'sm'} color={'gray.light'}>
+          {/* <Text fontSize={'sm'} color={'gray.light'}>
             {likes + (liked ? 1 : 0)} likes
-          </Text>
+          </Text> */}
         </Flex>
       </Flex>
       <Divider />

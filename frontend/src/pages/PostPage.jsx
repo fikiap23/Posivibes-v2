@@ -114,7 +114,7 @@ const PostPage = () => {
             <Flex justifyContent={'space-between'} w={'full'}>
               <Flex w={'full'} alignItems={'center'}>
                 <Text fontSize={'sm'} fontWeight={'bold'}>
-                  {user.username}
+                  {user.name}
                 </Text>
                 <Image src="/verified.png" w={4} h={4} ml={1} />
                 <Text
@@ -314,18 +314,10 @@ const PostPage = () => {
               <ListLikes name={'fikiap23'} img={'/fiki1.jpg'} />
             </>
           )}
-          {isTabActive === 'comments' && (
-            <Comment
-              userAvatar={'/fiki1.jpg'}
-              username={'fikiap23'}
-              comment={
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-              }
-              likes={200}
-              key={1}
-              createdAt={'27 Jul 2022'}
-            />
-          )}
+          {isTabActive === 'comments' &&
+            currentPost.replies.map((reply) => (
+              <Comment key={reply._id} reply={reply} />
+            ))}
 
           {isTabActive === 'reposts' && (
             <>

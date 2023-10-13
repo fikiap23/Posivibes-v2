@@ -252,16 +252,9 @@ const Post = ({ post, postedBy }) => {
             {currentUser != null && (
               <CreateComent post={post} currentUser={currentUser} />
             )}
-            <Comment
-              userAvatar={'/fiki1.jpg'}
-              username={'fikiap23'}
-              comment={
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
-              }
-              likes={200}
-              createdAt={'27 Jul 2022'}
-              key={1}
-            />
+            {post.replies.map((reply) => (
+              <Comment key={reply._id} reply={reply} />
+            ))}
           </>
         )}
       </Box>
