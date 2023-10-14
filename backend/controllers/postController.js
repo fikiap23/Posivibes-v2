@@ -125,7 +125,10 @@ const replyToPost = async (req, res) => {
     post.replies.push(reply)
     await post.save()
 
-    res.status(200).json(reply)
+    // Setelah menyimpan post, reply akan memiliki _id yang baru saja di-generate oleh MongoDB.
+    const savedReply = post.replies[post.replies.length - 1]
+
+    res.status(200).json(savedReply)
   } catch (err) {
     res.status(500).json({ error: err.message })
   }

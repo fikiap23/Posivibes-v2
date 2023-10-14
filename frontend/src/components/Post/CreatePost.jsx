@@ -94,6 +94,7 @@ const CreatePost = () => {
       showToast('Error', error, 'error')
     } finally {
       setLoading(false)
+      window.location.reload()
     }
   }
 

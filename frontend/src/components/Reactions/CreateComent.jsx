@@ -66,7 +66,6 @@ const CreateComent = ({ post, currentUser }) => {
       })
       setPosts(updatedPosts)
       showToast('Success', 'Reply posted successfully', 'success')
-      window.location.reload()
 
       setReply('')
     } catch (error) {

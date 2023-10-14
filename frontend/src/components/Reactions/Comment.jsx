@@ -19,8 +19,9 @@ const Comment = ({ reply }) => {
   const currentPost = posts[0]
   // console.log(currentUser)
 
-  const handleDeleteReply = async () => {
+  const handleDeleteReply = async (e) => {
     try {
+      e.preventDefault()
       if (!window.confirm('Are you sure you want to delete this reply?')) return
 
       const res = await fetch(
@@ -46,7 +47,6 @@ const Comment = ({ reply }) => {
         ]
       })
       showToast('Success', 'Reply deleted', 'success')
-      window.location.reload()
     } catch (error) {
       showToast('Error', error.message, 'error')
     }
