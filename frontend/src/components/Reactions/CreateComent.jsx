@@ -79,7 +79,12 @@ const CreateComent = ({ post, currentUser }) => {
     <Box w="100%" mt={2}>
       <FormControl>
         <Flex>
-          <Avatar src={'/fiki1.jpg'} mr={2} size={'sm'} />
+          <Avatar
+            src={currentUser?.profilePic}
+            name={currentUser?.name}
+            mr={2}
+            size={'sm'}
+          />
           <Textarea
             mr={2}
             _hover={{ borderColor: 'gray' }}

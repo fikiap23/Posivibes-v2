@@ -253,7 +253,7 @@ const Post = ({ post, postedBy }) => {
               <CreateComent post={post} currentUser={currentUser} />
             )}
             {post.replies.map((reply) => (
-              <Comment key={reply._id} reply={reply} />
+              <Comment key={reply._id} reply={reply} currentPost={post} />
             ))}
           </>
         )}

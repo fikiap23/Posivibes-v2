@@ -34,9 +34,11 @@ import userAtom from '../atoms/userAtom'
 import useGetUserProfile from '../hooks/useGetUserProfile'
 import { formatDistanceToNow } from 'date-fns'
 import { DeleteIcon } from '@chakra-ui/icons'
+import CreateComent from '../components/Reactions/CreateComent'
 
 const PostPage = () => {
-  const [liked, setLiked] = useState(false)
+  const [isLiking, setIsLiking] = useState(false)
+
   const [isTabActive, setIsTabActive] = useState('comments')
   const { colorMode } = useColorMode()
   const { user, loading } = useGetUserProfile()
@@ -47,7 +49,8 @@ const PostPage = () => {
   const navigate = useNavigate()
 
   const currentPost = posts[0]
-
+  console.log(currentPost)
+  const [liked, setLiked] = useState(null)
   useEffect(() => {
     const getPost = async () => {
       setPosts([])
@@ -59,12 +62,14 @@ const PostPage = () => {
           return
         }
         setPosts([data])
+        // Perbarui state liked sesuai dengan data post yang diterima
+        setLiked(data.likes.includes(currentUser._id))
       } catch (error) {
         showToast('Error', error.message, 'error')
       }
     }
     getPost()
-  }, [showToast, pid, setPosts])
+  }, [showToast, pid, setPosts, currentUser._id])
 
   const handleDeletePost = async () => {
     try {
@@ -82,6 +87,51 @@ const PostPage = () => {
       navigate(`/${user.username}`)
     } catch (error) {
       showToast('Error', error.message, 'error')
+    }
+  }
+  const handleLikeAndUnlike = async () => {
+    if (!currentUser)
+      return showToast('Error', 'You must be logged in to like a post', 'error')
+    if (isLiking) return
+    setIsLiking(true)
+    try {
+      const res = await fetch('/v1/api/posts/like/' + currentPost._id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const data = await res.json()
+      if (data.error) return showToast('Error', data.error, 'error')
+
+      if (!liked) {
+        // add the id of the current currentUser to post.likes array
+        const updatedPosts = posts.map((p) => {
+          if (p._id === currentPost._id) {
+            return { ...p, likes: [...p.likes, currentUser._id] }
+          }
+          return p
+        })
+        setPosts(updatedPosts)
+      } else {
+        // remove the id of the current currentUser from post.likes array
+        const updatedPosts = posts.map((p) => {
+          if (p._id === currentPost._id) {
+            return {
+              ...p,
+              likes: p.likes.filter((id) => id !== currentUser._id),
+            }
+          }
+          return p
+        })
+        setPosts(updatedPosts)
+      }
+
+      setLiked(!liked)
+    } catch (error) {
+      showToast('Error', error.message, 'error')
+    } finally {
+      setIsLiking(false)
     }
   }
 
@@ -184,25 +234,27 @@ const PostPage = () => {
                     textDecoration={'underline'}
                   >
                     {liked ? (
-                      <AiFillHeart
-                        className="w-6 h-6 cursor-pointer"
-                        style={{ color: 'red' }}
-                        onClick={() => {
-                          setLiked(false)
-                        }}
-                      />
+                      <Flex gap={1}>
+                        <AiFillHeart
+                          className="w-6 h-6 cursor-pointer"
+                          style={{ color: 'red' }}
+                          onClick={handleLikeAndUnlike}
+                        />
+                        <Text>{currentPost.likes.length}</Text>
+                      </Flex>
                     ) : (
-                      <AiOutlineHeart
-                        className="w-6 h-6 cursor-pointer"
-                        onClick={() => {
-                          setLiked(true)
-                        }}
-                      />
+                      <Flex gap={1}>
+                        <AiOutlineHeart
+                          className="w-6 h-6 cursor-pointer"
+                          onClick={handleLikeAndUnlike}
+                        />
+                        <Text>{currentPost.likes.length}</Text>
+                      </Flex>
                     )}
-                    <Text>{200 + (liked ? 1 : 0)}</Text>
                   </Flex>
                 ) : (
                   <Flex
+                    gap={1}
                     onClick={() => {
                       setIsTabActive('likes')
                     }}
@@ -212,19 +264,15 @@ const PostPage = () => {
                       <AiFillHeart
                         className="w-6 h-6 cursor-pointer"
                         style={{ color: 'red' }}
-                        onClick={() => {
-                          setLiked(false)
-                        }}
+                        // onClick={handleLikeAndUnlike}
                       />
                     ) : (
                       <AiOutlineHeart
                         className="w-6 h-6 cursor-pointer"
-                        onClick={() => {
-                          setLiked(true)
-                        }}
+                        // onClick={handleLikeAndUnlike}
                       />
                     )}
-                    <Text>200</Text>
+                    <Text>{currentPost.likes.length}</Text>
                   </Flex>
                 )}
                 {/* end likes */}
@@ -232,6 +280,7 @@ const PostPage = () => {
                 {/* comments */}
                 {isTabActive === 'comments' ? (
                   <Flex
+                    gap={1}
                     onClick={() => {
                       setIsTabActive('comments')
                     }}
@@ -240,17 +289,18 @@ const PostPage = () => {
                     textDecoration={'underline'}
                   >
                     <FaRegComment className="w-6 h-6  cursor-pointer" />
-                    <Text>200</Text>
+                    <Text>{currentPost.replies.length}</Text>
                   </Flex>
                 ) : (
                   <Flex
+                    gap={1}
                     onClick={() => {
                       setIsTabActive('comments')
                     }}
                     cursor={'pointer'}
                   >
                     <FaRegComment className="w-6 h-6  cursor-pointer" />
-                    <Text>200</Text>
+                    <Text>{currentPost.replies.length}</Text>
                   </Flex>
                 )}
 
@@ -259,6 +309,7 @@ const PostPage = () => {
                 {/* reposts */}
                 {isTabActive === 'reposts' ? (
                   <Flex
+                    gap={1}
                     onClick={() => {
                       setIsTabActive('reposts')
                     }}
@@ -271,6 +322,7 @@ const PostPage = () => {
                   </Flex>
                 ) : (
                   <Flex
+                    gap={1}
                     onClick={() => {
                       setIsTabActive('reposts')
                     }}
@@ -314,9 +366,16 @@ const PostPage = () => {
               <ListLikes name={'fikiap23'} img={'/fiki1.jpg'} />
             </>
           )}
+          {isTabActive === 'comments' && currentUser != null && (
+            <CreateComent post={currentPost} currentUser={currentUser} />
+          )}
           {isTabActive === 'comments' &&
             currentPost.replies.map((reply) => (
-              <Comment key={reply._id} reply={reply} />
+              <Comment
+                key={reply._id}
+                reply={reply}
+                currentPost={currentPost}
+              />
             ))}
 
           {isTabActive === 'reposts' && (
