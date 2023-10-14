@@ -49,7 +49,7 @@ const PostPage = () => {
   const navigate = useNavigate()
 
   const currentPost = posts[0]
-  console.log(currentPost)
+  // console.log(currentPost)
   const [liked, setLiked] = useState(null)
   useEffect(() => {
     const getPost = async () => {
@@ -144,7 +144,7 @@ const PostPage = () => {
   }
 
   if (!currentPost) return null
-  console.log('currentPost', currentPost)
+  // console.log('currentPost', currentPost)
 
   return (
     <Flex>

@@ -6,14 +6,18 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 
 import { BsThreeDots } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import postsAtom from '../../atoms/postsAtom'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
 
-const Comment = ({ reply, currentPost }) => {
+const Comment = ({ reply }) => {
   const [liked, setLiked] = useState(false)
   const showToast = useShowToast()
   const currentUser = useRecoilValue(userAtom)
+  const [posts, setPosts] = useRecoilState(postsAtom)
+  const currentPost = posts[0]
+  // console.log(currentUser)
 
   const handleDeleteReply = async () => {
     try {
@@ -30,6 +34,17 @@ const Comment = ({ reply, currentPost }) => {
         showToast('Error', data.error, 'error')
         return
       }
+      const updatedReplies = currentPost.replies.filter(
+        (r) => r._id !== reply._id
+      )
+      setPosts((p) => {
+        return [
+          {
+            ...p[0],
+            replies: updatedReplies,
+          },
+        ]
+      })
       showToast('Success', 'Reply deleted', 'success')
     } catch (error) {
       showToast('Error', error.message, 'error')
