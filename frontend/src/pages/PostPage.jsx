@@ -373,7 +373,11 @@ const PostPage = () => {
           )}
           {isTabActive === 'comments' &&
             currentPost.replies.map((reply) => (
-              <Comment key={reply._id} reply={reply} />
+              <Comment
+                key={reply._id}
+                reply={reply}
+                currentPost={currentPost}
+              />
             ))}
 
           {isTabActive === 'reposts' && (

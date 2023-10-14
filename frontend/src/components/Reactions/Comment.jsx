@@ -11,17 +11,14 @@ import postsAtom from '../../atoms/postsAtom'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
 
-const Comment = ({ reply }) => {
+const Comment = ({ reply, currentPost }) => {
   const [liked, setLiked] = useState(false)
   const showToast = useShowToast()
   const currentUser = useRecoilValue(userAtom)
   const [posts, setPosts] = useRecoilState(postsAtom)
-  const currentPost = posts[0]
-  // console.log(currentUser)
 
-  const handleDeleteReply = async (e) => {
+  const handleDeleteReply = async () => {
     try {
-      e.preventDefault()
       if (!window.confirm('Are you sure you want to delete this reply?')) return
 
       const res = await fetch(
@@ -39,15 +36,21 @@ const Comment = ({ reply }) => {
         (r) => r._id !== reply._id
       )
       setPosts((p) => {
-        return [
-          {
-            ...p[0],
-            replies: updatedReplies,
-          },
-        ]
+        return p.map((post) => {
+          if (post._id === currentPost._id) {
+            // Ini adalah post yang sedang ditampilkan, perbarui replies-nya.
+            return {
+              ...post,
+              replies: updatedReplies,
+            }
+          }
+          return post
+        })
       })
+
       showToast('Success', 'Reply deleted', 'success')
     } catch (error) {
+      console.log(error)
       showToast('Error', error.message, 'error')
     }
   }
