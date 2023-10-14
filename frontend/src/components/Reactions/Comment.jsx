@@ -46,6 +46,7 @@ const Comment = ({ reply }) => {
         ]
       })
       showToast('Success', 'Reply deleted', 'success')
+      window.location.reload()
     } catch (error) {
       showToast('Error', error.message, 'error')
     }

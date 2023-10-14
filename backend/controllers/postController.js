@@ -171,6 +171,7 @@ const getUserPosts = async (req, res) => {
   }
 }
 
+// replyToPost
 const deleteReply = async (req, res) => {
   try {
     const postId = req.params.postId // Ganti dengan parameter yang sesuai
@@ -210,6 +211,23 @@ const deleteReply = async (req, res) => {
   }
 }
 
+const getReplies = async (req, res) => {
+  try {
+    const postId = req.params.postId // Ganti dengan parameter yang sesuai
+
+    const post = await Post.findById(postId)
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' })
+    }
+
+    const replies = post.replies
+
+    res.status(200).json({ replies })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
+
 export {
   createPost,
   getPost,
@@ -219,4 +237,5 @@ export {
   getFeedPosts,
   getUserPosts,
   deleteReply,
+  getReplies,
 }

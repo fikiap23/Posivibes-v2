@@ -207,14 +207,16 @@ const PostPage = () => {
               {currentPost.title}
             </Text>
 
-            <Box
-              borderRadius={6}
-              overflow={'hidden'}
-              border={'1px solid'}
-              borderColor={'gray.light'}
-            >
-              <Image src={'/post1.png'} alt={''} w={'full'} />
-            </Box>
+            {currentPost.image && (
+              <Box
+                borderRadius={6}
+                overflow={'hidden'}
+                border={'1px solid'}
+                borderColor={'gray.light'}
+              >
+                <Image src={'/post1.png'} alt={''} w={'full'} />
+              </Box>
+            )}
             <Text fontSize={{ base: 'sm', md: 'md' }}>{currentPost.text}</Text>
             <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
             <Flex
@@ -371,11 +373,7 @@ const PostPage = () => {
           )}
           {isTabActive === 'comments' &&
             currentPost.replies.map((reply) => (
-              <Comment
-                key={reply._id}
-                reply={reply}
-                currentPost={currentPost}
-              />
+              <Comment key={reply._id} reply={reply} />
             ))}
 
           {isTabActive === 'reposts' && (
