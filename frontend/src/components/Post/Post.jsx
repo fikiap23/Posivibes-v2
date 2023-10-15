@@ -22,6 +22,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import postsAtom from '../../atoms/postsAtom'
 import CreateComent from '../Reactions/CreateComent'
+import ShowCardProfile from '../Reactions/ShowCardProfile'
 
 const Post = ({ post, postedBy }) => {
   const { colorMode } = useColorMode()
@@ -156,16 +157,7 @@ const Post = ({ post, postedBy }) => {
                 {user.name}
               </Text>
               <Image src="/verified.png" w={4} h={4} ml={1} />
-              <Text
-                fontSize={'sm'}
-                color={'blue.300'}
-                ml={2}
-                cursor={'pointer'}
-                textDecoration={'none'}
-                _hover={{ textDecoration: 'underline' }}
-              >
-                Follow
-              </Text>
+              <ShowCardProfile user={user} />
             </Flex>
 
             <Flex gap={4} alignItems={'center'}>

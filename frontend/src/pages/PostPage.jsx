@@ -36,6 +36,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { DeleteIcon } from '@chakra-ui/icons'
 import CreateComent from '../components/Reactions/CreateComent'
 import ShowLikes from '../components/Reactions/ShowLikes'
+import ShowCardProfile from '../components/Reactions/ShowCardProfile'
 
 const PostPage = () => {
   const [isLiking, setIsLiking] = useState(false)
@@ -185,17 +186,7 @@ const PostPage = () => {
                   {user.name}
                 </Text>
                 <Image src="/verified.png" w={4} h={4} ml={1} />
-                <Text
-                  fontSize={'sm'}
-                  color={'blue.300'}
-                  ml={2}
-                  cursor={'pointer'}
-                  textDecoration={'none'}
-                  _hover={{ textDecoration: 'underline' }}
-                >
-                  {' '}
-                  Follow
-                </Text>
+                <ShowCardProfile user={user} />
               </Flex>
 
               <Flex gap={4} alignItems={'center'}>
