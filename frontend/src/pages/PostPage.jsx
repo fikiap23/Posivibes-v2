@@ -162,6 +162,7 @@ const PostPage = () => {
         >
           <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2}>
             <Avatar
+              cursor={'pointer'}
               size="md"
               name={user.name}
               src={user.profilePic}
@@ -173,6 +174,7 @@ const PostPage = () => {
             <Flex justifyContent={'space-between'} w={'full'}>
               <Flex w={'full'} alignItems={'center'}>
                 <Text
+                  cursor={'pointer'}
                   fontSize={'sm'}
                   fontWeight={'bold'}
                   onClick={(e) => {
