@@ -20,12 +20,14 @@ import {
   ModalCloseButton,
   ModalBody,
 } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 import useFollowUnfollow from '../../hooks/useFollowUnfollow'
 
 export default function ShowCardProfile({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   //   console.log('user', user)
   const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
+  const navigate = useNavigate()
   return (
     <>
       <Text
@@ -84,6 +86,11 @@ export default function ShowCardProfile({ user }) {
                       fontSize={'2xl'}
                       fontWeight={500}
                       fontFamily={'body'}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        navigate(`/${user.username}`)
+                      }}
+                      cursor={'pointer'}
                     >
                       {user.name}
                     </Heading>

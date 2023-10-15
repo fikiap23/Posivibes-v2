@@ -20,7 +20,7 @@ import CreatePost from '../Post/CreatePost'
 
 import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi'
 import useLogout from '../../hooks/useLogout'
 import { FiLogOut } from 'react-icons/fi'
@@ -30,6 +30,7 @@ const Hamberger = () => {
   const { colorMode } = useColorMode()
   const logout = useLogout()
   const { toggleColorMode } = useColorMode()
+  const navigate = useNavigate()
   return (
     <Menu>
       <MenuButton
@@ -63,6 +64,10 @@ const Hamberger = () => {
                     : { bg: 'gray.700' }
                 }
                 padding={'2'}
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate(`/`)
+                }}
               >
                 <Icon as={BiHome} />
                 <Text>Home</Text>

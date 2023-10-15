@@ -9,12 +9,14 @@ import CreatePost from '../Post/CreatePost'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import { FiLogIn, FiLogOut } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useLogout from '../../hooks/useLogout'
 
 const Sidebar = () => {
   const user = useRecoilValue(userAtom)
   const { colorMode } = useColorMode()
+  const navigate = useNavigate()
+
   const logout = useLogout()
   return (
     <Box className="w-[10%] md:w-[15%] lg:w-[30%]  sticky top-0 h-[100vh] hidden md:block">
@@ -30,6 +32,10 @@ const Sidebar = () => {
             Posivibes
           </Text>
           <Flex
+            onClick={(e) => {
+              e.preventDefault()
+              navigate(`/`)
+            }}
             gap={4}
             alignItems={'center'}
             cursor={'pointer'}
