@@ -161,10 +161,25 @@ const PostPage = () => {
           borderRadius={6}
         >
           <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2}>
-            <Avatar size="md" name={user.name} src={user.profilePic} />
+            <Avatar
+              size="md"
+              name={user.name}
+              src={user.profilePic}
+              onClick={(e) => {
+                e.preventDefault()
+                navigate(`/${user.username}`)
+              }}
+            />
             <Flex justifyContent={'space-between'} w={'full'}>
               <Flex w={'full'} alignItems={'center'}>
-                <Text fontSize={'sm'} fontWeight={'bold'}>
+                <Text
+                  fontSize={'sm'}
+                  fontWeight={'bold'}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    navigate(`/${user.username}`)
+                  }}
+                >
                   {user.name}
                 </Text>
                 <Image src="/verified.png" w={4} h={4} ml={1} />
