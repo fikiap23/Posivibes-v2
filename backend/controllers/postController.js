@@ -231,6 +231,27 @@ const getReplies = async (req, res) => {
   }
 }
 
+const getLikes = async (req, res) => {
+  try {
+    const postId = req.params.postId // Ganti dengan parameter yang sesuai
+
+    const post = await Post.findById(postId).populate(
+      'likes',
+      'name profilePic'
+    )
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' })
+    }
+
+    const likes = post.likes
+
+    res.status(200).json({ likes })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
+
 export {
   createPost,
   getPost,
@@ -241,4 +262,5 @@ export {
   getUserPosts,
   deleteReply,
   getReplies,
+  getLikes,
 }

@@ -17,7 +17,7 @@ const ListLikes = ({ name, img }) => {
               src={img}
             />
             <Text fontSize={'sm'} fontWeight={'bold'}>
-              Fiki Aprian
+              {name}
             </Text>
           </Flex>
 

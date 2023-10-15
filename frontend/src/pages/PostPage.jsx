@@ -11,7 +11,7 @@ import {} from 'react-icons/bs'
 
 import { useEffect, useState } from 'react'
 import Comment from '../components/Reactions/Comment'
-import ListLikes from '../components/Reactions/ListLikes'
+
 import Repost from '../components/Reactions/Repost'
 import {
   Button,
@@ -35,6 +35,7 @@ import useGetUserProfile from '../hooks/useGetUserProfile'
 import { formatDistanceToNow } from 'date-fns'
 import { DeleteIcon } from '@chakra-ui/icons'
 import CreateComent from '../components/Reactions/CreateComent'
+import ShowLikes from '../components/Reactions/ShowLikes'
 
 const PostPage = () => {
   const [isLiking, setIsLiking] = useState(false)
@@ -361,13 +362,7 @@ const PostPage = () => {
             </Flex>
           </Flex>
           <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
-          {isTabActive === 'likes' && (
-            <>
-              <ListLikes name={'fikiap23'} img={'/fiki1.jpg'} />
-              <ListLikes name={'fikiap23'} img={'/fiki1.jpg'} />
-              <ListLikes name={'fikiap23'} img={'/fiki1.jpg'} />
-            </>
-          )}
+          {isTabActive === 'likes' && <ShowLikes postId={currentPost._id} />}
           {isTabActive === 'comments' && currentUser != null && (
             <CreateComent post={currentPost} currentUser={currentUser} />
           )}
