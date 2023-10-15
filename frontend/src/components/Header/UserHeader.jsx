@@ -8,55 +8,15 @@ import { useRecoilValue } from 'recoil'
 import { CgMoreO } from 'react-icons/cg'
 import userAtom from '../../atoms/userAtom'
 import { Link as RouterLink } from 'react-router-dom'
-import { useState } from 'react'
-import useShowToast from '../../hooks/useShowToast'
+
+import useFollowUnfollow from '../../hooks/useFollowUnfollow'
 
 const UserHeader = ({ user }) => {
-  const showToast = useShowToast()
   const { colorMode } = useColorMode()
   const currentUser = useRecoilValue(userAtom)
-  // console.log(currentUser)
-  const [following, setFollowing] = useState(
-    currentUser && user.followers.includes(currentUser._id)
-  )
 
-  // console.log(following)
-
-  const [updating, setUpdating] = useState(false)
-
-  const handleFollowUnfollow = async () => {
-    if (!currentUser) {
-      showToast('Error', 'Please login first', 'error')
-      return
-    }
-    if (updating) return
-    setUpdating(true)
-    try {
-      const res = await fetch(`/v1/api/users/follow/${user._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      const data = await res.json()
-      if (data.error) {
-        showToast('Error', data.error, 'error')
-        return
-      }
-      if (following) {
-        showToast('Success', `Unfollowed ${user.name}`, 'success')
-        user.followers.pop() //simulasi removing user from followers client-side
-      } else {
-        showToast('Success', 'Followed', 'success')
-        user.followers.push(currentUser._id) //simulasi adding user to followers client-side
-      }
-      setFollowing(!following)
-    } catch (error) {
-      showToast('Error', error, 'error')
-    } finally {
-      setUpdating(false)
-    }
-  }
+  const { updating, following, handleFollowUnfollow, followers } =
+    useFollowUnfollow(currentUser, user)
 
   const copyURL = () => {
     const currentURL = window.location.href
@@ -130,9 +90,7 @@ const UserHeader = ({ user }) => {
 
       <Flex w={'full'} justifyContent={'space-between'}>
         <Flex gap={2} alignItems={'center'}>
-          <Text
-            color={'gray.light'}
-          >{`${user.followers.length} followers`}</Text>
+          <Text color={'gray.light'}>{`${followers} followers`}</Text>
           <Box w="1" h="1" bg={'gray.light'} borderRadius={'full'}></Box>
           <Link color={'gray.light'}>posivibes.com</Link>
         </Flex>
