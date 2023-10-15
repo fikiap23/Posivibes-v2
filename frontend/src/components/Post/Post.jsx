@@ -6,7 +6,7 @@ import { Box, Flex, Text } from '@chakra-ui/layout'
 import { BsThreeDots } from 'react-icons/bs'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { FaRegComment } from 'react-icons/fa6'
-import { BiRepost } from 'react-icons/bi'
+
 import { PiShareFat } from 'react-icons/pi'
 import { Link } from 'react-router-dom'
 import { Button, useColorMode } from '@chakra-ui/react'
@@ -23,6 +23,7 @@ import userAtom from '../../atoms/userAtom'
 import postsAtom from '../../atoms/postsAtom'
 import CreateComent from '../Reactions/CreateComent'
 import ShowCardProfile from '../Reactions/ShowCardProfile'
+import CreateRepost from '../Reactions/CreateRepost'
 
 const Post = ({ post, postedBy }) => {
   const { colorMode } = useColorMode()
@@ -234,7 +235,7 @@ const Post = ({ post, postedBy }) => {
                 />
                 <Text>{post.replies.length}</Text>
               </Flex>
-              <BiRepost className="w-6 h-6  cursor-pointer" />
+              <CreateRepost post={post} userPost={user} />
               <PiShareFat className="w-6 h-6  cursor-pointer" />
             </Flex>
           </Flex>

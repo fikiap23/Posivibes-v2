@@ -1,12 +1,12 @@
-import { Icon } from '@chakra-ui/icons'
+/* eslint-disable react/prop-types */
+
 import {
+  Avatar,
+  Box,
   Button,
-  CloseButton,
   Flex,
   FormControl,
-  FormLabel,
   Image,
-  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -18,22 +18,22 @@ import {
   Textarea,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useRef, useState } from 'react'
-import usePreviewImg from '../../hooks/usePreviewImg'
-import { BsFillImageFill } from 'react-icons/bs'
+import { useState } from 'react'
+
+import { BsThreeDots } from 'react-icons/bs'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
 import postsAtom from '../../atoms/postsAtom'
 import { useParams } from 'react-router-dom'
-import { MdOutlineCreate } from 'react-icons/md'
-const MAX_CHAR = 100
-const CreatePost = () => {
+
+import { BiRepost } from 'react-icons/bi'
+import { formatDistanceToNow } from 'date-fns'
+
+const CreateRepost = ({ post, userPost }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [postText, setPostText] = useState('')
-  const [titlePostText, setTitlePostText] = useState('')
-  const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg()
-  const imageRef = useRef(null)
+
   const [remainingChar, setRemainingChar] = useState(0)
   const user = useRecoilValue(userAtom)
   const showToast = useShowToast()
@@ -49,19 +49,6 @@ const CreatePost = () => {
     setRemainingChar(inputText.length)
   }
 
-  const handleTitlePostTextChange = (e) => {
-    const inputText = e.target.value
-    e.target.style.height = '0px'
-    e.target.style.height = e.target.scrollHeight + 'px'
-
-    if (inputText.length > MAX_CHAR) {
-      const truncatedText = inputText.slice(0, MAX_CHAR)
-      setTitlePostText(truncatedText)
-    } else {
-      setTitlePostText(inputText)
-    }
-  }
-
   const handleCreatePost = async () => {
     setLoading(true)
     try {
@@ -72,9 +59,8 @@ const CreatePost = () => {
         },
         body: JSON.stringify({
           postedBy: user._id,
-          title: titlePostText,
+
           text: postText,
-          img: imgUrl,
         }),
       })
 
@@ -89,7 +75,6 @@ const CreatePost = () => {
       }
       onClose()
       setPostText('')
-      setImgUrl('')
     } catch (error) {
       showToast('Error', error, 'error')
     } finally {
@@ -100,39 +85,75 @@ const CreatePost = () => {
 
   return (
     <>
-      <Button
-        w={'full'}
-        borderRadius={'50'}
-        bg={'blue.400'}
-        color={'white'}
-        _hover={{ bg: 'blue.500' }}
-        onClick={onOpen}
-      >
-        <Icon as={MdOutlineCreate} />
+      <BiRepost onClick={onOpen} className="w-6 h-6  cursor-pointer" />
 
-        <Text>Create Post</Text>
-      </Button>
-
-      <Modal isOpen={isOpen} onClose={onClose} size={'2xl'}>
+      <Modal isOpen={isOpen} onClose={onClose} size={'xl'}>
         <ModalOverlay />
 
         <ModalContent>
-          <ModalHeader>Create Post</ModalHeader>
+          <ModalHeader>Create Repost</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl mb={4}>
-              <FormLabel>Title (maks 100 charcter)</FormLabel>
-              <Textarea
-                placeholder="Post title goes here.."
-                onChange={handleTitlePostTextChange}
-                value={titlePostText}
-                style={{
-                  minHeight: '0px', // Tinggi awal yang lebih kecil
-                  resize: 'none',
-                  overflow: 'hidden',
-                }}
-              />
-            </FormControl>
+            <Box
+              gap={3}
+              mb={4}
+              py={5}
+              bg="white"
+              color="black"
+              px={4}
+              borderRadius={6}
+            >
+              <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2}>
+                <Avatar
+                  size="md"
+                  name={userPost.name}
+                  src={userPost.profilePic}
+                />
+                <Flex justifyContent={'space-between'} w={'full'}>
+                  <Flex w={'full'} alignItems={'center'}>
+                    <Text fontSize={'sm'} fontWeight={'bold'}>
+                      {userPost.name}
+                    </Text>
+                    <Image src="/verified.png" w={4} h={4} ml={1} />
+                  </Flex>
+
+                  <Flex gap={4} alignItems={'center'}>
+                    <Text fontStyle={'sm'} color={'gray.light'}>
+                      {formatDistanceToNow(new Date(post.createdAt))} ago
+                    </Text>
+                    <BsThreeDots />
+                  </Flex>
+                </Flex>
+              </Flex>
+              <Flex flex={1} flexDirection={'column'} gap={2}>
+                <Text
+                  fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
+                  fontWeight={'bold'}
+                >
+                  {post.title}
+                </Text>
+
+                {post.img && (
+                  <Box
+                    borderRadius={6}
+                    overflow={'hidden'}
+                    border={'1px solid'}
+                    borderColor={'gray.light'}
+                  >
+                    <Image src={post.img} alt={''} w={'full'} />
+                  </Box>
+                )}
+
+                <Text fontSize={{ base: 'sm', md: 'md' }}>{post.text}</Text>
+
+                <Flex
+                  gap={2}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                ></Flex>
+              </Flex>
+            </Box>
+
             <FormControl>
               <Textarea
                 placeholder="Post content goes here.."
@@ -149,35 +170,7 @@ const CreatePost = () => {
               >
                 {remainingChar}
               </Text>
-
-              <Input
-                type="file"
-                hidden
-                ref={imageRef}
-                onChange={handleImageChange}
-              />
-
-              <BsFillImageFill
-                style={{ marginLeft: '5px', cursor: 'pointer' }}
-                size={16}
-                onClick={() => imageRef.current.click()}
-              />
             </FormControl>
-
-            {imgUrl && (
-              <Flex mt={5} w={'full'} position={'relative'}>
-                <Image src={imgUrl} alt="Selected img" />
-                <CloseButton
-                  onClick={() => {
-                    setImgUrl('')
-                  }}
-                  bg={'gray.800'}
-                  position={'absolute'}
-                  top={2}
-                  right={2}
-                />
-              </Flex>
-            )}
           </ModalBody>
 
           <ModalFooter>
@@ -196,4 +189,4 @@ const CreatePost = () => {
   )
 }
 
-export default CreatePost
+export default CreateRepost
