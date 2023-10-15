@@ -15,9 +15,7 @@ const UserHeader = ({ user }) => {
   const { colorMode } = useColorMode()
   const currentUser = useRecoilValue(userAtom)
 
-  const { updating, following, handleFollowUnfollow, followers } =
-    useFollowUnfollow(currentUser, user)
-
+  const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
   const copyURL = () => {
     const currentURL = window.location.href
     navigator.clipboard.writeText(currentURL).then(() => {
@@ -90,7 +88,9 @@ const UserHeader = ({ user }) => {
 
       <Flex w={'full'} justifyContent={'space-between'}>
         <Flex gap={2} alignItems={'center'}>
-          <Text color={'gray.light'}>{`${followers} followers`}</Text>
+          <Text
+            color={'gray.light'}
+          >{`${user.followers.length} followers`}</Text>
           <Box w="1" h="1" bg={'gray.light'} borderRadius={'full'}></Box>
           <Link color={'gray.light'}>posivibes.com</Link>
         </Flex>

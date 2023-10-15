@@ -75,7 +75,7 @@ const Comment = ({ reply, currentPost }) => {
               {reply.username}
             </Text>
             <Flex gap={2} alignItems={'center'}>
-              {reply.userId === currentUser._id && (
+              {reply.userId === currentUser?._id && (
                 <DeleteIcon size={20} onClick={handleDeleteReply} />
               )}
               <BsThreeDots />

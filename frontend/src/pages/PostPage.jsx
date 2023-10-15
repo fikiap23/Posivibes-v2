@@ -64,13 +64,13 @@ const PostPage = () => {
         }
         setPosts([data])
         // Perbarui state liked sesuai dengan data post yang diterima
-        setLiked(data.likes.includes(currentUser._id))
+        setLiked(data.likes.includes(currentUser?._id))
       } catch (error) {
         showToast('Error', error.message, 'error')
       }
     }
     getPost()
-  }, [showToast, pid, setPosts, currentUser._id])
+  }, [showToast, pid, setPosts, currentUser?._id])
 
   const handleDeletePost = async () => {
     try {
@@ -193,6 +193,7 @@ const PostPage = () => {
                   textDecoration={'none'}
                   _hover={{ textDecoration: 'underline' }}
                 >
+                  {' '}
                   Follow
                 </Text>
               </Flex>

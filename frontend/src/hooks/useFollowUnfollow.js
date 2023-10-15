@@ -1,22 +1,24 @@
 import { useState } from 'react'
 import useShowToast from './useShowToast'
+import userAtom from '../atoms/userAtom'
+import { useRecoilValue } from 'recoil'
 
-const useFollowUnfollow = (currentUser, user) => {
-  const [updating, setUpdating] = useState(false)
+const useFollowUnfollow = (user) => {
+  const currentUser = useRecoilValue(userAtom)
   const [following, setFollowing] = useState(
-    currentUser && user.followers.includes(currentUser._id)
+    user.followers.includes(currentUser?._id)
   )
-  const [followers, setFollowers] = useState(user.followers.length)
+  const [updating, setUpdating] = useState(false)
   const showToast = useShowToast()
 
   const handleFollowUnfollow = async () => {
     if (!currentUser) {
-      showToast('Error', 'Please login first', 'error')
+      showToast('Error', 'Please login to follow', 'error')
       return
     }
     if (updating) return
-    setUpdating(true)
 
+    setUpdating(true)
     try {
       const res = await fetch(`/v1/api/users/follow/${user._id}`, {
         method: 'POST',
@@ -25,7 +27,6 @@ const useFollowUnfollow = (currentUser, user) => {
         },
       })
       const data = await res.json()
-
       if (data.error) {
         showToast('Error', data.error, 'error')
         return
@@ -33,21 +34,22 @@ const useFollowUnfollow = (currentUser, user) => {
 
       if (following) {
         showToast('Success', `Unfollowed ${user.name}`, 'success')
-        setFollowers(followers - 1) // Mengurangi jumlah pengikut
+        user.followers.pop() // simulate removing from followers
       } else {
-        showToast('Success', 'Followed', 'success')
-        setFollowers(followers + 1) // Menambah jumlah pengikut
+        showToast('Success', `Followed ${user.name}`, 'success')
+        user.followers.push(currentUser?._id) // simulate adding to followers
       }
-
       setFollowing(!following)
+
+      console.log(data)
     } catch (error) {
       showToast('Error', error, 'error')
     } finally {
       setUpdating(false)
     }
   }
-  //   console.log(followers)
-  return { updating, following, handleFollowUnfollow, followers }
+
+  return { handleFollowUnfollow, updating, following }
 }
 
 export default useFollowUnfollow
