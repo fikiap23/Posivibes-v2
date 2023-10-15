@@ -4,7 +4,7 @@ import useShowToast from './useShowToast'
 const useFollowUnfollow = (currentUser, user) => {
   const [updating, setUpdating] = useState(false)
   const [following, setFollowing] = useState(
-    user.followers.includes(currentUser._id)
+    currentUser && user.followers.includes(currentUser._id)
   )
   const [followers, setFollowers] = useState(user.followers.length)
   const showToast = useShowToast()
