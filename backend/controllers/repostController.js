@@ -4,8 +4,7 @@ import User from '../models/userModel.js'
 
 const repostPost = async (req, res) => {
   try {
-    const { id } = req.params // Mengambil id postingan asli dari URL
-    const { postedBy, text } = req.body // Menambahkan teks komentar
+    const { id, postedBy, text } = req.body // Menambahkan teks komentar
 
     if (!postedBy || !text) {
       return res.status(400).json({ error: 'postedBy and text are required' })
@@ -24,6 +23,7 @@ const repostPost = async (req, res) => {
 
     // Ambil informasi pengguna yang melakukan repost dari database pengguna
     const user = await User.findById(postedBy)
+    const OriginPostUser = await User.findById(postToRepost.postedBy)
 
     // Lakukan operasi repost dengan membuat entri "Repost"
     const newRepost = new Repost({
@@ -38,8 +38,9 @@ const repostPost = async (req, res) => {
         imgPost: postToRepost.img,
         text: postToRepost.text,
         userId: postToRepost.postedBy, // ID pengguna asal
-        name: postToRepost.name, // Nama pengguna asal
-        profilePic: postToRepost.profilePic, // Gambar profil pengguna asal
+        name: OriginPostUser.name, // Nama pengguna asal
+        username: OriginPostUser.username, // Nama pengguna asal
+        profilePic: OriginPostUser.profilePic, // Gambar profil pengguna asal
       },
       repostText: text, // Teks komentar
     })
@@ -55,5 +56,24 @@ const repostPost = async (req, res) => {
     console.log(err)
   }
 }
+const getRepostsByFollowedUsers = async (req, res) => {
+  try {
+    const userId = req.user._id // ID pengguna saat ini
+    // Ambil daftar pengguna yang diikuti oleh pengguna saat ini
+    const currentUser = await User.findById(userId)
+    const followedUsers = currentUser.following
 
-export { repostPost }
+    // Cari semua reposts yang dibuat oleh pengguna dalam daftar pengguna yang diikuti
+    const reposts = await Repost.find({
+      'repostedBy.userId': { $in: followedUsers },
+    })
+
+    // Anda dapat mengirimkan daftar reposts ke klien atau melakukan operasi lain sesuai kebutuhan
+    res.status(200).json(reposts)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+    console.log(err)
+  }
+}
+
+export { repostPost, getRepostsByFollowedUsers }

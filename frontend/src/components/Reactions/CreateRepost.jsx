@@ -24,11 +24,12 @@ import { BsThreeDots } from 'react-icons/bs'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
-import postsAtom from '../../atoms/postsAtom'
+
 import { useParams } from 'react-router-dom'
 
 import { BiRepost } from 'react-icons/bi'
 import { formatDistanceToNow } from 'date-fns'
+import repostsAtom from '../../atoms/repostAtom'
 
 const CreateRepost = ({ post, userPost }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -38,8 +39,10 @@ const CreateRepost = ({ post, userPost }) => {
   const user = useRecoilValue(userAtom)
   const showToast = useShowToast()
   const [loading, setLoading] = useState(false)
-  const [posts, setPosts] = useRecoilState(postsAtom)
+  const [posts, setPosts] = useRecoilState(repostsAtom)
   const { username } = useParams()
+
+  console.log(posts)
 
   const handleTextChange = (e) => {
     const inputText = e.target.value
@@ -49,17 +52,17 @@ const CreateRepost = ({ post, userPost }) => {
     setRemainingChar(inputText.length)
   }
 
-  const handleCreatePost = async () => {
+  const handleCreateRepost = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/v1/api/posts/create', {
+      const res = await fetch('/v1/api/reposts/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           postedBy: user._id,
-
+          id: post._id, // Ganti dengan ID postingan yang ingin direpost
           text: postText,
         }),
       })
@@ -69,8 +72,9 @@ const CreateRepost = ({ post, userPost }) => {
         showToast('Error', data.error, 'error')
         return
       }
-      showToast('Success', 'Post created successfully', 'success')
+      showToast('Success', 'Repost created successfully', 'success')
       if (username === user.username) {
+        // Jika ingin menambahkan repost ke daftar postingan
         setPosts([data, ...posts])
       }
       onClose()
@@ -79,7 +83,8 @@ const CreateRepost = ({ post, userPost }) => {
       showToast('Error', error, 'error')
     } finally {
       setLoading(false)
-      window.location.reload()
+      // Jika ingin me-refresh halaman
+      // window.location.reload()
     }
   }
 
@@ -177,7 +182,7 @@ const CreateRepost = ({ post, userPost }) => {
             <Button
               colorScheme="blue"
               mr={3}
-              onClick={handleCreatePost}
+              onClick={handleCreateRepost}
               isLoading={loading}
             >
               Post

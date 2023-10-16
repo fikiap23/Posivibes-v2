@@ -22,6 +22,7 @@ const originalPostSchema = {
     ref: 'User', // ID pengguna asal yang melakukan post asli
   },
   name: String, // Nama pengguna asal yang melakukan post asli
+  username: String, // Nama pengguna asal yang melakukan post asli
   profilePic: String, // Gambar profil pengguna asal yang melakukan post asli
 }
 
