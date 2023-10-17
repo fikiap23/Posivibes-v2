@@ -6,12 +6,13 @@ import { Box, Flex, Text } from '@chakra-ui/layout'
 
 import { Button, useColorMode } from '@chakra-ui/react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import RepostCardHeader from '../Reactions/RepostCardHeader'
 import { formatDistanceToNow } from 'date-fns'
 
 const RepostCard = ({ repost }) => {
   const { colorMode } = useColorMode()
+  const navigate = useNavigate()
 
   return (
     <>
@@ -33,25 +34,27 @@ const RepostCard = ({ repost }) => {
 
         <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2} mt={2}>
           <Avatar
+            cursor={'pointer'}
             size="md"
             name={repost.originalPost.name}
             src={repost.originalPost.profilePic}
+            onClick={(e) => {
+              e.preventDefault()
+              navigate(`/${repost.originalPost.username}`)
+            }}
           />
           <Flex justifyContent={'space-between'} w={'full'}>
             <Flex w={'full'} alignItems={'center'}>
-              <Text fontSize={'sm'} fontWeight={'bold'}>
-                {repost.originalPost.name}
-              </Text>
-              <Image src="/verified.png" w={4} h={4} ml={1} />
               <Text
-                fontSize={'sm'}
-                color={'blue.300'}
-                ml={2}
                 cursor={'pointer'}
-                textDecoration={'none'}
-                _hover={{ textDecoration: 'underline' }}
+                fontSize={'sm'}
+                fontWeight={'bold'}
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate(`/${repost.originalPost.username}`)
+                }}
               >
-                Follow
+                {repost.originalPost.name}
               </Text>
             </Flex>
           </Flex>

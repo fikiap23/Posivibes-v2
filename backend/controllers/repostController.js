@@ -30,6 +30,7 @@ const repostPost = async (req, res) => {
       repostedBy: {
         userId: user._id,
         name: user.name, // Mengambil nama pengguna dari database pengguna
+        username: user.username, // Mengambil nama pengguna dari database pengguna
         profilePic: user.profilePic, // Mengambil URL gambar profil dari database pengguna
       },
       originalPost: {

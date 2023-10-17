@@ -6,6 +6,7 @@ const repostedBySchema = {
     ref: 'User',
   },
   name: String, // Nama pengguna yang melakukan repost
+  username: String, // Nama pengguna yang melakukan repost
   profilePic: String, // Gambar profil pengguna yang melakukan repost
 }
 
