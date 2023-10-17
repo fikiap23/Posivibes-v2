@@ -63,9 +63,10 @@ const getRepostsByFollowedUsers = async (req, res) => {
     const currentUser = await User.findById(userId)
     const followedUsers = currentUser.following
 
-    // Cari semua reposts yang dibuat oleh pengguna dalam daftar pengguna yang diikuti
+    // Cari semua reposts yang dibuat oleh pengguna dalam daftar pengguna yang diikuti,
+    // termasuk repost yang dibuat oleh pengguna saat ini
     const reposts = await Repost.find({
-      'repostedBy.userId': { $in: followedUsers },
+      'repostedBy.userId': { $in: [...followedUsers, userId] },
     })
 
     // Anda dapat mengirimkan daftar reposts ke klien atau melakukan operasi lain sesuai kebutuhan

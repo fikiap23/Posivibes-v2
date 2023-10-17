@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Avatar, Box, Divider, Flex, Icon, Text } from '@chakra-ui/react'
+
 import { BiRepost } from 'react-icons/bi'
 import { BsThreeDots } from 'react-icons/bs'
 
-const RepostCardHeader = ({ user, text, usernameOriginPost }) => {
+const RepostCardHeader = ({ user, text, usernameOriginPost, postDate }) => {
   return (
     <Box mt={2}>
       <Flex alignItems={'center'} justifyContent={'space-between'}>
@@ -13,8 +14,10 @@ const RepostCardHeader = ({ user, text, usernameOriginPost }) => {
             {user.name}
           </Text>
           <Icon as={BiRepost} />
+          <Text>Repost</Text>
           <Text
-            color="grey"
+            mb={1}
+            color="blue"
             fontFamily={'cursive'}
             fontSize={{
               base: 'sm',
@@ -28,14 +31,14 @@ const RepostCardHeader = ({ user, text, usernameOriginPost }) => {
 
         <Flex gap={4} alignItems={'center'}>
           <Text fontStyle={'sm'} color={'gray.light'}>
-            1d
+            {postDate} ago
           </Text>
           <BsThreeDots />
         </Flex>
       </Flex>
 
       <Box mt={2}>
-        <Text fontSize={'sm'} color="blackAlpha.800">
+        <Text fontSize={'md'} color="blackAlpha.800">
           {text}
         </Text>
       </Box>

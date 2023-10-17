@@ -3,12 +3,12 @@
 import { Avatar } from '@chakra-ui/avatar'
 import { Image } from '@chakra-ui/image'
 import { Box, Flex, Text } from '@chakra-ui/layout'
-import { BsThreeDots } from 'react-icons/bs'
 
 import { Button, useColorMode } from '@chakra-ui/react'
 
 import { Link } from 'react-router-dom'
 import RepostCardHeader from '../Reactions/RepostCardHeader'
+import { formatDistanceToNow } from 'date-fns'
 
 const RepostCard = ({ repost }) => {
   const { colorMode } = useColorMode()
@@ -19,15 +19,16 @@ const RepostCard = ({ repost }) => {
         gap={3}
         mb={4}
         py={5}
-        bg="white"
         color="black"
         px={4}
         borderRadius={6}
+        bg="white"
       >
         <RepostCardHeader
           user={repost.repostedBy}
           text={repost.repostText}
           usernameOriginPost={repost.originalPost.username}
+          postDate={formatDistanceToNow(new Date(repost.updatedAt))}
         />
 
         <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2} mt={2}>
@@ -52,13 +53,6 @@ const RepostCard = ({ repost }) => {
               >
                 Follow
               </Text>
-            </Flex>
-
-            <Flex gap={4} alignItems={'center'}>
-              <Text fontStyle={'sm'} color={'gray.light'}>
-                1d
-              </Text>
-              <BsThreeDots />
             </Flex>
           </Flex>
         </Flex>
