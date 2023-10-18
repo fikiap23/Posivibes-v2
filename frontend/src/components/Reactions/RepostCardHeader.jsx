@@ -4,8 +4,9 @@ import { Avatar, Box, Divider, Flex, Icon, Text } from '@chakra-ui/react'
 import { BiRepost } from 'react-icons/bi'
 import { BsThreeDots } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
+import ShowCardProfile from './ShowCardProfile'
 
-const RepostCardHeader = ({ user, text, usernameOriginPost, postDate }) => {
+const RepostCardHeader = ({ user, originalUser, postDate, repostText }) => {
   const navigate = useNavigate()
   return (
     <Box mt={2}>
@@ -23,12 +24,13 @@ const RepostCardHeader = ({ user, text, usernameOriginPost, postDate }) => {
           >
             {user.name}
           </Text>
-          <Icon as={BiRepost} />
-          <Text>Repost</Text>
+          <ShowCardProfile user={user} />
+          <Icon as={BiRepost} boxSize={6} />
+
           <Text
             onClick={(e) => {
               e.preventDefault()
-              navigate(`/${usernameOriginPost}`)
+              navigate(`/${originalUser.username}`)
             }}
             cursor={'pointer'}
             mb={1}
@@ -40,7 +42,7 @@ const RepostCardHeader = ({ user, text, usernameOriginPost, postDate }) => {
               lg: 'lg',
             }}
           >
-            @{usernameOriginPost}
+            @{originalUser.username}
           </Text>
         </Flex>
 
@@ -54,7 +56,7 @@ const RepostCardHeader = ({ user, text, usernameOriginPost, postDate }) => {
 
       <Box mt={2}>
         <Text fontSize={'md'} color="blackAlpha.800">
-          {text}
+          {repostText}
         </Text>
       </Box>
 

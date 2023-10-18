@@ -20,12 +20,15 @@ const useFollowUnfollow = (user) => {
 
     setUpdating(true)
     try {
-      const res = await fetch(`/v1/api/users/follow/${user._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      const res = await fetch(
+        `/v1/api/users/follow/${user._id ? user._id : user.userId}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
       const data = await res.json()
       if (data.error) {
         showToast('Error', data.error, 'error')

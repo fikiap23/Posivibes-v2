@@ -11,6 +11,9 @@ const repostedBySchema = {
   username: {
     type: String,
   }, // Nama pengguna yang melakukan repost
+  bio: {
+    type: String,
+  },
   profilePic: {
     type: String,
   }, // Gambar profil pengguna yang melakukan repost
@@ -55,6 +58,9 @@ const originalPostSchema = {
     username: {
       type: String,
     }, // Nama pengguna asal yang melakukan post asli
+    bio: {
+      type: String,
+    },
     profilePic: {
       type: String,
     }, // Gambar profil pengguna asal yang melakukan post asli
@@ -78,9 +84,7 @@ const repostSchema = mongoose.Schema(
     repostedBy: repostedBySchema,
     originalPost: originalPostSchema,
     repostText: {
-      type: {
-        type: String,
-      }, // Teks komentar
+      type: String, // Teks komentar
     },
   },
   {

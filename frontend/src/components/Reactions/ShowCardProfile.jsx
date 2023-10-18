@@ -34,7 +34,6 @@ export default function ShowCardProfile({ user }) {
       <Text
         fontSize={'sm'}
         color={'blue.300'}
-        ml={2}
         cursor={'pointer'}
         textDecoration={'none'}
         _hover={{ textDecoration: 'underline' }}

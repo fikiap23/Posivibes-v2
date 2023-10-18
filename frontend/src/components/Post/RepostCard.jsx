@@ -9,6 +9,7 @@ import { Button, useColorMode } from '@chakra-ui/react'
 import { Link, useNavigate } from 'react-router-dom'
 import RepostCardHeader from '../Reactions/RepostCardHeader'
 import { formatDistanceToNow } from 'date-fns'
+import ShowCardProfile from '../Reactions/ShowCardProfile'
 
 const RepostCard = ({ repost }) => {
   const { colorMode } = useColorMode()
@@ -27,35 +28,37 @@ const RepostCard = ({ repost }) => {
       >
         <RepostCardHeader
           user={repost.repostedBy}
-          text={repost.repostText}
-          usernameOriginPost={repost.originalPost.username}
-          postDate={formatDistanceToNow(new Date(repost.updatedAt))}
+          originalUser={repost.originalPost.user}
+          postDate={formatDistanceToNow(new Date(repost.createdAt))}
+          repostText={repost.repostText}
         />
 
         <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2} mt={2}>
           <Avatar
             cursor={'pointer'}
             size="md"
-            name={repost.originalPost.name}
-            src={repost.originalPost.profilePic}
+            name={repost.originalPost.user.name}
+            src={repost.originalPost.user.profilePic}
             onClick={(e) => {
               e.preventDefault()
-              navigate(`/${repost.originalPost.username}`)
+              navigate(`/${repost.originalPost.user.username}`)
             }}
           />
           <Flex justifyContent={'space-between'} w={'full'}>
             <Flex w={'full'} alignItems={'center'}>
               <Text
+                mr={2}
                 cursor={'pointer'}
                 fontSize={'sm'}
                 fontWeight={'bold'}
                 onClick={(e) => {
                   e.preventDefault()
-                  navigate(`/${repost.originalPost.username}`)
+                  navigate(`/${repost.originalPost.user.username}`)
                 }}
               >
-                {repost.originalPost.name}
+                {repost.originalPost.user.name}
               </Text>
+              <ShowCardProfile user={repost.originalPost.user} />
             </Flex>
           </Flex>
         </Flex>
@@ -64,27 +67,31 @@ const RepostCard = ({ repost }) => {
             fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
             fontWeight={'bold'}
           >
-            {repost.originalPost.title}
+            {repost.originalPost.post.title}
           </Text>
 
-          {repost.originalPost.imgPost && (
+          {repost.originalPost.post.imgPost && (
             <Box
               borderRadius={6}
               overflow={'hidden'}
               border={'1px solid'}
               borderColor={'gray.light'}
             >
-              <Image src={repost.originalPost.imgPost} alt={''} w={'full'} />
+              <Image
+                src={repost.originalPost.post.imgPost}
+                alt={''}
+                w={'full'}
+              />
             </Box>
           )}
           <Text fontSize={{ base: 'sm', md: 'md' }}>
             {' '}
-            {repost.originalPost.text}
+            {repost.originalPost.post.text}
           </Text>
 
           <Flex gap={2} alignItems={'center'} justifyContent={'space-between'}>
             <Link
-              to={`/${repost.originalPost.username}/post/${repost.originalPost.postId}`}
+              to={`/${repost.originalPost.user.username}/post/${repost.originalPost.post.postId}`}
             >
               <Button
                 bg={'gray.light'}
