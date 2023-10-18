@@ -85,5 +85,31 @@ const getRepostsByFollowedUsers = async (req, res) => {
     console.log(err)
   }
 }
+const deleteRepost = async (req, res) => {
+  try {
+    // Find the repost by ID
+    const repost = await Repost.findById(req.params.id)
 
-export { repostPost, getRepostsByFollowedUsers }
+    // Check if the repost exists
+    if (!repost) {
+      return res.status(404).json({ error: 'Repost not found' })
+    }
+
+    // Check if the user is authorized to delete the repost (e.g., only the original poster or an admin)
+    if (req.user._id.toString() !== repost.repostedBy.userId.toString()) {
+      return res
+        .status(401)
+        .json({ error: 'You are not authorized to delete this repost' })
+    }
+
+    // Delete the repost
+    await Repost.findByIdAndDelete(req.params.id)
+
+    res.status(200).json({ message: 'Repost deleted successfully' })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+    console.log(err)
+  }
+}
+
+export { repostPost, getRepostsByFollowedUsers, deleteRepost }
