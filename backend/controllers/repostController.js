@@ -43,7 +43,7 @@ const repostPost = async (req, res) => {
           text: postToRepost.text,
         },
         user: {
-          userId: postedBy,
+          userId: OriginPostUser,
           name: OriginPostUser.name,
           username: OriginPostUser.username,
           profilePic: OriginPostUser.profilePic,
