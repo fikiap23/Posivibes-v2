@@ -32,16 +32,24 @@ const repostPost = async (req, res) => {
         name: user.name, // Mengambil nama pengguna dari database pengguna
         username: user.username, // Mengambil nama pengguna dari database pengguna
         profilePic: user.profilePic, // Mengambil URL gambar profil dari database pengguna
+        followers: user.followers,
+        following: user.following,
       },
       originalPost: {
-        postId: id,
-        title: postToRepost.title,
-        imgPost: postToRepost.img,
-        text: postToRepost.text,
-        userId: postToRepost.postedBy, // ID pengguna asal
-        name: OriginPostUser.name, // Nama pengguna asal
-        username: OriginPostUser.username, // Nama pengguna asal
-        profilePic: OriginPostUser.profilePic, // Gambar profil pengguna asal
+        post: {
+          postId: id,
+          title: postToRepost.title,
+          imgPost: postToRepost.img,
+          text: postToRepost.text,
+        },
+        user: {
+          userId: postedBy,
+          name: OriginPostUser.name,
+          username: OriginPostUser.username,
+          profilePic: OriginPostUser.profilePic,
+          followers: OriginPostUser.followers,
+          following: OriginPostUser.following,
+        },
       },
       repostText: text, // Teks komentar
     })
