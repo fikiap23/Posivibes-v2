@@ -22,10 +22,11 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import useFollowUnfollow from '../../hooks/useFollowUnfollow'
+import { ImProfile } from 'react-icons/im'
 
 export default function ShowCardProfile({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  //   console.log('user', user)
+  // console.log('user', user)
   const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
   const navigate = useNavigate()
   return (
@@ -33,13 +34,12 @@ export default function ShowCardProfile({ user }) {
       <Text
         fontSize={'sm'}
         color={'blue.300'}
-        ml={2}
         cursor={'pointer'}
         textDecoration={'none'}
         _hover={{ textDecoration: 'underline' }}
         onClick={onOpen}
       >
-        {following ? 'Unfollow' : 'Follow'}
+        <ImProfile />
       </Text>
 
       <Modal isOpen={isOpen} onClose={onClose}>

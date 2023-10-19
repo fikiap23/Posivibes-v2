@@ -6,7 +6,7 @@ import { Box, Flex, Text } from '@chakra-ui/layout'
 import { BsThreeDots } from 'react-icons/bs'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { FaRegComment } from 'react-icons/fa6'
-import { BiRepost } from 'react-icons/bi'
+
 import { PiShareFat } from 'react-icons/pi'
 import { Link } from 'react-router-dom'
 import { Button, useColorMode } from '@chakra-ui/react'
@@ -23,6 +23,7 @@ import userAtom from '../../atoms/userAtom'
 import postsAtom from '../../atoms/postsAtom'
 import CreateComent from '../Reactions/CreateComent'
 import ShowCardProfile from '../Reactions/ShowCardProfile'
+import CreateRepost from '../Reactions/CreateRepost'
 
 const Post = ({ post, postedBy }) => {
   const { colorMode } = useColorMode()
@@ -31,7 +32,7 @@ const Post = ({ post, postedBy }) => {
   const showToast = useShowToast()
   const currentUser = useRecoilValue(userAtom)
   const navigate = useNavigate()
-  const [liked, setLiked] = useState(post.likes.includes(currentUser?._id))
+  const [liked, setLiked] = useState(post.likes?.includes(currentUser?._id))
   const [posts, setPosts] = useRecoilState(postsAtom)
   const [isLiking, setIsLiking] = useState(false)
 
@@ -40,8 +41,9 @@ const Post = ({ post, postedBy }) => {
       try {
         const res = await fetch('/v1/api/users/profile/' + postedBy)
         const data = await res.json()
+        console.log(postedBy)
         if (data.error) {
-          showToast('Error', data.error, 'error')
+          // showToast('Error', data.error, 'error')
           return
         }
         setUser(data)
@@ -156,7 +158,7 @@ const Post = ({ post, postedBy }) => {
               >
                 {user.name}
               </Text>
-              <Image src="/verified.png" w={4} h={4} ml={1} />
+
               <ShowCardProfile user={user} />
             </Flex>
 
@@ -234,7 +236,7 @@ const Post = ({ post, postedBy }) => {
                 />
                 <Text>{post.replies.length}</Text>
               </Flex>
-              <BiRepost className="w-6 h-6  cursor-pointer" />
+              <CreateRepost post={post} userPost={user} />
               <PiShareFat className="w-6 h-6  cursor-pointer" />
             </Flex>
           </Flex>

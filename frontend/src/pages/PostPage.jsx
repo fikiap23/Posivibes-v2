@@ -12,7 +12,6 @@ import {} from 'react-icons/bs'
 import { useEffect, useState } from 'react'
 import Comment from '../components/Reactions/Comment'
 
-import Repost from '../components/Reactions/Repost'
 import {
   Button,
   Menu,
@@ -37,6 +36,7 @@ import { DeleteIcon } from '@chakra-ui/icons'
 import CreateComent from '../components/Reactions/CreateComent'
 import ShowLikes from '../components/Reactions/ShowLikes'
 import ShowCardProfile from '../components/Reactions/ShowCardProfile'
+import Repost from '../components/Reactions/Repost'
 
 const PostPage = () => {
   const [isLiking, setIsLiking] = useState(false)

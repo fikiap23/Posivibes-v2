@@ -113,7 +113,7 @@ const CreatePost = () => {
         <Text>Create Post</Text>
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={'2xl'}>
         <ModalOverlay />
 
         <ModalContent>
