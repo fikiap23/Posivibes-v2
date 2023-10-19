@@ -29,29 +29,10 @@ const repostPost = async (req, res) => {
     const newRepost = new Repost({
       repostedBy: {
         userId: user._id,
-        name: user.name, // Mengambil nama pengguna dari database pengguna
-        username: user.username, // Mengambil nama pengguna dari database pengguna
-        bio: user.bio,
-        profilePic: user.profilePic, // Mengambil URL gambar profil dari database pengguna
-        followers: user.followers,
-        following: user.following,
       },
       originalPost: {
-        post: {
-          postId: id,
-          title: postToRepost.title,
-          imgPost: postToRepost.img,
-          text: postToRepost.text,
-        },
-        user: {
-          userId: OriginPostUser,
-          name: OriginPostUser.name,
-          username: OriginPostUser.username,
-          bio: OriginPostUser.bio,
-          profilePic: OriginPostUser.profilePic,
-          followers: OriginPostUser.followers,
-          following: OriginPostUser.following,
-        },
+        postId: postToRepost._id,
+        userId: OriginPostUser._id,
       },
       repostText: text, // Teks komentar
     })
@@ -68,29 +49,6 @@ const repostPost = async (req, res) => {
   }
 }
 
-// Fungsi untuk memperbarui entri "Repost" berdasarkan perubahan profil pengguna yang diikuti
-const updateRepostsForFollowedUsers = async (userId) => {
-  try {
-    // Temukan dan perbarui entri "Repost" yang terkait dengan pengguna yang diikuti.
-    const user = await User.findById(userId)
-    await Repost.updateMany(
-      { 'repostedBy.userId': userId }, // Temukan entri Repost yang terkait dengan pengguna yang diupdate profilnya
-      {
-        $set: {
-          'repostedBy.name': user.name,
-          'repostedBy.username': user.username,
-          'repostedBy.bio': user.bio,
-          'repostedBy.profilePic': user.profilePic,
-          'repostedBy.followers': user.followers,
-          'repostedBy.following': user.following,
-        },
-      }
-    )
-  } catch (err) {
-    console.error('Error updating Reposts:', err)
-  }
-}
-
 const getRepostsByFollowedUsers = async (req, res) => {
   try {
     const userId = req.user._id // ID pengguna saat ini
@@ -103,9 +61,6 @@ const getRepostsByFollowedUsers = async (req, res) => {
     const reposts = await Repost.find({
       'repostedBy.userId': { $in: [...followedUsers, userId] },
     })
-
-    // Memperbarui entri "Repost" untuk semua pengguna yang diikuti
-    await updateRepostsForFollowedUsers(userId)
 
     // Anda dapat mengirimkan daftar reposts ke klien atau melakukan operasi lain sesuai kebutuhan
     res.status(200).json(reposts)

@@ -26,7 +26,7 @@ import { ImProfile } from 'react-icons/im'
 
 export default function ShowCardProfile({ user }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  //   console.log('user', user)
+  // console.log('user', user)
   const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
   const navigate = useNavigate()
   return (
