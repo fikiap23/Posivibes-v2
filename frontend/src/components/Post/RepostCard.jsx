@@ -4,17 +4,73 @@ import { Avatar } from '@chakra-ui/avatar'
 import { Image } from '@chakra-ui/image'
 import { Box, Flex, Text } from '@chakra-ui/layout'
 
-import { Button, useColorMode } from '@chakra-ui/react'
+import { Button, Spinner, useColorMode } from '@chakra-ui/react'
 
 import { Link, useNavigate } from 'react-router-dom'
 import RepostCardHeader from '../Reactions/RepostCardHeader'
 import { formatDistanceToNow } from 'date-fns'
 import ShowCardProfile from '../Reactions/ShowCardProfile'
+import { useEffect, useState } from 'react'
+import useShowToast from '../../hooks/useShowToast'
 
 const RepostCard = ({ repost }) => {
   const { colorMode } = useColorMode()
   const navigate = useNavigate()
+  const [user, setUser] = useState(null)
+  const [userOrigin, setUserOrigin] = useState(null)
+  const [post, setPost] = useState(null)
+  const [loading, setLoading] = useState(true)
 
+  const showToast = useShowToast()
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const resDataUser = await fetch(
+          `/v1/api/users/profile/${repost.repostedBy.userId}`
+        )
+
+        const resDataUserOrigin = await fetch(
+          `/v1/api/users/profile/${repost.originalPost.userId}`
+        )
+
+        const res = await fetch(`/v1/api/posts/${repost.originalPost.postId}`)
+        const data = await res.json()
+        if (data.error) {
+          showToast('Error', data.error, 'error')
+          return
+        }
+
+        const dataUser = await resDataUser.json()
+        const dataUserOrigin = await resDataUserOrigin.json()
+        if (dataUser.error) {
+          showToast('Error', dataUser.error, 'error')
+          return
+        }
+
+        setUser(dataUser)
+        setUserOrigin(dataUserOrigin)
+        setPost(data)
+      } catch (error) {
+        showToast('Error', error.message, 'error')
+      } finally {
+        setLoading(false)
+      }
+    }
+    getUser()
+  }, [
+    showToast,
+    repost.repostedBy.userId,
+    repost.originalPost.userId,
+    repost.originalPost.postId,
+  ])
+
+  if (!user && !userOrigin && !post && loading) {
+    return (
+      <Flex justifyContent={'center'}>
+        <Spinner size={'xl'} />
+      </Flex>
+    )
+  }
   return (
     <>
       <Box
@@ -27,21 +83,22 @@ const RepostCard = ({ repost }) => {
         bg="white"
       >
         <RepostCardHeader
-          user={repost.repostedBy}
-          originalUser={repost.originalPost.user}
+          user={user}
+          originalUser={userOrigin}
           postDate={formatDistanceToNow(new Date(repost.createdAt))}
           repostText={repost.repostText}
+          repostId={repost._id}
         />
 
         <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2} mt={2}>
           <Avatar
             cursor={'pointer'}
             size="md"
-            name={repost.originalPost.user.name}
-            src={repost.originalPost.user.profilePic}
+            name={userOrigin.name}
+            src={userOrigin.profilePic}
             onClick={(e) => {
               e.preventDefault()
-              navigate(`/${repost.originalPost.user.username}`)
+              navigate(`/${userOrigin.username}`)
             }}
           />
           <Flex justifyContent={'space-between'} w={'full'}>
@@ -53,12 +110,12 @@ const RepostCard = ({ repost }) => {
                 fontWeight={'bold'}
                 onClick={(e) => {
                   e.preventDefault()
-                  navigate(`/${repost.originalPost.user.username}`)
+                  navigate(`/${userOrigin.username}`)
                 }}
               >
-                {repost.originalPost.user.name}
+                {userOrigin.name}
               </Text>
-              <ShowCardProfile user={repost.originalPost.user} />
+              <ShowCardProfile user={userOrigin} />
             </Flex>
           </Flex>
         </Flex>
@@ -67,32 +124,23 @@ const RepostCard = ({ repost }) => {
             fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
             fontWeight={'bold'}
           >
-            {repost.originalPost.post.title}
+            {post.title}
           </Text>
 
-          {repost.originalPost.post.imgPost && (
+          {post.img && (
             <Box
               borderRadius={6}
               overflow={'hidden'}
               border={'1px solid'}
               borderColor={'gray.light'}
             >
-              <Image
-                src={repost.originalPost.post.imgPost}
-                alt={''}
-                w={'full'}
-              />
+              <Image src={post.img} alt={''} w={'full'} />
             </Box>
           )}
-          <Text fontSize={{ base: 'sm', md: 'md' }}>
-            {' '}
-            {repost.originalPost.post.text}
-          </Text>
+          <Text fontSize={{ base: 'sm', md: 'md' }}> {post.text}</Text>
 
           <Flex gap={2} alignItems={'center'} justifyContent={'space-between'}>
-            <Link
-              to={`/${repost.originalPost.user.username}/post/${repost.originalPost.post.postId}`}
-            >
+            <Link to={`/${userOrigin.username}/post/${post._id}`}>
               <Button
                 bg={'gray.light'}
                 color={colorMode === 'dark' ? 'white' : 'white'}

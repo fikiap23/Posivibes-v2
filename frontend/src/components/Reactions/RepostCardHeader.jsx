@@ -1,13 +1,44 @@
 /* eslint-disable react/prop-types */
+import { DeleteIcon } from '@chakra-ui/icons'
 import { Avatar, Box, Divider, Flex, Icon, Text } from '@chakra-ui/react'
 
 import { BiRepost } from 'react-icons/bi'
 import { BsThreeDots } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import userAtom from '../../atoms/userAtom'
+import useShowToast from '../../hooks/useShowToast'
 import ShowCardProfile from './ShowCardProfile'
 
-const RepostCardHeader = ({ user, originalUser, postDate, repostText }) => {
+const RepostCardHeader = ({
+  user,
+  originalUser,
+  postDate,
+  repostText,
+  repostId,
+}) => {
   const navigate = useNavigate()
+  const showToast = useShowToast()
+  const currentUser = useRecoilValue(userAtom)
+
+  const handleDeletePost = async () => {
+    try {
+      if (!window.confirm('Are you sure you want to delete this post?')) return
+
+      const res = await fetch(`/v1/api/reposts/${repostId}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json()
+      if (data.error) {
+        showToast('Error', data.error, 'error')
+        return
+      }
+      showToast('Success', 'Post deleted', 'success')
+      window.location.reload()
+    } catch (error) {
+      showToast('Error', error.message, 'error')
+    }
+  }
   return (
     <Box mt={2}>
       <Flex alignItems={'center'} justifyContent={'space-between'}>
@@ -50,6 +81,13 @@ const RepostCardHeader = ({ user, originalUser, postDate, repostText }) => {
           <Text fontStyle={'sm'} color={'gray.light'}>
             {postDate} ago
           </Text>
+          {currentUser?._id === user._id && (
+            <DeleteIcon
+              size={20}
+              cursor={'pointer'}
+              onClick={handleDeletePost}
+            />
+          )}
           <BsThreeDots />
         </Flex>
       </Flex>
