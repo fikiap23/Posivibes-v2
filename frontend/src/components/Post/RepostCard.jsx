@@ -36,14 +36,12 @@ const RepostCard = ({ repost }) => {
         const res = await fetch(`/v1/api/posts/${repost.originalPost.postId}`)
         const data = await res.json()
         if (data.error) {
-          showToast('Error', data.error, 'error')
           return
         }
 
         const dataUser = await resDataUser.json()
         const dataUserOrigin = await resDataUserOrigin.json()
         if (dataUser.error) {
-          showToast('Error', dataUser.error, 'error')
           return
         }
 
@@ -71,6 +69,10 @@ const RepostCard = ({ repost }) => {
       </Flex>
     )
   }
+
+  if (post === null || userOrigin === null) {
+    return <div></div>
+  }
   return (
     <>
       <Box
@@ -89,7 +91,7 @@ const RepostCard = ({ repost }) => {
           repostText={repost.repostText}
           repostId={repost._id}
         />
-
+        {userOrigin != null}
         <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2} mt={2}>
           <Avatar
             cursor={'pointer'}
