@@ -1,4 +1,5 @@
 import User from '../models/userModel.js'
+import Post from '../models/postModel.js'
 import bcrypt from 'bcryptjs'
 import generateTokenAndSetCookie from '../utils/helpers/generateTokenAndSetCookie.js'
 import mongoose from 'mongoose'
@@ -156,6 +157,20 @@ const updateUser = async (req, res) => {
     user.bio = bio || user.bio
 
     user = await user.save()
+
+    // update semua replies jika user mengganti username
+    await Post.updateMany(
+      { 'replies.userId': userId },
+      {
+        $set: {
+          'replies.$[reply].username': user.username,
+          'replies.$[reply].profilePic': user.profilePic,
+        },
+      },
+      {
+        arrayFilters: [{ 'reply.userId': userId }],
+      }
+    )
 
     // password should be null in response
     user.password = null
