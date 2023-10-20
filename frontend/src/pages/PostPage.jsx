@@ -173,7 +173,7 @@ const PostPage = () => {
               }}
             />
             <Flex justifyContent={'space-between'} w={'full'}>
-              <Flex w={'full'} alignItems={'center'}>
+              <Flex w={'full'} alignItems={'center'} gap={2}>
                 <Text
                   cursor={'pointer'}
                   fontSize={'sm'}
@@ -185,7 +185,7 @@ const PostPage = () => {
                 >
                   {user.name}
                 </Text>
-                <Image src="/verified.png" w={4} h={4} ml={1} />
+
                 <ShowCardProfile user={user} />
               </Flex>
 

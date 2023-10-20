@@ -21,11 +21,16 @@ const ShowLikes = ({ postId }) => {
 
     fetchLikes()
   }, [postId])
-  //   console.log(likes)
+  console.log(likes)
   return (
     <>
       {likes.map((like, index) => (
-        <ListLikes key={index} name={like.name} img={like.profilePic} />
+        <ListLikes
+          key={index}
+          name={like.name}
+          img={like.profilePic}
+          username={like.username}
+        />
       ))}
     </>
   )

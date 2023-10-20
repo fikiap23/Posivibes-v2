@@ -237,7 +237,7 @@ const getLikes = async (req, res) => {
 
     const post = await Post.findById(postId).populate(
       'likes',
-      'name profilePic'
+      'name profilePic username'
     )
 
     if (!post) {
