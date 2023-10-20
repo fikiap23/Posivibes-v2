@@ -146,7 +146,7 @@ const Post = ({ post, postedBy }) => {
             }}
           />
           <Flex justifyContent={'space-between'} w={'full'}>
-            <Flex w={'full'} alignItems={'center'}>
+            <Flex w={'full'} alignItems={'center'} gap={2}>
               <Text
                 cursor={'pointer'}
                 fontSize={'sm'}
