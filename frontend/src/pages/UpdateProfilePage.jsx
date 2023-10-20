@@ -18,6 +18,7 @@ import { useRecoilState } from 'recoil'
 import userAtom from '../atoms/userAtom'
 import useShowToast from '../hooks/useShowToast'
 import usePreviewImg from '../hooks/usePreviewImg'
+import { useNavigate } from 'react-router-dom'
 
 export default function UpdateProfilePage() {
   const [user, setUser] = useRecoilState(userAtom)
@@ -31,6 +32,7 @@ export default function UpdateProfilePage() {
   //   console.log(user)
   const fileRef = useRef(null)
   const [updating, setUpdating] = useState(false)
+  const navigate = useNavigate()
 
   const showToast = useShowToast()
 
@@ -59,6 +61,7 @@ export default function UpdateProfilePage() {
       showToast('Error', error, 'error')
     } finally {
       setUpdating(false)
+      navigate(`/${user.username}`)
     }
   }
   return (

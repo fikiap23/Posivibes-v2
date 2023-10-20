@@ -14,7 +14,7 @@ const HomePage = () => {
 
   const [loading, setLoading] = useState(true)
   const showToast = useShowToast()
-  console.log(posts)
+  // console.log(posts)
 
   useEffect(() => {
     const getFeedPosts = async () => {
