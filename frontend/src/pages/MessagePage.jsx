@@ -8,20 +8,26 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
-import Message from './Message'
-import MessageInput from './MessageInput'
-
-const MessageContainer = () => {
+import { IoArrowBackOutline } from 'react-icons/io5'
+import { Link } from 'react-router-dom'
+import Message from '../components/Chats/Message'
+import MessageInput from '../components/Chats/MessageInput'
+const MessagePage = () => {
   return (
     <Flex
       bg={useColorModeValue('gray.200', 'gray.dark')}
       borderRadius={'md'}
       p={2}
       flexDirection={'column'}
+      w={{ base: '100%', md: '60%' }}
+      mx={'auto'}
     >
       {/* Message header */}
       <Flex w={'full'} h={12} alignItems={'center'} gap={2}>
-        <Avatar src={'/fiki1.jpg'} size={'sm'} />
+        <Link to={'/chat'}>
+          <IoArrowBackOutline />
+        </Link>
+        <Avatar src={'/fiki1.jpg'} size={'sm'} ml={1} />
         <Text display={'flex'} alignItems={'center'}>
           Fiki Aprian <Image src="/verified.png" w={4} h={4} ml={1} />
         </Text>
@@ -71,4 +77,4 @@ const MessageContainer = () => {
   )
 }
 
-export default MessageContainer
+export default MessagePage

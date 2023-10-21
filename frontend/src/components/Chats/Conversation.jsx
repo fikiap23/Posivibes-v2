@@ -8,8 +8,10 @@ import {
   WrapItem,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 
 const Conversation = () => {
+  const navigate = useNavigate()
   return (
     <Flex
       gap={4}
@@ -21,6 +23,9 @@ const Conversation = () => {
         color: 'white',
       }}
       borderRadius={'md'}
+      onClick={() => {
+        navigate('/message')
+      }}
     >
       <WrapItem>
         <Avatar

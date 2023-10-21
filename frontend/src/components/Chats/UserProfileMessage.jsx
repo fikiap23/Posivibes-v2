@@ -21,6 +21,8 @@ export default function UserProfileMessage() {
       rounded={'lg'}
       p={6}
       textAlign={'center'}
+      className="sticky top-0"
+      h={'80vh'}
     >
       <Avatar
         size={'xl'}
@@ -49,6 +51,7 @@ export default function UserProfileMessage() {
         textAlign={'center'}
         color={useColorModeValue('gray.700', 'gray.400')}
         px={3}
+        fontSize={'sm'}
       >
         Mahasiswa yang tertarik di bidang web development dan mobile development
       </Text>
