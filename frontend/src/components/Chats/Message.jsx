@@ -6,7 +6,7 @@ const Message = ({ ownMessage }) => {
     <>
       {ownMessage ? (
         <Flex gap={2} alignSelf={'flex-end'}>
-          <Text maxW={'350px'} bg={'blue.400'} p={1} borderRadius={'md'}>
+          <Text maxW={'550px'} bg={'blue.400'} borderRadius={'md'} p={2}>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </Text>
           <Avatar src="" w="7" h={7} />
@@ -16,9 +16,9 @@ const Message = ({ ownMessage }) => {
           <Avatar src="" w="7" h={7} />
 
           <Text
-            maxW={'350px'}
+            maxW={'550px'}
             bg={'gray.400'}
-            p={1}
+            p={2}
             borderRadius={'md'}
             color={'black'}
           >

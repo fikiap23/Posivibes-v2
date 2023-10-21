@@ -69,6 +69,13 @@ const MessageContainer = () => {
         <Message ownMessage={false} />
         <Message ownMessage={false} />
         <Message ownMessage={true} />
+        <Message ownMessage={true} />
+        <Message ownMessage={false} />
+        <Message ownMessage={false} />
+        <Message ownMessage={false} />
+        <Message ownMessage={false} />
+        <Message ownMessage={false} />
+        <Message ownMessage={true} />
       </Flex>
 
       <MessageInput />
