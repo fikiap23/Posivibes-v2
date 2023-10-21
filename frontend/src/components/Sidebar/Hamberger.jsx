@@ -101,6 +101,10 @@ const Hamberger = () => {
                 <Text>Activity</Text>
               </Flex>
               <Flex
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate(`/chat`)
+                }}
                 gap={4}
                 alignItems={'center'}
                 cursor={'pointer'}

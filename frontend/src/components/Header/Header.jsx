@@ -6,12 +6,14 @@ import { RxAvatar } from 'react-icons/rx'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import Hamberger from '../Sidebar/Hamberger'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi'
+import { BiHome } from 'react-icons/bi'
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const user = useRecoilValue(userAtom)
+  const navigate = useNavigate()
 
   return (
     <>
@@ -44,6 +46,21 @@ const Header = () => {
           mb={6}
           justifyContent={{ sm: 'space-between', md: 'space-evenly' }}
         >
+          <Flex
+            onClick={(e) => {
+              e.preventDefault()
+              navigate(`/`)
+            }}
+            gap={4}
+            alignItems={'center'}
+            cursor={'pointer'}
+            _hover={
+              colorMode === 'light' ? { bg: 'gray.200' } : { bg: 'gray.700' }
+            }
+            padding={'2'}
+          >
+            <BiHome size={30} />
+          </Flex>
           <Image
             src={colorMode === 'dark' ? '/light-logo.svg' : '/dark-logo.svg'}
             cursor={'pointer'}
