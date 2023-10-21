@@ -8,6 +8,8 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { IoArrowBackOutline } from 'react-icons/io5'
+import { Link } from 'react-router-dom'
 import Message from './Message'
 import MessageInput from './MessageInput'
 
@@ -21,6 +23,9 @@ const MessageContainer = () => {
     >
       {/* Message header */}
       <Flex w={'full'} h={12} alignItems={'center'} gap={2}>
+        <Link to={'/chat'}>
+          <IoArrowBackOutline />
+        </Link>
         <Avatar src={'/fiki1.jpg'} size={'sm'} />
         <Text display={'flex'} alignItems={'center'}>
           Fiki Aprian <Image src="/verified.png" w={4} h={4} ml={1} />

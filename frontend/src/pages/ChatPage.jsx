@@ -38,7 +38,7 @@ const ChatPage = () => {
             <GiConversation size={100} />
             <Text fontSize={20}>Select a conversation to start messaging</Text>
           </Flex> */}
-          <Box w={'800px'} className="hidden md:block">
+          <Box w={{ md: '600px', lg: '800px' }} className="hidden md:block">
             <MessageContainer />
           </Box>
           <Box maxW={'400px'} className="hidden lg:block">
