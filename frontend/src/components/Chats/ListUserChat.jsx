@@ -11,8 +11,36 @@ import {
 } from '@chakra-ui/react'
 
 import Conversation from './Conversation'
+import { useEffect, useState } from 'react'
+import useShowToast from '../../hooks/useShowToast'
+import { useRecoilState } from 'recoil'
+import { conversationsAtom } from '../../atoms/messagesAtom'
 
 const ListUserChat = () => {
+  const showToast = useShowToast()
+  const [loadingConversations, setLoadingConversations] = useState(true)
+  const [conversations, setConversations] = useRecoilState(conversationsAtom)
+
+  useEffect(() => {
+    const getConversations = async () => {
+      try {
+        const res = await fetch('/v1/api/messages/conversations')
+        const data = await res.json()
+        if (data.error) {
+          showToast('Error', data.error, 'error')
+          return
+        }
+        console.log(data)
+        setConversations(data)
+      } catch (error) {
+        showToast('Error', error.message, 'error')
+      } finally {
+        setLoadingConversations(false)
+      }
+    }
+
+    getConversations()
+  }, [setConversations, showToast])
   return (
     <Flex
       gap={2}
@@ -37,7 +65,7 @@ const ListUserChat = () => {
         </Flex>
       </form>
 
-      {false &&
+      {loadingConversations &&
         [0, 1, 2, 3, 4].map((_, i) => (
           <Flex
             key={i}
@@ -56,27 +84,14 @@ const ListUserChat = () => {
           </Flex>
         ))}
 
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
-      <Conversation />
+      {!loadingConversations &&
+        conversations.map((conversation) => (
+          <Conversation
+            key={conversation._id}
+            // isOnline={onlineUsers.includes(conversation.participants[0]._id)}
+            conversation={conversation}
+          />
+        ))}
     </Flex>
   )
 }

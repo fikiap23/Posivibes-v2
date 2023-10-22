@@ -2,7 +2,6 @@ import {
   Avatar,
   Divider,
   Flex,
-  Image,
   Skeleton,
   SkeletonCircle,
   Text,
@@ -28,7 +27,7 @@ const MessageContainer = () => {
         </Link>
         <Avatar src={'/fiki1.jpg'} size={'sm'} />
         <Text display={'flex'} alignItems={'center'}>
-          Fiki Aprian <Image src="/verified.png" w={4} h={4} ml={1} />
+          Fiki Aprian
         </Text>
       </Flex>
 

@@ -42,7 +42,7 @@ const CreateRepost = ({ post, userPost }) => {
   const [posts, setPosts] = useRecoilState(repostsAtom)
   const { username } = useParams()
 
-  console.log(posts)
+  // console.log(posts)
 
   const handleTextChange = (e) => {
     const inputText = e.target.value

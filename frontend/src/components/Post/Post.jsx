@@ -41,7 +41,7 @@ const Post = ({ post, postedBy }) => {
       try {
         const res = await fetch('/v1/api/users/profile/' + postedBy)
         const data = await res.json()
-        console.log(postedBy)
+        // console.log(postedBy)
         if (data.error) {
           // showToast('Error', data.error, 'error')
           return
