@@ -1,29 +1,96 @@
 /* eslint-disable react/prop-types */
-import { Avatar, Flex, Text } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Image, Skeleton, Text } from '@chakra-ui/react'
+import { useState } from 'react'
+import { BsCheck2All } from 'react-icons/bs'
+import { useRecoilValue } from 'recoil'
+import { selectedConversationAtom } from '../../atoms/messagesAtom'
+import userAtom from '../../atoms/userAtom'
 
-const Message = ({ ownMessage }) => {
+const Message = ({ ownMessage, message }) => {
+  const selectedConversation = useRecoilValue(selectedConversationAtom)
+  const user = useRecoilValue(userAtom)
+  const [imgLoaded, setImgLoaded] = useState(false)
   return (
     <>
       {ownMessage ? (
         <Flex gap={2} alignSelf={'flex-end'}>
-          <Text maxW={'550px'} bg={'blue.400'} borderRadius={'md'} p={2}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </Text>
-          <Avatar src="" w="7" h={7} />
+          {message.text && (
+            <Flex bg={'blue.400'} maxW={'550px'} p={1} borderRadius={'md'}>
+              <Text color={'white'} p={1}>
+                {message.text}
+              </Text>
+              <Box
+                alignSelf={'flex-end'}
+                ml={1}
+                color={message.seen ? 'blue.400' : ''}
+                fontWeight={'bold'}
+              >
+                <BsCheck2All size={16} />
+              </Box>
+            </Flex>
+          )}
+          {message.img && !imgLoaded && (
+            <Flex mt={5} w={'200px'}>
+              <Image
+                src={message.img}
+                hidden
+                onLoad={() => setImgLoaded(true)}
+                alt="Message image"
+                borderRadius={4}
+              />
+              <Skeleton w={'200px'} h={'200px'} />
+            </Flex>
+          )}
+
+          {message.img && imgLoaded && (
+            <Flex mt={5} w={'200px'}>
+              <Image src={message.img} alt="Message image" borderRadius={4} />
+              <Box
+                alignSelf={'flex-end'}
+                ml={1}
+                color={message.seen ? 'blue.400' : ''}
+                fontWeight={'bold'}
+              >
+                <BsCheck2All size={16} />
+              </Box>
+            </Flex>
+          )}
+
+          <Avatar src={user.profilePic} w="7" h={7} />
         </Flex>
       ) : (
         <Flex gap={2}>
-          <Avatar src="" w="7" h={7} />
+          <Avatar src={selectedConversation.userProfilePic} w="7" h={7} />
 
-          <Text
-            maxW={'550px'}
-            bg={'gray.400'}
-            p={2}
-            borderRadius={'md'}
-            color={'black'}
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </Text>
+          {message.text && (
+            <Text
+              maxW={'550px'}
+              bg={'blue.100'}
+              p={2}
+              borderRadius={'md'}
+              color={'black'}
+            >
+              {message.text}
+            </Text>
+          )}
+          {message.img && !imgLoaded && (
+            <Flex mt={5} w={'200px'}>
+              <Image
+                src={message.img}
+                hidden
+                onLoad={() => setImgLoaded(true)}
+                alt="Message image"
+                borderRadius={4}
+              />
+              <Skeleton w={'200px'} h={'200px'} />
+            </Flex>
+          )}
+
+          {message.img && imgLoaded && (
+            <Flex mt={5} w={'200px'}>
+              <Image src={message.img} alt="Message image" borderRadius={4} />
+            </Flex>
+          )}
         </Flex>
       )}
     </>

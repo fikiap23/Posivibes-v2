@@ -8,17 +8,25 @@ import {
   WrapItem,
   useColorModeValue,
   Box,
+  useColorMode,
 } from '@chakra-ui/react'
 import { BsCheck2All, BsFillImageFill } from 'react-icons/bs'
-import { useNavigate } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
+
+import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
+import { selectedConversationAtom } from '../../atoms/messagesAtom'
 
 const Conversation = ({ conversation }) => {
   const user = conversation.participants[0]
-  const navigate = useNavigate()
+
   const currentUser = useRecoilValue(userAtom)
   const lastMessage = conversation.lastMessage
+  const [selectedConversation, setSelectedConversation] = useRecoilState(
+    selectedConversationAtom
+  )
+  const colorMode = useColorMode()
+  console.log(selectedConversation)
+
   return (
     <Flex
       gap={4}
@@ -29,10 +37,23 @@ const Conversation = ({ conversation }) => {
         bg: useColorModeValue('gray.600', 'gray.dark'),
         color: 'white',
       }}
+      onClick={() =>
+        setSelectedConversation({
+          _id: conversation._id,
+          userId: user._id,
+          userProfilePic: user.profilePic,
+          username: user.username,
+          mock: conversation.mock,
+        })
+      }
+      bg={
+        selectedConversation?._id === conversation._id
+          ? colorMode === 'light'
+            ? 'gray.400'
+            : 'gray.400'
+          : ''
+      }
       borderRadius={'md'}
-      onClick={() => {
-        navigate('/message')
-      }}
       justifyContent={'space-between'}
     >
       <Flex gap={3}>
@@ -67,9 +88,7 @@ const Conversation = ({ conversation }) => {
           </Text>
         </Stack>
       </Flex>
-      <Text fontSize={{ base: 'xs', md: '10px' }} color={'gray.light'}>
-        12:05 PM
-      </Text>
+      <Text fontSize={{ base: 'xs', md: '10px' }}>12:05 PM</Text>
     </Flex>
   )
 }

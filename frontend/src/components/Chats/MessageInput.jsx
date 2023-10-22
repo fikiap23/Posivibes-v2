@@ -4,7 +4,7 @@ import { IoSendSharp } from 'react-icons/io5'
 const MessageInput = () => {
   return (
     <form>
-      <InputGroup>
+      <InputGroup border={'1px solid gray'} w={'full'} borderRadius={'lg'}>
         <Input w={'full'} placeholder="Type a message" />
         <InputRightElement>
           <IoSendSharp />
