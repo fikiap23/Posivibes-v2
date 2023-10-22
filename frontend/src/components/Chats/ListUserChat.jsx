@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { SearchIcon } from '@chakra-ui/icons'
 import {
   Box,
@@ -16,7 +17,7 @@ import useShowToast from '../../hooks/useShowToast'
 import { useRecoilState } from 'recoil'
 import { conversationsAtom } from '../../atoms/messagesAtom'
 
-const ListUserChat = () => {
+const ListUserChat = ({ setCloseProfile }) => {
   const showToast = useShowToast()
   const [loadingConversations, setLoadingConversations] = useState(true)
   const [conversations, setConversations] = useRecoilState(conversationsAtom)
@@ -90,6 +91,7 @@ const ListUserChat = () => {
             key={conversation._id}
             // isOnline={onlineUsers.includes(conversation.participants[0]._id)}
             conversation={conversation}
+            setCloseProfile={setCloseProfile}
           />
         ))}
     </Flex>

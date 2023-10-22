@@ -2,6 +2,7 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 
 import { GiConversation } from 'react-icons/gi'
 import { useRecoilState } from 'recoil'
+import { AiOutlineClose } from 'react-icons/ai'
 import {
   conversationsAtom,
   selectedConversationAtom,
@@ -11,8 +12,10 @@ import ListUserChat from '../components/Chats/ListUserChat'
 
 import MessageContainer from '../components/Chats/MessageContainer'
 import UserProfileMessage from '../components/Chats/UserProfileMessage'
+import { useState } from 'react'
 
 const ChatPage = () => {
+  const [closeProfile, setCloseProfile] = useState(false)
   const [selectedConversation, setSelectedConversation] = useRecoilState(
     selectedConversationAtom
   )
@@ -33,7 +36,7 @@ const ChatPage = () => {
           mx={'auto'}
         >
           <Box maxW={'400px'}>
-            <ListUserChat />
+            <ListUserChat setCloseProfile={setCloseProfile} />
           </Box>
 
           {!selectedConversation._id && (
@@ -54,12 +57,31 @@ const ChatPage = () => {
             </Flex>
           )}
           {selectedConversation._id && (
-            <Box w={{ md: '600px', lg: '800px' }} className="hidden md:block">
+            <Box
+              w={{ md: '600px', lg: '90%' }}
+              maxW={'full'}
+              className="hidden md:block"
+            >
               <MessageContainer />
             </Box>
           )}
 
-          <Box maxW={'400px'} className="hidden lg:block">
+          <Box
+            maxW={'400px'}
+            className="hidden lg:block"
+            position={'relative'}
+            hidden={closeProfile}
+          >
+            <Box
+              position={'absolute'}
+              top={'2'}
+              right={'2'}
+              zIndex={99}
+              cursor={'pointer'}
+              onClick={() => setCloseProfile(true)}
+            >
+              <AiOutlineClose />
+            </Box>
             <UserProfileMessage />
           </Box>
         </Flex>

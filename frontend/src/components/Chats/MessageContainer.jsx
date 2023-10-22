@@ -60,7 +60,7 @@ const MessageContainer = () => {
       flexDirection={'column'}
     >
       {/* Message header */}
-      <Flex w={'full'} h={12} alignItems={'center'} gap={2}>
+      <Flex w={'full'} h={8} alignItems={'center'} gap={2}>
         <Link to={'/chat'}>
           <IoArrowBackOutline />
         </Link>
@@ -123,7 +123,7 @@ const MessageContainer = () => {
           ))}
       </Flex>
 
-      <MessageInput />
+      <MessageInput setMessages={setMessages} />
     </Flex>
   )
 }

@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import { selectedConversationAtom } from '../../atoms/messagesAtom'
 
-const Conversation = ({ conversation }) => {
+const Conversation = ({ conversation, setCloseProfile }) => {
   const user = conversation.participants[0]
 
   const currentUser = useRecoilValue(userAtom)
@@ -37,7 +37,8 @@ const Conversation = ({ conversation }) => {
         bg: useColorModeValue('gray.600', 'gray.dark'),
         color: 'white',
       }}
-      onClick={() =>
+      onClick={() => {
+        setCloseProfile(false)
         setSelectedConversation({
           _id: conversation._id,
           userId: user._id,
@@ -45,7 +46,7 @@ const Conversation = ({ conversation }) => {
           username: user.username,
           mock: conversation.mock,
         })
-      }
+      }}
       bg={
         selectedConversation?._id === conversation._id
           ? colorMode === 'light'
