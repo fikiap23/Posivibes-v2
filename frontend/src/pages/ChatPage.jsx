@@ -3,10 +3,7 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import { GiConversation } from 'react-icons/gi'
 import { useRecoilState } from 'recoil'
 import { AiOutlineClose } from 'react-icons/ai'
-import {
-  conversationsAtom,
-  selectedConversationAtom,
-} from '../atoms/messagesAtom'
+import { selectedConversationAtom } from '../atoms/messagesAtom'
 
 import ListUserChat from '../components/Chats/ListUserChat'
 
@@ -19,7 +16,7 @@ const ChatPage = () => {
   const [selectedConversation, setSelectedConversation] = useRecoilState(
     selectedConversationAtom
   )
-  const [conversations, setConversations] = useRecoilState(conversationsAtom)
+
   return (
     <>
       <Box w={{ base: '100%', md: '100%' }} mx={'auto'}>
@@ -36,7 +33,10 @@ const ChatPage = () => {
           mx={'auto'}
         >
           <Box maxW={'400px'}>
-            <ListUserChat setCloseProfile={setCloseProfile} />
+            <ListUserChat
+              setCloseProfile={setCloseProfile}
+              setSelectedConversation={setSelectedConversation}
+            />
           </Box>
 
           {!selectedConversation._id && (

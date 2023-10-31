@@ -46,7 +46,7 @@ const RepostCardHeader = ({
           <Avatar size="sm" name={user.name} src={user.profilePic} />
           <Text
             cursor={'pointer'}
-            fontSize={'md'}
+            fontSize={{ base: 'sm', md: 'md', lg: 'md' }}
             fontWeight={'bold'}
             onClick={(e) => {
               e.preventDefault()
@@ -78,9 +78,15 @@ const RepostCardHeader = ({
         </Flex>
 
         <Flex gap={4} alignItems={'center'}>
-          <Text fontStyle={'sm'} color={'gray.light'}>
+          <Text
+            fontSize={'xs'}
+            width={36}
+            textAlign={'right'}
+            color={'gray.light'}
+          >
             {postDate} ago
           </Text>
+
           {currentUser?._id === user._id && (
             <DeleteIcon
               size={20}
@@ -88,7 +94,6 @@ const RepostCardHeader = ({
               onClick={handleDeletePost}
             />
           )}
-          <BsThreeDots />
         </Flex>
       </Flex>
 

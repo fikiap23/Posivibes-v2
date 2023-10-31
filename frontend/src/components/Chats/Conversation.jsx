@@ -25,7 +25,7 @@ const Conversation = ({ conversation, setCloseProfile }) => {
     selectedConversationAtom
   )
   const colorMode = useColorMode()
-  console.log(selectedConversation)
+  // console.log(selectedConversation)
 
   return (
     <Flex
