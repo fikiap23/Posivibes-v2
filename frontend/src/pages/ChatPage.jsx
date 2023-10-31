@@ -32,7 +32,12 @@ const ChatPage = () => {
           }}
           mx={'auto'}
         >
-          <Box maxW={'400px'}>
+          <Box
+            maxW={'400px'}
+            className={`${
+              selectedConversation._id ? 'hidden' : 'block'
+            } md:block`}
+          >
             <ListUserChat
               setCloseProfile={setCloseProfile}
               setSelectedConversation={setSelectedConversation}
@@ -40,28 +45,26 @@ const ChatPage = () => {
           </Box>
 
           {!selectedConversation._id && (
-            <Flex
-              flex={70}
-              borderRadius={'md'}
-              p={2}
-              flexDir={'column'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              border={'1px solid gray'}
-              height={'80vh'}
-            >
-              <GiConversation size={100} />
-              <Text fontSize={20}>
-                Select a conversation to start messaging
-              </Text>
-            </Flex>
+            <Box w={'full'} className="hidden md:block">
+              <Flex
+                flex={70}
+                borderRadius={'md'}
+                p={2}
+                flexDir={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                border={'1px solid gray'}
+                height={'80vh'}
+              >
+                <GiConversation size={100} />
+                <Text fontSize={20}>
+                  Select a conversation to start messaging
+                </Text>
+              </Flex>
+            </Box>
           )}
           {selectedConversation._id && (
-            <Box
-              w={{ md: '600px', lg: '90%' }}
-              maxW={'full'}
-              className="hidden md:block"
-            >
+            <Box w={{ md: '600px', lg: '90%' }} maxW={'full'}>
               <MessageContainer />
             </Box>
           )}

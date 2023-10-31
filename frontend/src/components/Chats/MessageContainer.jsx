@@ -9,8 +9,8 @@ import {
 } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import { IoArrowBackOutline } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import {
   conversationsAtom,
   selectedConversationAtom,
@@ -23,7 +23,9 @@ import MessageInput from './MessageInput'
 
 const MessageContainer = () => {
   const showToast = useShowToast()
-  const selectedConversation = useRecoilValue(selectedConversationAtom)
+  const [selectedConversation, setSelectedConversation] = useRecoilState(
+    selectedConversationAtom
+  )
   const [loadingMessages, setLoadingMessages] = useState(true)
   const [messages, setMessages] = useState([])
   const currentUser = useRecoilValue(userAtom)
@@ -94,9 +96,17 @@ const MessageContainer = () => {
     >
       {/* Message header */}
       <Flex w={'full'} h={8} alignItems={'center'} gap={2}>
-        <Link to={'/chat'}>
-          <IoArrowBackOutline />
-        </Link>
+        <IoArrowBackOutline
+          onClick={() =>
+            setSelectedConversation({
+              _id: '',
+              userId: '',
+              username: '',
+              userProfilePic: '',
+            })
+          }
+        />
+
         <Avatar
           src={selectedConversation.userProfilePic}
           name={selectedConversation.username}
