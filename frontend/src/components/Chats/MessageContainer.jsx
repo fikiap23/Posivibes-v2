@@ -10,9 +10,9 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import {
-  conversationsAtom,
+  // conversationsAtom,
   selectedConversationAtom,
 } from '../../atoms/messagesAtom'
 import userAtom from '../../atoms/userAtom'
@@ -26,7 +26,7 @@ const MessageContainer = () => {
   const [loadingMessages, setLoadingMessages] = useState(true)
   const [messages, setMessages] = useState([])
   const currentUser = useRecoilValue(userAtom)
-  const setConversations = useSetRecoilState(conversationsAtom)
+  // const setConversations = useSetRecoilState(conversationsAtom)
   const messageEndRef = useRef(null)
 
   useEffect(() => {
@@ -34,6 +34,7 @@ const MessageContainer = () => {
       setLoadingMessages(true)
       setMessages([])
       try {
+        if (selectedConversation.mock) return
         const res = await fetch(
           `/v1/api/messages/${selectedConversation.userId}`
         )
