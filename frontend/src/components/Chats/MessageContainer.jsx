@@ -10,12 +10,13 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { IoArrowBackOutline } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import {
-  // conversationsAtom,
+  conversationsAtom,
   selectedConversationAtom,
 } from '../../atoms/messagesAtom'
 import userAtom from '../../atoms/userAtom'
+import { useSocket } from '../../context/SocketContext'
 import useShowToast from '../../hooks/useShowToast'
 import Message from './Message'
 import MessageInput from './MessageInput'
@@ -26,8 +27,39 @@ const MessageContainer = () => {
   const [loadingMessages, setLoadingMessages] = useState(true)
   const [messages, setMessages] = useState([])
   const currentUser = useRecoilValue(userAtom)
-  // const setConversations = useSetRecoilState(conversationsAtom)
+  const setConversations = useSetRecoilState(conversationsAtom)
   const messageEndRef = useRef(null)
+  const { socket } = useSocket()
+
+  useEffect(() => {
+    socket.on('newMessage', (message) => {
+      if (selectedConversation._id === message.conversationId) {
+        setMessages((prev) => [...prev, message])
+      }
+
+      setConversations((prev) => {
+        const updatedConversations = prev.map((conversation) => {
+          if (conversation._id === message.conversationId) {
+            return {
+              ...conversation,
+              lastMessage: {
+                text: message.text,
+                sender: message.sender,
+              },
+            }
+          }
+          return conversation
+        })
+        return updatedConversations
+      })
+    })
+
+    return () => socket.off('newMessage')
+  }, [socket, selectedConversation, setConversations])
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
   useEffect(() => {
     const getMessages = async () => {

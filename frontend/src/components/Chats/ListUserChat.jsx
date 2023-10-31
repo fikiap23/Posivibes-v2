@@ -17,6 +17,7 @@ import useShowToast from '../../hooks/useShowToast'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { conversationsAtom } from '../../atoms/messagesAtom'
 import userAtom from '../../atoms/userAtom'
+import { useSocket } from '../../context/SocketContext'
 
 const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
   const showToast = useShowToast()
@@ -25,6 +26,7 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
   const [conversations, setConversations] = useRecoilState(conversationsAtom)
   const [searchText, setSearchText] = useState('')
   const currentUser = useRecoilValue(userAtom)
+  const { socket, onlineUsers } = useSocket()
 
   const handleConversationSearch = async (e) => {
     e.preventDefault()
@@ -89,7 +91,7 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
           showToast('Error', data.error, 'error')
           return
         }
-        console.log(data)
+        // console.log(data)
         setConversations(data)
       } catch (error) {
         showToast('Error', error.message, 'error')
@@ -155,7 +157,7 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
         conversations.map((conversation) => (
           <Conversation
             key={conversation._id}
-            // isOnline={onlineUsers.includes(conversation.participants[0]._id)}
+            isOnline={onlineUsers.includes(conversation.participants[0]._id)}
             conversation={conversation}
             setCloseProfile={setCloseProfile}
           />

@@ -16,7 +16,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import { selectedConversationAtom } from '../../atoms/messagesAtom'
 
-const Conversation = ({ conversation, setCloseProfile }) => {
+const Conversation = ({ conversation, setCloseProfile, isOnline }) => {
   const user = conversation.participants[0]
 
   const currentUser = useRecoilValue(userAtom)
@@ -67,7 +67,7 @@ const Conversation = ({ conversation, setCloseProfile }) => {
             }}
             src={user.profilePic}
           >
-            <AvatarBadge boxSize="1em" bg="green.500" />
+            {isOnline ? <AvatarBadge boxSize="1em" bg="green.500" /> : ''}
           </Avatar>
         </WrapItem>
 
