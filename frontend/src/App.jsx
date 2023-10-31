@@ -6,7 +6,9 @@ import userAtom from './atoms/userAtom'
 import Header from './components/Header/Header'
 
 import AuthPage from './pages/AuthPage'
+import ChatPage from './pages/ChatPage'
 import HomePage from './pages/HomePage'
+import MessagePage from './pages/MessagePage'
 import PostPage from './pages/PostPage'
 import UpdateProfilePage from './pages/UpdateProfilePage'
 import UserPage from './pages/UserPage'
@@ -35,6 +37,14 @@ function App() {
             />
             <Route path="/:username" element={<UserPage />} />
             <Route path="/:username/post/:pid" element={<PostPage />} />
+            <Route
+              path="/chat"
+              element={user ? <ChatPage /> : <Navigate to={'/auth'} />}
+            />
+            <Route
+              path="/message"
+              element={user ? <MessagePage /> : <Navigate to={'/auth'} />}
+            />
           </Routes>
         </Container>
         {/* <Rightbar /> */}

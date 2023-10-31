@@ -6,6 +6,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 
 import { BsThreeDots } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import postsAtom from '../../atoms/postsAtom'
 import userAtom from '../../atoms/userAtom'
@@ -16,6 +17,7 @@ const Comment = ({ reply, currentPost }) => {
   const showToast = useShowToast()
   const currentUser = useRecoilValue(userAtom)
   const [posts, setPosts] = useRecoilState(postsAtom)
+  const navigate = useNavigate()
 
   const handleDeleteReply = async () => {
     try {
@@ -71,7 +73,13 @@ const Comment = ({ reply, currentPost }) => {
             justifyContent={'space-between'}
             alignItems={'center'}
           >
-            <Text fontSize="sm" fontWeight="bold">
+            <Text
+              fontSize="sm"
+              fontWeight="bold"
+              cursor={'pointer'}
+              _hover={{ textDecoration: 'underline' }}
+              onClick={() => navigate(`/${reply.username}`)}
+            >
               {reply.username}
             </Text>
             <Flex gap={2} alignItems={'center'}>
