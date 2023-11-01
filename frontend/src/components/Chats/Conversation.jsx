@@ -77,9 +77,13 @@ const Conversation = ({ conversation, setCloseProfile, isOnline }) => {
           </Text>
           <Text fontSize={'xs'} display={'flex'} alignItems={'center'} gap={1}>
             {currentUser._id === lastMessage.sender ? (
-              <Box color={lastMessage.seen ? 'blue.400' : ''}>
-                <BsCheck2All size={16} />
-              </Box>
+              lastMessage.seen ? (
+                <Box color={'blue.400'}>
+                  <BsCheck2All size={16} />
+                </Box>
+              ) : (
+                ''
+              )
             ) : (
               ''
             )}
