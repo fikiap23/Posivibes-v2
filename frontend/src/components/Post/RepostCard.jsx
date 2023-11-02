@@ -95,7 +95,7 @@ const RepostCard = ({ repost }) => {
         <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2} mt={2}>
           <Avatar
             cursor={'pointer'}
-            size="md"
+            size={{ base: 'sm', md: 'md', lg: 'md' }}
             name={userOrigin.name}
             src={userOrigin.profilePic}
             onClick={(e) => {
