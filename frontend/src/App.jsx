@@ -9,6 +9,7 @@ import AuthPage from './pages/AuthPage'
 import ChatPage from './pages/ChatPage'
 import HomePage from './pages/HomePage'
 import PostPage from './pages/PostPage'
+import { SettingsPage } from './pages/SettingsPage'
 import UpdateProfilePage from './pages/UpdateProfilePage'
 import UserPage from './pages/UserPage'
 
@@ -39,6 +40,10 @@ function App() {
             <Route
               path="/chat"
               element={user ? <ChatPage /> : <Navigate to={'/auth'} />}
+            />
+            <Route
+              path="/settings"
+              element={user ? <SettingsPage /> : <Navigate to={'/auth'} />}
             />
           </Routes>
         </Container>

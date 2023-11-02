@@ -20,6 +20,6 @@ router.post('/follow/:id', protectRoute, followUnFollowUser) // Toggle state(fol
 router.put('/update/:id', protectRoute, updateUser)
 router.get('/profile/:query', getUserProfile)
 router.get('/suggested', protectRoute, getSuggestedUsers)
-router.put('/freeze', protectRoute, freezeAccount)
+router.put('/deactivation', protectRoute, freezeAccount)
 
 export default router
