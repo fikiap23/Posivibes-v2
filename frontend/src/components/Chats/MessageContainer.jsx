@@ -136,11 +136,7 @@ const MessageContainer = () => {
           }
         />
 
-        <Avatar
-          src={selectedConversation.userProfilePic}
-          name={selectedConversation.username}
-          size={'sm'}
-        />
+        <Avatar src={selectedConversation.userProfilePic} size={'sm'} />
         <Text display={'flex'} alignItems={'center'}>
           {selectedConversation.username}
         </Text>

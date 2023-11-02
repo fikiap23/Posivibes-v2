@@ -1,4 +1,12 @@
-import { Box, Flex, Icon, Image, Link, useColorMode } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Icon,
+  Image,
+  Link,
+  useColorMode,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { BsFillChatQuoteFill } from 'react-icons/bs'
 
 import { MdOutlineSettings } from 'react-icons/md'
@@ -9,15 +17,42 @@ import Hamberger from '../Sidebar/Hamberger'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi'
 import { BiHome } from 'react-icons/bi'
+import { useEffect, useState } from 'react'
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const user = useRecoilValue(userAtom)
   const navigate = useNavigate()
+  // Tambahkan state untuk mengelola tampilan elemen "sticky"
+  const [isSticky, setIsSticky] = useState(false)
 
+  useEffect(() => {
+    // keep track of previous scroll position
+    let prevScrollPos = window.pageYOffset
+
+    window.addEventListener('scroll', function () {
+      // current scroll position
+      const currentScrollPos = window.pageYOffset
+
+      if (prevScrollPos > currentScrollPos) {
+        // user has scrolled up
+        setIsSticky(true)
+      } else {
+        // user has scrolled down
+        setIsSticky(false)
+      }
+
+      // update previous scroll position
+      prevScrollPos = currentScrollPos
+    })
+  }, [])
   return (
     <>
-      <Box className="md:hidden">
+      <Box
+        className={`md:hidden ${isSticky ? 'sticky top-0 z-10' : ''}`}
+        transition="top 0.3s ease"
+        bg={useColorModeValue('white', 'gray.900')}
+      >
         <Flex justifyContent={'space-between'}>
           <Hamberger />
           <Image

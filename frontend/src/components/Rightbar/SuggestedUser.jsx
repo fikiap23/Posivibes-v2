@@ -1,16 +1,41 @@
-import { Avatar, Box, Button, Flex, Link, Text } from '@chakra-ui/react'
+/* eslint-disable react/prop-types */
+import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import useFollowUnfollow from '../../hooks/useFollowUnfollow'
 
-const SuggestedUser = () => {
+const SuggestedUser = ({ user }) => {
+  const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
+  const navigate = useNavigate()
+  const [close, setClose] = useState(false)
+
+  useEffect(() => {
+    setClose(false)
+  }, [])
   return (
-    <Flex gap={2} justifyContent={'space-between'} alignItems={'center'}>
-      <Flex gap={2} as={Link} to={``}>
-        <Avatar src={'/fiki1.jpg'} />
+    <Flex
+      gap={2}
+      justifyContent={'space-between'}
+      alignItems={'center'}
+      hidden={close}
+    >
+      <Flex
+        gap={2}
+        cursor={'pointer'}
+        onClick={(e) => {
+          e.preventDefault()
+          navigate(`/${user.username}`)
+        }}
+        _hover={{ textDecoration: 'underline', color: 'blue.400' }}
+      >
+        <Avatar src={user.profilePic} />
         <Box>
           <Text fontSize={'sm'} fontWeight={'bold'}>
-            {'Fiki Aprian'}
+            {user.name}
           </Text>
           <Text color={'gray.light'} fontSize={'sm'}>
-            {'@rasa-yang-tak-tersampaikan'}
+            {`@${user.username}`}
           </Text>
         </Box>
       </Flex>
@@ -18,14 +43,16 @@ const SuggestedUser = () => {
       <Flex gap={4} alignItems={'center'} className="align-items-center">
         <Button
           size={'sm'}
-          color={'white'}
-          bg={'blue.400'}
+          color={following ? 'black' : 'white'}
+          bg={following ? 'white' : 'blue.400'}
+          onClick={handleFollowUnfollow}
+          isLoading={updating}
           _hover={{
-            color: 'white',
+            color: following ? 'black' : 'white',
             opacity: '.8',
           }}
         >
-          {'Follow'}
+          {following ? 'Unfollow' : 'Follow'}
         </Button>
         <Text
           fontSize={'sm'}
@@ -33,6 +60,7 @@ const SuggestedUser = () => {
           cursor={'pointer'}
           _hover={{ textDecoration: 'underline', color: 'blue.400' }}
           mb={2}
+          onClick={() => setClose(true)}
         >
           {'x'}
         </Text>
