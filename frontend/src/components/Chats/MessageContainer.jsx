@@ -20,6 +20,7 @@ import { useSocket } from '../../context/SocketContext'
 import useShowToast from '../../hooks/useShowToast'
 import Message from './Message'
 import MessageInput from './MessageInput'
+import messageSound from '../../assets/sounds/newMessage.mp3'
 
 const MessageContainer = () => {
   const showToast = useShowToast()
@@ -37,6 +38,12 @@ const MessageContainer = () => {
     socket.on('newMessage', (message) => {
       if (selectedConversation._id === message.conversationId) {
         setMessages((prev) => [...prev, message])
+      }
+
+      // make a sound if the window is not focused
+      if (!document.hasFocus()) {
+        const sound = new Audio(messageSound)
+        sound.play()
       }
 
       setConversations((prev) => {

@@ -32,6 +32,7 @@ const colors = {
 const theme = extendTheme({ config, styles, colors })
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  //  react strict mode menyebabkan render 2 kali di development mode
   <React.StrictMode>
     <RecoilRoot>
       <BrowserRouter>
