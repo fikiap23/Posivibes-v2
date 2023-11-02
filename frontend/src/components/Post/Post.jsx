@@ -137,7 +137,7 @@ const Post = ({ post, postedBy }) => {
         <Flex flexDirection={'row'} alignItems={'center'} gap={4} mb={2}>
           <Avatar
             cursor={'pointer'}
-            size="md"
+            size={{ base: 'sm', md: 'md' }}
             name={user.name}
             src={user?.profilePic}
             onClick={(e) => {
@@ -149,7 +149,7 @@ const Post = ({ post, postedBy }) => {
             <Flex w={'full'} alignItems={'center'} gap={2}>
               <Text
                 cursor={'pointer'}
-                fontSize={'sm'}
+                fontSize={{ base: 'sm', md: 'md', lg: 'md' }}
                 fontWeight={'bold'}
                 onClick={(e) => {
                   e.preventDefault()

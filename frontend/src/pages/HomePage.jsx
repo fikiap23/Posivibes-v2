@@ -67,7 +67,7 @@ const HomePage = () => {
   return (
     <Flex gap="10" alignItems={'flex-start'}>
       <Sidebar />
-      <Box maxWidth={'620px'}>
+      <Box maxWidth={'620px'} w={'full'}>
         {!loading && posts.length === 0 && (
           <h1>Follow some users to see the feed</h1>
         )}
