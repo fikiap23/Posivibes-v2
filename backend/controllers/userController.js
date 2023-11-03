@@ -263,7 +263,7 @@ const freezeAccount = async (req, res) => {
 }
 
 const searchUsers = async (req, res) => {
-  const { query } = req.body
+  const { query } = req.params
 
   try {
     const users = await User.find({

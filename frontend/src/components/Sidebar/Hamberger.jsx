@@ -12,18 +12,18 @@ import {
 import { RxHamburgerMenu } from 'react-icons/rx'
 import { BiHome, BiMessageAltDetail } from 'react-icons/bi'
 import { SiAzuredataexplorer } from 'react-icons/si'
-import { HiOutlineLightningBolt } from 'react-icons/hi'
 import { MdOutlineManageAccounts } from 'react-icons/md'
 import { AiOutlineSetting } from 'react-icons/ai'
-
 import CreatePost from '../Post/CreatePost'
-
 import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import { Link, useNavigate } from 'react-router-dom'
 import { FiLogIn } from 'react-icons/fi'
 import useLogout from '../../hooks/useLogout'
 import { FiLogOut } from 'react-icons/fi'
+import { TbUserSearch } from 'react-icons/tb'
+import SearchBarUser from '../Reactions/SearchBarUser'
+import { useState } from 'react'
 
 const Hamberger = () => {
   const user = useRecoilValue(userAtom)
@@ -31,6 +31,15 @@ const Hamberger = () => {
   const logout = useLogout()
   const { toggleColorMode } = useColorMode()
   const navigate = useNavigate()
+  const [showModalSearchUser, setShowModalSearchUser] = useState(false)
+
+  const openModalSearchUser = () => {
+    setShowModalSearchUser(true)
+  }
+
+  const closeModalSearchUser = () => {
+    setShowModalSearchUser(false)
+  }
   return (
     <Menu>
       <MenuButton
@@ -96,9 +105,14 @@ const Hamberger = () => {
                     : { bg: 'gray.700' }
                 }
                 padding={'2'}
+                onClick={openModalSearchUser}
               >
-                <Icon as={HiOutlineLightningBolt} />
-                <Text>Activity</Text>
+                <Icon as={TbUserSearch} />
+                <Text>Search</Text>
+                <SearchBarUser
+                  isOpen={showModalSearchUser}
+                  onClose={closeModalSearchUser}
+                />
               </Flex>
               <Flex
                 onClick={(e) => {
