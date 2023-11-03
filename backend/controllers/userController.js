@@ -262,6 +262,30 @@ const freezeAccount = async (req, res) => {
   }
 }
 
+const searchUsers = async (req, res) => {
+  const { query } = req.body
+
+  try {
+    const users = await User.find({
+      $or: [
+        { username: { $regex: `^${query}`, $options: 'i' } }, // Pencarian awalan username case-insensitive
+        { name: { $regex: `^${query}`, $options: 'i' } }, // Pencarian awalan nama case-insensitive
+      ],
+    })
+      .select('-password')
+      .select('-updatedAt')
+
+    if (users.length === 0) {
+      return res.status(404).json({ error: 'No matching users found' })
+    }
+
+    res.status(200).json(users)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+    console.log('Error in searchUsers: ', err.message)
+  }
+}
+
 export {
   signupUser,
   loginUser,
@@ -271,4 +295,5 @@ export {
   getUserProfile,
   getSuggestedUsers,
   freezeAccount,
+  searchUsers,
 }

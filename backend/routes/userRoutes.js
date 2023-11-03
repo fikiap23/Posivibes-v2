@@ -6,6 +6,7 @@ import {
   getUserProfile,
   loginUser,
   logoutUser,
+  searchUsers,
   signupUser,
   updateUser,
 } from '../controllers/userController.js'
@@ -20,6 +21,7 @@ router.post('/follow/:id', protectRoute, followUnFollowUser) // Toggle state(fol
 router.put('/update/:id', protectRoute, updateUser)
 router.get('/profile/:query', getUserProfile)
 router.get('/suggested', protectRoute, getSuggestedUsers)
+router.get('/search', protectRoute, searchUsers)
 router.put('/deactivation', protectRoute, freezeAccount)
 
 export default router
