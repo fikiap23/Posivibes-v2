@@ -54,11 +54,11 @@ export default function SignupCard() {
     email: '',
     password: '',
   })
-
+  const [loading, setLoading] = useState(false)
   const showToast = useShowToast()
 
   const handleSignup = async () => {
-    // console.log(inputs)
+    setLoading(true)
     try {
       const response = await fetch('/v1/api/users/signup', {
         method: 'POST',
@@ -77,6 +77,10 @@ export default function SignupCard() {
       localStorage.setItem('user-posivibes', JSON.stringify(data))
     } catch (error) {
       console.log(error)
+    } finally {
+      setLoading(false)
+      setAuthScreen('login')
+      showToast('Success', 'Account created successfully', 'success')
     }
   }
   return (
@@ -222,6 +226,7 @@ export default function SignupCard() {
                 boxShadow: 'xl',
               }}
               onClick={handleSignup}
+              isLoading={loading}
             >
               Sign Up
             </Button>
