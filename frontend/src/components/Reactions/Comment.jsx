@@ -78,7 +78,7 @@ const Comment = ({ reply, currentPost }) => {
               fontWeight="bold"
               cursor={'pointer'}
               _hover={{ textDecoration: 'underline' }}
-              onClick={() => navigate(`/${reply.username}`)}
+              onClick={() => navigate(`/u/${reply.username}`)}
             >
               {reply.username}
             </Text>

@@ -142,7 +142,7 @@ const Post = ({ post, postedBy }) => {
             src={user?.profilePic}
             onClick={(e) => {
               e.preventDefault()
-              navigate(`/${user.username}`)
+              navigate(`/u/${user.username}`)
             }}
           />
           <Flex justifyContent={'space-between'} w={'full'}>

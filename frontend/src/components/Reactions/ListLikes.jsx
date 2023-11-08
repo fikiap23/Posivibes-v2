@@ -18,13 +18,13 @@ const ListLikes = ({ name, img, username }) => {
               }}
               name={name}
               src={img}
-              onClick={() => navigate(`/${username}`)}
+              onClick={() => navigate(`/u/${username}`)}
             />
             <Text
               cursor={'pointer'}
               fontSize={'sm'}
               fontWeight={'bold'}
-              onClick={() => navigate(`/${username}`)}
+              onClick={() => navigate(`/u/${username}`)}
             >
               {name}
             </Text>

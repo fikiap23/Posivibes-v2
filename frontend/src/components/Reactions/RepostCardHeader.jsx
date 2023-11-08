@@ -52,7 +52,7 @@ const RepostCardHeader = ({
         <Text
           onClick={(e) => {
             e.preventDefault()
-            navigate(`/${originalUser.username}`)
+            navigate(`/u/${originalUser.username}`)
           }}
           cursor={'pointer'}
           mb={1}
@@ -81,7 +81,7 @@ const RepostCardHeader = ({
               fontWeight={'bold'}
               onClick={(e) => {
                 e.preventDefault()
-                navigate(`/${user.username}`)
+                navigate(`/u/${user.username}`)
               }}
             >
               {user.name}
