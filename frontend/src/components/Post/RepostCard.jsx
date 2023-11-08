@@ -139,7 +139,12 @@ const RepostCard = ({ repost }) => {
               <Image src={post.img} alt={''} w={'full'} />
             </Box>
           )}
-          <Text fontSize={{ base: 'sm', md: 'md' }}> {post.text}</Text>
+          {!post.isSpecial && (
+            <div style={{ whiteSpace: 'pre-line' }}>{post.text}</div>
+          )}
+          {post.isSpecial && (
+            <div dangerouslySetInnerHTML={{ __html: post.text }} />
+          )}
 
           <Flex gap={2} alignItems={'center'} justifyContent={'space-between'}>
             <Link to={`/${userOrigin.username}/post/${post._id}`}>

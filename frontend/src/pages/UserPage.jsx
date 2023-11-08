@@ -17,7 +17,7 @@ const UserPage = () => {
   const showToast = useShowToast()
   const [posts, setPosts] = useRecoilState(postsAtom)
   const [fetchingPosts, setFetchingPosts] = useState(true)
-
+  // console.log(username)
   useEffect(() => {
     const getPosts = async () => {
       if (!user) return
@@ -28,7 +28,7 @@ const UserPage = () => {
         // console.log(data)
         setPosts(data)
       } catch (error) {
-        showToast('Error', error.message, 'error')
+        // showToast('Error', error.message, 'error')
         setPosts([])
       } finally {
         setFetchingPosts(false)

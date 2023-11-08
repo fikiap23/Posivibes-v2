@@ -48,7 +48,7 @@ const Post = ({ post, postedBy }) => {
         }
         setUser(data)
       } catch (error) {
-        showToast('Error', error.message, 'error')
+        // showToast('Error', error.message, 'error')
         setUser(null)
       }
     }
@@ -66,13 +66,13 @@ const Post = ({ post, postedBy }) => {
       })
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        // showToast('Error', data.error, 'error')
         return
       }
       showToast('Success', 'Post deleted', 'success')
       setPosts(posts.filter((p) => p._id !== post._id))
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      // showToast('Error', error.message, 'error')
     }
   }
 
@@ -116,7 +116,7 @@ const Post = ({ post, postedBy }) => {
 
       setLiked(!liked)
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      // showToast('Error', error.message, 'error')
     } finally {
       setIsLiking(false)
     }
@@ -153,7 +153,7 @@ const Post = ({ post, postedBy }) => {
                 fontWeight={'bold'}
                 onClick={(e) => {
                   e.preventDefault()
-                  navigate(`/${user.username}`)
+                  navigate(`/u/${user.username}`)
                 }}
               >
                 {user.name}

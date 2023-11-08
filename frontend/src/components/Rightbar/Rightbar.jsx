@@ -18,12 +18,12 @@ const Rightbar = () => {
         const res = await fetch('v1/api/users/suggested')
         const data = await res.json()
         if (data.error) {
-          showToast('Error', data.error, 'error')
+          // showToast('Error', data.error, 'error')
           return
         }
         setSuggestedUsers(data)
       } catch (error) {
-        showToast('Error', error.message, 'error')
+        // showToast('Error', error.message, 'error')
       } finally {
         setLoading(false)
       }

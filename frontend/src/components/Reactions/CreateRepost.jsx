@@ -149,7 +149,12 @@ const CreateRepost = ({ post, userPost }) => {
                   </Box>
                 )}
 
-                <Text fontSize={{ base: 'sm', md: 'md' }}>{post.text}</Text>
+                {!post.isSpecial && (
+                  <div style={{ whiteSpace: 'pre-line' }}>{post.text}</div>
+                )}
+                {post.isSpecial && (
+                  <div dangerouslySetInnerHTML={{ __html: post.text }} />
+                )}
 
                 <Flex
                   gap={2}
