@@ -25,7 +25,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
 import postsAtom from '../../atoms/postsAtom'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { MdOutlineCreate } from 'react-icons/md'
 const MAX_CHAR = 100
 const CreatePost = () => {
@@ -40,6 +40,7 @@ const CreatePost = () => {
   const [loading, setLoading] = useState(false)
   const [posts, setPosts] = useRecoilState(postsAtom)
   const { username } = useParams()
+  const navigate = useNavigate()
 
   const handleTextChange = (e) => {
     const inputText = e.target.value
@@ -180,7 +181,17 @@ const CreatePost = () => {
             )}
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter display={'flex'} justifyContent={'space-between'}>
+            <Button
+              colorScheme="yellow"
+              mr={3}
+              onClick={() => {
+                navigate(`/create-post`)
+              }}
+              isLoading={loading}
+            >
+              Create Special Post
+            </Button>
             <Button
               colorScheme="blue"
               mr={3}
