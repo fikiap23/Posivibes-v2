@@ -196,7 +196,13 @@ const Post = ({ post, postedBy }) => {
               <Image src={post.img} alt={''} w={'full'} />
             </Box>
           )}
-          <Text fontSize={{ base: 'sm', md: 'md' }}>{post.text}</Text>
+          {/* <div
+            dangerouslySetInnerHTML={{ __html: post.text }}
+            style={{ whiteSpace: 'pre-line' }}
+          /> */}
+
+          <div dangerouslySetInnerHTML={{ __html: post.text }} />
+
           <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
           <Flex gap={2} alignItems={'center'} justifyContent={'space-between'}>
             <Link to={`/${user.username}/post/${post._id}`}>
