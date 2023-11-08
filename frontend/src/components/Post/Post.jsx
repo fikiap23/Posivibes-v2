@@ -185,7 +185,6 @@ const Post = ({ post, postedBy }) => {
           >
             {post.title}
           </Text>
-
           {post.img && (
             <Box
               borderRadius={6}

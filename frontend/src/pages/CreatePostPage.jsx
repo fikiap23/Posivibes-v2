@@ -74,7 +74,7 @@ const CreatePostPage = () => {
 
       setPostText('')
       setImgUrl('')
-      navigate(`/${user.username}`)
+      navigate(`/u/${user.username}`)
     } catch (error) {
       showToast('Error', error, 'error')
     } finally {

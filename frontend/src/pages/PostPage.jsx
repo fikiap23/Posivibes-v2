@@ -169,7 +169,7 @@ const PostPage = () => {
               src={user.profilePic}
               onClick={(e) => {
                 e.preventDefault()
-                navigate(`/${user.username}`)
+                navigate(`/u/${user.username}`)
               }}
             />
             <Flex justifyContent={'space-between'} w={'full'}>
@@ -180,7 +180,7 @@ const PostPage = () => {
                   fontWeight={'bold'}
                   onClick={(e) => {
                     e.preventDefault()
-                    navigate(`/${user.username}`)
+                    navigate(`/u/${user.username}`)
                   }}
                 >
                   {user.name}
@@ -227,7 +227,12 @@ const PostPage = () => {
                 <Image src={'/post1.png'} alt={''} w={'full'} />
               </Box>
             )}
-            <Text fontSize={{ base: 'sm', md: 'md' }}>{currentPost.text}</Text>
+            {!currentPost.isSpecial && (
+              <div style={{ whiteSpace: 'pre-line' }}>{currentPost.text}</div>
+            )}
+            {currentPost.isSpecial && (
+              <div dangerouslySetInnerHTML={{ __html: currentPost.text }} />
+            )}
             <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
             <Flex
               gap={2}
