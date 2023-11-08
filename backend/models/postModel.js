@@ -15,6 +15,10 @@ const postSchema = mongoose.Schema(
     text: {
       type: String,
     },
+    isSpecial: {
+      type: Boolean,
+      default: false,
+    },
     img: {
       type: String,
     },

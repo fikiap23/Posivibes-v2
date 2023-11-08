@@ -25,7 +25,7 @@ const SuggestedUser = ({ user }) => {
         cursor={'pointer'}
         onClick={(e) => {
           e.preventDefault()
-          navigate(`/${user.username}`)
+          navigate(`/u/${user.username}`)
         }}
         _hover={{ textDecoration: 'underline', color: 'blue.400' }}
       >

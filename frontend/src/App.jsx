@@ -7,6 +7,7 @@ import Header from './components/Header/Header'
 
 import AuthPage from './pages/AuthPage'
 import ChatPage from './pages/ChatPage'
+import CreatePostPage from './pages/CreatePostPage'
 import HomePage from './pages/HomePage'
 import PostPage from './pages/PostPage'
 import { SettingsPage } from './pages/SettingsPage'
@@ -35,12 +36,13 @@ function App() {
               path="/update"
               element={user ? <UpdateProfilePage /> : <Navigate to={'/auth'} />}
             />
-            <Route path="/:username" element={<UserPage />} />
+            <Route path="/u/:username" element={<UserPage />} />
             <Route path="/:username/post/:pid" element={<PostPage />} />
             <Route
               path="/chat"
               element={user ? <ChatPage /> : <Navigate to={'/auth'} />}
             />
+            <Route path="/create-post" element={<CreatePostPage />} />
             <Route
               path="/settings"
               element={user ? <SettingsPage /> : <Navigate to={'/auth'} />}

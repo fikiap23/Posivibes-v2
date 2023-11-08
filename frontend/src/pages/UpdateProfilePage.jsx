@@ -61,7 +61,7 @@ export default function UpdateProfilePage() {
       showToast('Error', error, 'error')
     } finally {
       setUpdating(false)
-      navigate(`/${user.username}`)
+      navigate(`/u/${user.username}`)
     }
   }
   return (

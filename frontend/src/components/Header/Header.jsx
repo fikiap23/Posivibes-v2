@@ -106,7 +106,7 @@ const Header = () => {
 
           {user && (
             <Flex alignItems={'center'} gap={4}>
-              <Link as={RouterLink} to={`/${user.username}`}>
+              <Link as={RouterLink} to={`/u/${user.username}`}>
                 <RxAvatar size={24} />
               </Link>
               <Link as={RouterLink} to={`/chat`}>

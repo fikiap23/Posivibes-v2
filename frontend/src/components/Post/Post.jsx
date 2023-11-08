@@ -142,7 +142,7 @@ const Post = ({ post, postedBy }) => {
             src={user?.profilePic}
             onClick={(e) => {
               e.preventDefault()
-              navigate(`/${user.username}`)
+              navigate(`/u/${user.username}`)
             }}
           />
           <Flex justifyContent={'space-between'} w={'full'}>
@@ -185,7 +185,6 @@ const Post = ({ post, postedBy }) => {
           >
             {post.title}
           </Text>
-
           {post.img && (
             <Box
               borderRadius={6}
@@ -196,7 +195,13 @@ const Post = ({ post, postedBy }) => {
               <Image src={post.img} alt={''} w={'full'} />
             </Box>
           )}
-          <Text fontSize={{ base: 'sm', md: 'md' }}>{post.text}</Text>
+          {!post.isSpecial && (
+            <div style={{ whiteSpace: 'pre-line' }}>{post.text}</div>
+          )}
+          {post.isSpecial && (
+            <div dangerouslySetInnerHTML={{ __html: post.text }} />
+          )}
+
           <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
           <Flex gap={2} alignItems={'center'} justifyContent={'space-between'}>
             <Link to={`/${user.username}/post/${post._id}`}>

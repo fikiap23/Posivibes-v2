@@ -88,7 +88,7 @@ export default function ShowCardProfile({ user }) {
                       fontFamily={'body'}
                       onClick={(e) => {
                         e.preventDefault()
-                        navigate(`/${user.username}`)
+                        navigate(`/u/${user.username}`)
                       }}
                       cursor={'pointer'}
                     >

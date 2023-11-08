@@ -100,7 +100,7 @@ const RepostCard = ({ repost }) => {
             src={userOrigin.profilePic}
             onClick={(e) => {
               e.preventDefault()
-              navigate(`/${userOrigin.username}`)
+              navigate(`/u/${userOrigin.username}`)
             }}
           />
           <Flex justifyContent={'space-between'} w={'full'}>
@@ -112,7 +112,7 @@ const RepostCard = ({ repost }) => {
                 fontWeight={'bold'}
                 onClick={(e) => {
                   e.preventDefault()
-                  navigate(`/${userOrigin.username}`)
+                  navigate(`/u/${userOrigin.username}`)
                 }}
               >
                 {userOrigin.name}
