@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary'
 
 const createPost = async (req, res) => {
   try {
-    const { postedBy, title = null, text } = req.body
+    const { postedBy, title = null, text, isSpecial = false } = req.body
     let { img } = req.body
 
     if (!postedBy || !text) {
@@ -27,7 +27,7 @@ const createPost = async (req, res) => {
       img = uploadedResponse.secure_url
     }
 
-    const newPost = new Post({ postedBy, text, title, img })
+    const newPost = new Post({ postedBy, text, title, img, isSpecial })
     await newPost.save()
 
     res.status(201).json(newPost)

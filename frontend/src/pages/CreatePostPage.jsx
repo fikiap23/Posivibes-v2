@@ -36,6 +36,7 @@ const CreatePostPage = () => {
     if (editorRef.current) {
       console.log(editorRef.current.getContent())
       setPostText(editorRef.current.getContent())
+      showToast('Success', 'Tulisan tersimpan', 'success')
     }
   }
 
@@ -57,6 +58,7 @@ const CreatePostPage = () => {
           title: '',
           text: postText,
           img: imgUrl,
+          isSpecial: true,
         }),
       })
 

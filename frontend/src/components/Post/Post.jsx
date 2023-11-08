@@ -196,12 +196,12 @@ const Post = ({ post, postedBy }) => {
               <Image src={post.img} alt={''} w={'full'} />
             </Box>
           )}
-          {/* <div
-            dangerouslySetInnerHTML={{ __html: post.text }}
-            style={{ whiteSpace: 'pre-line' }}
-          /> */}
-
-          <div dangerouslySetInnerHTML={{ __html: post.text }} />
+          {!post.isSpecial && (
+            <div style={{ whiteSpace: 'pre-line' }}>{post.text}</div>
+          )}
+          {post.isSpecial && (
+            <div dangerouslySetInnerHTML={{ __html: post.text }} />
+          )}
 
           <Box w={'full'} h={0.1} bg={'gray.light'}></Box>
           <Flex gap={2} alignItems={'center'} justifyContent={'space-between'}>
