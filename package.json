@@ -1,0 +1,21 @@
+{
+  "name": "posivibes-v2",
+  "version": "1.0.0",
+  "description": "# Lessons",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install  && cd ../frontend && npm install && npm run build",
+    "start": "node backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fikiap23/Posivibes-v2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fikiap23/Posivibes-v2/issues"
+  },
+  "homepage": "https://github.com/fikiap23/Posivibes-v2#readme"
+}
