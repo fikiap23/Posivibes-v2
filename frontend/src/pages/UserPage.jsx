@@ -21,6 +21,7 @@ const UserPage = () => {
   const [reposts, setReposts] = useRecoilState(repostsAtom)
   const [fetchingPosts, setFetchingPosts] = useState(true)
   const [fetchingReposts, setFetchingReposts] = useState(true)
+
   let [isTabActive, setIsTabActive] = useState('posts')
   // console.log(username)
   const handleTabChange = (tab) => {

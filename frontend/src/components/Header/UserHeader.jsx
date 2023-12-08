@@ -4,16 +4,53 @@ import { Box, Flex, Link, Text, VStack } from '@chakra-ui/layout'
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
 import { Portal } from '@chakra-ui/portal'
 import { Button, Image, Toast, useColorMode } from '@chakra-ui/react'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { CgMoreO } from 'react-icons/cg'
 import userAtom from '../../atoms/userAtom'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 
 import useFollowUnfollow from '../../hooks/useFollowUnfollow'
+import {
+  conversationsAtom,
+  selectedConversationAtom,
+} from '../../atoms/messagesAtom'
 
 const UserHeader = ({ user }) => {
   const { colorMode } = useColorMode()
   const currentUser = useRecoilValue(userAtom)
+  const [selectedConversation, setSelectedConversation] = useRecoilState(
+    selectedConversationAtom
+  )
+  const [conversations, setConversations] = useRecoilState(conversationsAtom)
+  const navigate = useNavigate()
+
+  const handleSelectConversation = (conversation) => {
+    const mockConversation = {
+      mock: true,
+      lastMessage: {
+        text: '',
+        sender: '',
+      },
+      _id: Date.now(),
+      participants: [
+        {
+          _id: user._id,
+          username: user.username,
+          profilePic: user.profilePic,
+        },
+      ],
+    }
+
+    setConversations((prevConvs) => [...prevConvs, mockConversation])
+
+    setSelectedConversation({
+      _id: mockConversation._id,
+      userId: user._id,
+      username: user.username,
+      userProfilePic: user.profilePic,
+    })
+    navigate('/chat')
+  }
 
   const { handleFollowUnfollow, following, updating } = useFollowUnfollow(user)
   const copyURL = () => {
@@ -139,7 +176,11 @@ const UserHeader = ({ user }) => {
           >
             {following ? 'Unfollow' : 'Follow'}
           </Button>
-          <Button colorScheme={'blue'} borderRadius={'full'}>
+          <Button
+            colorScheme={'blue'}
+            borderRadius={'full'}
+            onClick={handleSelectConversation}
+          >
             Message
           </Button>
           <Button colorScheme={'blue'} borderRadius={'full'}>

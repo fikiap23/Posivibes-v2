@@ -51,30 +51,42 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
   const handleConversationSearch = async (e) => {
     e.preventDefault()
     setSearchingUser(true)
+
     try {
-      const res = await fetch(`v1/api/users/profile/${searchText}`)
-      const searchedUser = await res.json()
-      if (searchedUser.error) {
-        showToast('Error', searchedUser.error, 'error')
+      const res = await fetch(`v1/api/users/search/${searchText}`)
+      const searchedUsers = await res.json()
+      console.log(searchedUsers)
+
+      if (searchedUsers.error) {
+        showToast('Error', searchedUsers.error, 'error')
         return
       }
 
-      const messagingYourself = searchedUser._id === currentUser._id
+      // Assuming searchedUsers is an array of users
+      if (searchedUsers.length === 0) {
+        showToast('Info', 'No users found', 'info')
+        return
+      }
+
+      // Assuming you want to select the first user from the search results
+      const selectedUser = searchedUsers[0]
+
+      const messagingYourself = selectedUser._id === currentUser._id
       if (messagingYourself) {
         showToast('Error', 'You cannot message yourself', 'error')
         return
       }
 
       const conversationAlreadyExists = conversations.find(
-        (conversation) => conversation.participants[0]._id === searchedUser._id
+        (conversation) => conversation.participants[0]._id === selectedUser._id
       )
 
       if (conversationAlreadyExists) {
         setSelectedConversation({
           _id: conversationAlreadyExists._id,
-          userId: searchedUser._id,
-          username: searchedUser.username,
-          userProfilePic: searchedUser.profilePic,
+          userId: selectedUser._id,
+          username: selectedUser.username,
+          userProfilePic: selectedUser.profilePic,
         })
         return
       }
@@ -88,15 +100,16 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
         _id: Date.now(),
         participants: [
           {
-            _id: searchedUser._id,
-            username: searchedUser.username,
-            profilePic: searchedUser.profilePic,
+            _id: selectedUser._id,
+            username: selectedUser.username,
+            profilePic: selectedUser.profilePic,
           },
         ],
       }
+
       setConversations((prevConvs) => [...prevConvs, mockConversation])
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      console.log(error)
     } finally {
       setSearchingUser(false)
     }
@@ -114,7 +127,7 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
         // console.log(data)
         setConversations(data)
       } catch (error) {
-        showToast('Error', error.message, 'error')
+        console.log(error)
       } finally {
         setLoadingConversations(false)
       }
@@ -142,7 +155,10 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
         <Flex alignItems={'center'} gap={2}>
           <Input
             placeholder="Search for a user"
-            onChange={(e) => setSearchText(e.target.value)}
+            onChange={(e) => {
+              setSearchText(e.target.value)
+              handleConversationSearch(e)
+            }}
           />
           <Button
             size={'sm'}

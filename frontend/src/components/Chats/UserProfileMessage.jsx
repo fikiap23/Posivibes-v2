@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 'use client'
 
 import {
@@ -10,8 +11,11 @@ import {
   Badge,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 
-export default function UserProfileMessage() {
+export default function UserProfileMessage({ selectedConversation }) {
+  console.log(selectedConversation)
+
   return (
     <Box
       maxW={'320px'}
@@ -26,7 +30,7 @@ export default function UserProfileMessage() {
     >
       <Avatar
         size={'xl'}
-        src={'/fiki1.jpg'}
+        src={`${selectedConversation.profilePic}`}
         mb={4}
         pos={'relative'}
         _after={{
@@ -42,11 +46,13 @@ export default function UserProfileMessage() {
         }}
       />
       <Heading fontSize={'2xl'} fontFamily={'body'}>
-        Fiki Aprian
+        {selectedConversation.username}
       </Heading>
-      <Text fontWeight={600} color={'gray.500'} mb={4}>
-        @fikiap23
-      </Text>
+      <Link to={`/u/${selectedConversation.username}`}>
+        <Text fontWeight={600} color={'gray.500'} mb={4}>
+          @{selectedConversation.username}
+        </Text>
+      </Link>
       <Text
         textAlign={'center'}
         color={useColorModeValue('gray.700', 'gray.400')}
