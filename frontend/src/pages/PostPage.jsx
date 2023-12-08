@@ -48,6 +48,7 @@ const PostPage = () => {
   const { pid } = useParams()
   const currentUser = useRecoilValue(userAtom)
   const navigate = useNavigate()
+  const [reposts, setReposts] = useState([])
 
   const currentPost = posts[0]
   // console.log(currentPost)
@@ -70,7 +71,25 @@ const PostPage = () => {
       }
     }
     getPost()
-  }, [showToast, pid, setPosts, currentUser?._id])
+
+    const getReposts = async () => {
+      if (!user) return
+      //  setFetchingReposts(true)
+      try {
+        const res = await fetch(`/v1/api/reposts/post/${pid}`)
+        const data = await res.json()
+        console.log(data)
+        setReposts(data)
+      } catch (error) {
+        // showToast('Error', error.message, 'error')
+        setReposts([])
+      } finally {
+        //  setFetchingReposts(false)
+      }
+    }
+
+    getReposts()
+  }, [showToast, pid, setPosts, currentUser?._id, isTabActive, user])
 
   const handleDeletePost = async () => {
     try {
@@ -334,7 +353,7 @@ const PostPage = () => {
                     textDecoration={'underline'}
                   >
                     <BiRepost className="w-6 h-6  cursor-pointer" />
-                    <Text>200</Text>
+                    <Text>{reposts.length}</Text>
                   </Flex>
                 ) : (
                   <Flex
@@ -345,7 +364,7 @@ const PostPage = () => {
                     cursor={'pointer'}
                   >
                     <BiRepost className="w-6 h-6  cursor-pointer" />
-                    <Text>200</Text>
+                    <Text>{reposts.length}</Text>
                   </Flex>
                 )}
                 {/* end reposts */}
@@ -390,9 +409,17 @@ const PostPage = () => {
 
           {isTabActive === 'reposts' && (
             <>
-              <Repost />
-              <Repost />
-              <Repost />
+              {reposts.length > 0 ? (
+                reposts.map((repost) => (
+                  <Repost
+                    key={repost._id}
+                    repost={repost}
+                    nameWhoPost={user.username}
+                  />
+                ))
+              ) : (
+                <Text>Tidak ada repost</Text>
+              )}
             </>
           )}
         </Box>

@@ -5,6 +5,8 @@ import { useRecoilState } from 'recoil'
 import postsAtom from '../atoms/postsAtom'
 import repostsAtom from '../atoms/repostAtom'
 import UserHeader from '../components/Header/UserHeader'
+import AnswerCard from '../components/Post/AnswerCard'
+
 import Post from '../components/Post/Post'
 import RepostCard from '../components/Post/RepostCard'
 
@@ -173,7 +175,7 @@ const UserPage = () => {
 
         {isTabActive === 'answers' && (
           <>
-            <Text>Answer</Text>
+            <AnswerCard></AnswerCard>
           </>
         )}
       </Box>

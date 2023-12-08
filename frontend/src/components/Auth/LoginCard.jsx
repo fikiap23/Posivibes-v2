@@ -125,8 +125,18 @@ export default function LoginCard() {
               ></Text>
             </Heading>
             <Text color={'gray.500'} fontSize={{ base: 'sm', sm: 'md' }}>
+              {/* Informasi uji coba */}
               Bergabunglah bersama kami di Posivibes: Kumpulan Semangat Positif,
               dan sebarkan kebaikan bersama!
+            </Text>
+            <Text color={'black'} fontSize={{ base: 'sm', sm: 'md' }}>
+              <Text as={'span'} fontWeight={'bold'}>
+                *Untuk uji coba saja, bisa gunakan account berikut:
+              </Text>
+              <br />
+              Username: user123
+              <br />
+              Password: 123
             </Text>
           </Stack>
           <Box as={'form'}>
