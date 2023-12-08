@@ -92,7 +92,9 @@ const UserHeader = ({ user }) => {
             color={'gray.light'}
           >{`${user.followers.length} followers`}</Text>
           <Box w="1" h="1" bg={'gray.light'} borderRadius={'full'}></Box>
-          <Link color={'gray.light'}>posivibes.com</Link>
+          <Link color={'gray.light'} href={'https://posivibes.site'}>
+            posivibes.site
+          </Link>
         </Flex>
         <Flex>
           <Box className="rounded-[50%] p-2 w-10 h-10 hover:bg-slate-500 ease-in-out duration-300">
@@ -145,38 +147,6 @@ const UserHeader = ({ user }) => {
           </Button>
         </Flex>
       )}
-
-      <Flex w={'full'}>
-        <Flex
-          flex={1}
-          borderBottom={'1.5px solid white'}
-          justifyContent={'center'}
-          pb="3"
-          cursor={'pointer'}
-        >
-          <Text fontWeight={'bold'}> Post</Text>
-        </Flex>
-        <Flex
-          flex={1}
-          borderBottom={'1px solid gray'}
-          justifyContent={'center'}
-          color={'gray.light'}
-          pb="3"
-          cursor={'pointer'}
-        >
-          <Text fontWeight={'bold'}> Like</Text>
-        </Flex>
-        <Flex
-          flex={1}
-          borderBottom={'1px solid gray'}
-          justifyContent={'center'}
-          color={'gray.light'}
-          pb="3"
-          cursor={'pointer'}
-        >
-          <Text fontWeight={'bold'}> Answer</Text>
-        </Flex>
-      </Flex>
     </VStack>
   )
 }

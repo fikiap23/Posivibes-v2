@@ -8,6 +8,7 @@ import Rightbar from '../components/Rightbar/Rightbar'
 import Post from '../components/Post/Post'
 import Sidebar from '../components/Sidebar/Sidebar'
 import RepostCard from '../components/Post/RepostCard'
+import SuggestedUsers from '../components/Reactions/SuggestedUsers'
 
 const HomePage = () => {
   const [posts, setPosts] = useRecoilState(postsAtom)
@@ -69,7 +70,10 @@ const HomePage = () => {
       <Sidebar />
       <Box maxWidth={'620px'} w={'full'}>
         {!loading && posts.length === 0 && (
-          <h1>Follow some users to see the feed</h1>
+          <>
+            <h1>Follow some users to see the feed</h1>
+            <SuggestedUsers></SuggestedUsers>
+          </>
         )}
 
         {loading && (

@@ -17,7 +17,11 @@ const UserPage = () => {
   const showToast = useShowToast()
   const [posts, setPosts] = useRecoilState(postsAtom)
   const [fetchingPosts, setFetchingPosts] = useState(true)
+  let [isTabActive, setIsTabActive] = useState('posts')
   // console.log(username)
+  const handleTabChange = (tab) => {
+    setIsTabActive(tab)
+  }
   useEffect(() => {
     const getPosts = async () => {
       if (!user) return
@@ -58,22 +62,79 @@ const UserPage = () => {
       <Sidebar />
       <Container maxWidth={'620px'}>
         <UserHeader user={user} />
-        {!fetchingPosts && posts.length === 0 && (
-          <Box w={'full'} textAlign={'center'} mt={12} h={'sm'}>
-            <Text fontSize="xl" color="gray.600">
-              {` ${username} has no posts.`}
-            </Text>
-          </Box>
-        )}
-        {fetchingPosts && (
-          <Flex justifyContent={'center'} my={12}>
-            <Spinner size={'xl'} />
+        <Flex w={'full'} mt={4}>
+          <Flex
+            flex={1}
+            borderBottom={
+              isTabActive === 'posts' ? '1.5px solid white' : '1px solid gray'
+            }
+            justifyContent={'center'}
+            pb="3"
+            cursor={'pointer'}
+            onClick={() => handleTabChange('posts')}
+          >
+            <Text fontWeight={'bold'}> Post</Text>
           </Flex>
+          <Flex
+            flex={1}
+            borderBottom={
+              isTabActive === 'reposts' ? '1.5px solid white' : '1px solid gray'
+            }
+            justifyContent={'center'}
+            color={'gray.light'}
+            pb="3"
+            cursor={'pointer'}
+            onClick={() => handleTabChange('reposts')}
+          >
+            <Text fontWeight={'bold'}> Repost</Text>
+          </Flex>
+          <Flex
+            flex={1}
+            borderBottom={
+              isTabActive === 'answers' ? '1.5px solid white' : '1px solid gray'
+            }
+            justifyContent={'center'}
+            color={'gray.light'}
+            pb="3"
+            cursor={'pointer'}
+            onClick={() => handleTabChange('answers')}
+          >
+            <Text fontWeight={'bold'}> Answer</Text>
+          </Flex>
+        </Flex>
+
+        {/* Render content based on the active tab */}
+        {isTabActive === 'posts' && (
+          <>
+            {!fetchingPosts && posts.length === 0 && (
+              <Box w={'full'} textAlign={'center'} mt={12} h={'sm'}>
+                <Text fontSize="xl" color="gray.600">
+                  {` ${username} has no posts.`}
+                </Text>
+              </Box>
+            )}
+            {fetchingPosts && (
+              <Flex justifyContent={'center'} my={12}>
+                <Spinner size={'xl'} />
+              </Flex>
+            )}
+            {posts.map((post) => (
+              <Post key={post._id} post={post} postedBy={post.postedBy} />
+            ))}
+          </>
         )}
 
-        {posts.map((post) => (
-          <Post key={post._id} post={post} postedBy={post.postedBy} />
-        ))}
+        {isTabActive === 'reposts' && (
+          <>
+            <Text>Reposts</Text>
+          </>
+        )}
+
+        {isTabActive === 'answers' && (
+          <>
+            <Text>Answer</Text>
+          </>
+        )}
       </Container>
       <Rightbar />
     </Flex>
