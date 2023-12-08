@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Spinner, Text } from '@chakra-ui/react'
+import { Box, Flex, Spinner, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
@@ -86,7 +86,7 @@ const UserPage = () => {
   return (
     <Flex>
       <Sidebar />
-      <Container maxWidth={'620px'}>
+      <Box maxWidth={{ base: 'full', md: '620px' }} w={'full'}>
         <UserHeader user={user} />
         <Flex w={'full'} mt={4}>
           <Flex
@@ -175,7 +175,7 @@ const UserPage = () => {
             <Text>Answer</Text>
           </>
         )}
-      </Container>
+      </Box>
       <Rightbar />
     </Flex>
   )

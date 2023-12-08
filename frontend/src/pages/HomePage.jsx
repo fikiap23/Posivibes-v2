@@ -66,7 +66,7 @@ const HomePage = () => {
   }, [showToast, setPosts])
 
   return (
-    <Flex gap="10" alignItems={'flex-start'}>
+    <Flex>
       <Sidebar />
       <Box maxWidth={'620px'} w={'full'}>
         {!loading && posts.length === 0 && (
