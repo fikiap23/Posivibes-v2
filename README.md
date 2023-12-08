@@ -6,7 +6,7 @@ NIM: 1217050058
 
 Kelas: PAW B
 
-### Deskripsi aplikasi PosiVibe:
+### Deskripsi aplikasi PosiVibes:
 
 PosiVibes adalah platform media sosial dan blogging yang memungkinkan pengguna untuk membuat
 blog pribadi atau catatan harian dan berbagi berbagai jenis konten dengan komunitas online. Ini adalah
