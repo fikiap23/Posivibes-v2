@@ -120,9 +120,39 @@ const getRepostsByUsername = async (req, res) => {
   }
 }
 
+const getRepostUsersByPostId = async (req, res) => {
+  try {
+    const postId = req.params.postId // Get the post ID from the request parameters
+
+    // Find all repost entries related to a specific post
+    const reposts = await Repost.find({
+      'originalPost.postId': postId,
+    }).populate('repostedBy.userId', 'username') // Populate user information (username)
+
+    if (!reposts || reposts.length === 0) {
+      return res.status(404).json({ error: 'No reposts found for this post' })
+    }
+
+    // Extract relevant information about reposted users and their repost content
+    const repostData = reposts.map((repost) => ({
+      user: {
+        userId: repost.repostedBy.userId._id,
+        username: repost.repostedBy.userId.username,
+      },
+      repostText: repost.repostText,
+    }))
+
+    res.status(200).json(repostData)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+    console.log(err)
+  }
+}
+
 export {
   repostPost,
   getRepostsByFollowedUsers,
   getRepostsByUsername,
   deleteRepost,
+  getRepostUsersByPostId,
 }
