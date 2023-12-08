@@ -24,7 +24,7 @@ const UserHeader = ({ user }) => {
   const [conversations, setConversations] = useRecoilState(conversationsAtom)
   const navigate = useNavigate()
 
-  const handleSelectConversation = (conversation) => {
+  const handleSelectConversation = () => {
     const mockConversation = {
       mock: true,
       lastMessage: {
