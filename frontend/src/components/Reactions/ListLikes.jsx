@@ -11,11 +11,7 @@ const ListLikes = ({ name, img, username }) => {
           <Flex alignItems={'center'} gap={2} mt={2}>
             <Avatar
               cursor={'pointer'}
-              size={{
-                sm: 'sm',
-                md: 'sm',
-                lg: 'sm',
-              }}
+              size={'xs'}
               name={name}
               src={img}
               onClick={() => navigate(`/u/${username}`)}

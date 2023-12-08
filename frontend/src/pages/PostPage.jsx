@@ -20,7 +20,6 @@ import {
   MenuList,
   MenuOptionGroup,
   useColorMode,
-  Container,
   Spinner,
 } from '@chakra-ui/react'
 import Rightbar from '../components/Rightbar/Rightbar'
@@ -151,7 +150,7 @@ const PostPage = () => {
   return (
     <Flex>
       <Sidebar />
-      <Container maxWidth={'620px'}>
+      <Box maxWidth={{ base: 'full', md: '620px' }} w={'full'}>
         <Box
           gap={3}
           mb={4}
@@ -217,14 +216,14 @@ const PostPage = () => {
               {currentPost.title}
             </Text>
 
-            {currentPost.image && (
+            {currentPost.img && (
               <Box
                 borderRadius={6}
                 overflow={'hidden'}
                 border={'1px solid'}
                 borderColor={'gray.light'}
               >
-                <Image src={'/post1.png'} alt={''} w={'full'} />
+                <Image src={currentPost.img} alt={''} w={'full'} />
               </Box>
             )}
             {!currentPost.isSpecial && (
@@ -397,7 +396,7 @@ const PostPage = () => {
             </>
           )}
         </Box>
-      </Container>
+      </Box>
       <Rightbar />
     </Flex>
   )

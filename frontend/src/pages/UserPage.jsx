@@ -153,7 +153,7 @@ const UserPage = () => {
 
         {isTabActive === 'reposts' && (
           <>
-            {!fetchingPosts && posts.length === 0 && (
+            {!fetchingReposts && reposts.length === 0 && (
               <Box w={'full'} textAlign={'center'} mt={12} h={'sm'}>
                 <Text fontSize="xl" color="gray.600">
                   {` ${username} has no reposts.`}
