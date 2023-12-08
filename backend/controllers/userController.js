@@ -50,8 +50,11 @@ const signupUser = async (req, res) => {
 }
 const loginUser = async (req, res) => {
   try {
-    const { username, password } = req.body
-    const user = await User.findOne({ username })
+    let { identifier, password } = req.body // 'identifier' can be either username or email
+    identifier = identifier.toLowerCase()
+    const user = await User.findOne({
+      $or: [{ username: identifier }, { email: identifier }],
+    })
     const isPasswordCorrect = await bcrypt.compare(
       password,
       user?.password || ''
