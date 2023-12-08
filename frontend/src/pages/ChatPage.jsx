@@ -85,7 +85,7 @@ const ChatPage = () => {
             >
               <AiOutlineClose />
             </Box>
-            <UserProfileMessage />
+            <UserProfileMessage selectedConversation={selectedConversation} />
           </Box>
         </Flex>
       </Box>

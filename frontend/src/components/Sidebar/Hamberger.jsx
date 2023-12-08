@@ -156,6 +156,9 @@ const Hamberger = () => {
                     : { bg: 'gray.700' }
                 }
                 padding={'2'}
+                onClick={() => {
+                  navigate(`/settings`)
+                }}
               >
                 <Icon as={AiOutlineSetting} />
                 <Text>Settings</Text>

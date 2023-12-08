@@ -122,6 +122,9 @@ const Sidebar = () => {
               colorMode === 'light' ? { bg: 'gray.200' } : { bg: 'gray.700' }
             }
             padding={'2'}
+            onClick={() => {
+              navigate(`/settings`)
+            }}
           >
             <Icon as={AiOutlineSetting} />
             <Text className="hidden lg:block">Settings</Text>

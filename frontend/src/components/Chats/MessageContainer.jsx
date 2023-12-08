@@ -21,6 +21,7 @@ import useShowToast from '../../hooks/useShowToast'
 import Message from './Message'
 import MessageInput from './MessageInput'
 import messageSound from '../../assets/sounds/newMessage.mp3'
+import { Link } from 'react-router-dom'
 
 const MessageContainer = () => {
   const showToast = useShowToast()
@@ -131,6 +132,7 @@ const MessageContainer = () => {
       flexDirection={'column'}
     >
       {/* Message header */}
+
       <Flex w={'full'} h={8} alignItems={'center'} gap={2}>
         <IoArrowBackOutline
           onClick={() =>
@@ -142,11 +144,14 @@ const MessageContainer = () => {
             })
           }
         />
-
-        <Avatar src={selectedConversation.userProfilePic} size={'sm'} />
-        <Text display={'flex'} alignItems={'center'}>
-          {selectedConversation.username}
-        </Text>
+        <Link to={`/u/${selectedConversation.username}`}>
+          <Flex gap={2}>
+            <Avatar src={selectedConversation.userProfilePic} size={'sm'} />
+            <Text display={'flex'} alignItems={'center'}>
+              {selectedConversation.username}
+            </Text>
+          </Flex>
+        </Link>
       </Flex>
 
       <Divider />

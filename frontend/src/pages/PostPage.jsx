@@ -20,7 +20,6 @@ import {
   MenuList,
   MenuOptionGroup,
   useColorMode,
-  Container,
   Spinner,
 } from '@chakra-ui/react'
 import Rightbar from '../components/Rightbar/Rightbar'
@@ -49,6 +48,7 @@ const PostPage = () => {
   const { pid } = useParams()
   const currentUser = useRecoilValue(userAtom)
   const navigate = useNavigate()
+  const [reposts, setReposts] = useState([])
 
   const currentPost = posts[0]
   // console.log(currentPost)
@@ -71,7 +71,25 @@ const PostPage = () => {
       }
     }
     getPost()
-  }, [showToast, pid, setPosts, currentUser?._id])
+
+    const getReposts = async () => {
+      if (!user) return
+      //  setFetchingReposts(true)
+      try {
+        const res = await fetch(`/v1/api/reposts/post/${pid}`)
+        const data = await res.json()
+        console.log(data)
+        setReposts(data)
+      } catch (error) {
+        // showToast('Error', error.message, 'error')
+        setReposts([])
+      } finally {
+        //  setFetchingReposts(false)
+      }
+    }
+
+    getReposts()
+  }, [showToast, pid, setPosts, currentUser?._id, isTabActive, user])
 
   const handleDeletePost = async () => {
     try {
@@ -151,7 +169,7 @@ const PostPage = () => {
   return (
     <Flex>
       <Sidebar />
-      <Container maxWidth={'620px'}>
+      <Box maxWidth={{ base: 'full', md: '620px' }} w={'full'}>
         <Box
           gap={3}
           mb={4}
@@ -217,14 +235,14 @@ const PostPage = () => {
               {currentPost.title}
             </Text>
 
-            {currentPost.image && (
+            {currentPost.img && (
               <Box
                 borderRadius={6}
                 overflow={'hidden'}
                 border={'1px solid'}
                 borderColor={'gray.light'}
               >
-                <Image src={'/post1.png'} alt={''} w={'full'} />
+                <Image src={currentPost.img} alt={''} w={'full'} />
               </Box>
             )}
             {!currentPost.isSpecial && (
@@ -335,7 +353,7 @@ const PostPage = () => {
                     textDecoration={'underline'}
                   >
                     <BiRepost className="w-6 h-6  cursor-pointer" />
-                    <Text>200</Text>
+                    <Text>{reposts.length}</Text>
                   </Flex>
                 ) : (
                   <Flex
@@ -346,7 +364,7 @@ const PostPage = () => {
                     cursor={'pointer'}
                   >
                     <BiRepost className="w-6 h-6  cursor-pointer" />
-                    <Text>200</Text>
+                    <Text>{reposts.length}</Text>
                   </Flex>
                 )}
                 {/* end reposts */}
@@ -391,13 +409,21 @@ const PostPage = () => {
 
           {isTabActive === 'reposts' && (
             <>
-              <Repost />
-              <Repost />
-              <Repost />
+              {reposts.length > 0 ? (
+                reposts.map((repost) => (
+                  <Repost
+                    key={repost._id}
+                    repost={repost}
+                    nameWhoPost={user.username}
+                  />
+                ))
+              ) : (
+                <Text>Tidak ada repost</Text>
+              )}
             </>
           )}
         </Box>
-      </Container>
+      </Box>
       <Rightbar />
     </Flex>
   )

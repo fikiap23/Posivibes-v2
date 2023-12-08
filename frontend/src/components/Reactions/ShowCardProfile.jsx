@@ -109,7 +109,7 @@ export default function ShowCardProfile({ user }) {
                     <Stack spacing={0} align={'center'}>
                       <Text fontWeight={600}>{user.following.length}</Text>
                       <Text fontSize={'sm'} color={'gray.500'}>
-                        Followers
+                        Following
                       </Text>
                     </Stack>
                   </Stack>

@@ -90,7 +90,7 @@ const CreateComent = ({ post, currentUser }) => {
             _hover={{ borderColor: 'gray' }}
             ref={textareaRef}
             borderColor="gray"
-            placeholder="Tulis komentar Anda di sini..."
+            placeholder="Tulis komentar..."
             onChange={handleCommentTextChange}
             value={reply}
             style={{

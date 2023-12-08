@@ -63,7 +63,7 @@ const Header = () => {
             onClick={toggleColorMode}
           />
           {user && (
-            <Link as={RouterLink} to={`/${user.username}`} mt={2}>
+            <Link as={RouterLink} to={`/u/${user.username}`} mt={2}>
               <RxAvatar size={24} />
             </Link>
           )}

@@ -35,16 +35,19 @@ app.use('/v1/api/posts', postRoutes)
 app.use('/v1/api/reposts', repostRoutes)
 app.use('/v1/api/messages', messageRoutes)
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+if (process.env.NODE_ENV === 'production') {
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = dirname(__filename)
 
-const rootPath = path.resolve(__dirname, '../')
+  const rootPath = path.resolve(__dirname, '../')
 
-app.use(express.static(path.join(rootPath, 'frontend/dist')))
+  app.use(express.static(path.join(rootPath, 'frontend/dist')))
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(rootPath, 'frontend/dist/index.html'))
-})
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(rootPath, 'frontend/dist/index.html'))
+  })
+}
+
 server.listen(PORT, () => {
   console.log(`Server started at  http://localhost:${PORT}`)
 })

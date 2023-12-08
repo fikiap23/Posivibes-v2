@@ -52,7 +52,7 @@ export default function LoginCard() {
   const [loading, setLoading] = useState(false)
 
   const [inputs, setInputs] = useState({
-    username: '',
+    identifier: '',
     password: '',
   })
   const showToast = useShowToast()
@@ -125,19 +125,29 @@ export default function LoginCard() {
               ></Text>
             </Heading>
             <Text color={'gray.500'} fontSize={{ base: 'sm', sm: 'md' }}>
+              {/* Informasi uji coba */}
               Bergabunglah bersama kami di Posivibes: Kumpulan Semangat Positif,
               dan sebarkan kebaikan bersama!
+            </Text>
+            <Text color={'black'} fontSize={{ base: 'sm', sm: 'md' }}>
+              <Text as={'span'} fontWeight={'bold'}>
+                *Untuk uji coba saja, bisa gunakan account berikut:
+              </Text>
+              <br />
+              Username: user123
+              <br />
+              Password: 123
             </Text>
           </Stack>
           <Box as={'form'}>
             <Stack spacing={4}>
               <Input
                 placeholder="Enter username or email"
-                value={inputs.username}
+                value={inputs.identifier}
                 onChange={(e) =>
                   setInputs((inputs) => ({
                     ...inputs,
-                    username: e.target.value,
+                    identifier: e.target.value,
                   }))
                 }
                 bg={'gray.100'}
