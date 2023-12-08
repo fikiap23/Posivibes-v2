@@ -96,4 +96,33 @@ const deleteRepost = async (req, res) => {
   }
 }
 
-export { repostPost, getRepostsByFollowedUsers, deleteRepost }
+const getRepostsByUsername = async (req, res) => {
+  try {
+    const username = req.params.username // Get the username from the request parameters
+
+    // Find the user based on the username
+    const user = await User.findOne({ username })
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
+    // Find all reposts made by the specified user
+    const reposts = await Repost.find({
+      'repostedBy.userId': user._id,
+    })
+
+    // You can send the list of reposts to the client or perform other operations as needed
+    res.status(200).json(reposts)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+    console.log(err)
+  }
+}
+
+export {
+  repostPost,
+  getRepostsByFollowedUsers,
+  getRepostsByUsername,
+  deleteRepost,
+}
