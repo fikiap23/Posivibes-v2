@@ -2,6 +2,14 @@
 
 Welcome to PosiVibes – a full-stack social media application built with the MERN stack.
 
+## Project Origin
+
+This project was originally developed as a college assignment by Fiki Aprian. As part of the learning process, it served as a practical exploration of building a full-stack social media application using the MERN stack.
+
+## Open Source Contribution
+
+Now, I have decided to share this project with the open-source community. My intention is to contribute to the community's knowledge and provide a starting point for others interested in MERN stack development. Feel free to explore, use, and contribute to the project!
+
 ## Overview
 
 PosiVibes is an open-source social media application built using the MERN (MongoDB, Express.js, React, Node.js) stack. It aims to spread positivity and connect people in a friendly and uplifting online community.
