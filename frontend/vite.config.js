@@ -9,7 +9,7 @@ export default defineConfig({
     // Get rid of the CORS error
     proxy: {
       '/v1': {
-        target: 'http://localhost:3000',
+        target: 'https://posivibes-v2.vercel.app',
         changeOrigin: true,
         secure: false,
       },
