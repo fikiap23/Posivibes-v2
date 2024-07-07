@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import io from 'socket.io-client'
 import userAtom from '../atoms/userAtom'
+import { apiUrl } from '../utils/baseURL'
 
 const SocketContext = createContext()
 
@@ -16,7 +17,7 @@ export const SocketContextProvider = ({ children }) => {
   const user = useRecoilValue(userAtom)
 
   useEffect(() => {
-    const socket = io('http://localhost:3000', {
+    const socket = io(apiUrl, {
       query: {
         userId: user?._id,
       },
