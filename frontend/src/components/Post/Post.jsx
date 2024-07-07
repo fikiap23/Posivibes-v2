@@ -46,12 +46,12 @@ const Post = ({ post, postedBy }) => {
         const data = await res.json()
         // console.log(postedBy)
         if (data.error) {
-          // showToast('Error', data.error, 'error')
+          console.log('Error', data.error, 'error')
           return
         }
         setUser(data)
       } catch (error) {
-        // showToast('Error', error.message, 'error')
+        console.log('Error', error.message, 'error')
         setUser(null)
       }
     }
@@ -72,19 +72,23 @@ const Post = ({ post, postedBy }) => {
       })
       const data = await res.json()
       if (data.error) {
-        // showToast('Error', data.error, 'error')
+        // console.log('Error', data.error, 'error')
         return
       }
       showToast('Success', 'Post deleted', 'success')
       setPosts(posts.filter((p) => p._id !== post._id))
     } catch (error) {
-      // showToast('Error', error.message, 'error')
+      // console.log('Error', error.message, 'error')
     }
   }
 
   const handleLikeAndUnlike = async () => {
     if (!currentUser)
-      return showToast('Error', 'You must be logged in to like a post', 'error')
+      return console.log(
+        'Error',
+        'You must be logged in to like a post',
+        'error'
+      )
     if (isLiking) return
     setIsLiking(true)
     try {
@@ -96,7 +100,7 @@ const Post = ({ post, postedBy }) => {
         },
       })
       const data = await res.json()
-      if (data.error) return showToast('Error', data.error, 'error')
+      if (data.error) return console.log('Error', data.error, 'error')
 
       if (!liked) {
         // add the id of the current currentUser to post.likes array
@@ -123,7 +127,7 @@ const Post = ({ post, postedBy }) => {
 
       setLiked(!liked)
     } catch (error) {
-      // showToast('Error', error.message, 'error')
+      // console.log('Error', error.message, 'error')
     } finally {
       setIsLiking(false)
     }

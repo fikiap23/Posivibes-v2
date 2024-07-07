@@ -15,7 +15,7 @@ const useFollowUnfollow = (user) => {
 
   const handleFollowUnfollow = async () => {
     if (!currentUser) {
-      showToast('Error', 'Please login to follow', 'error')
+      console.log('Error', 'Please login to follow', 'error')
       return
     }
     if (updating) return
@@ -34,7 +34,7 @@ const useFollowUnfollow = (user) => {
       )
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
 
@@ -49,7 +49,7 @@ const useFollowUnfollow = (user) => {
 
       console.log(data)
     } catch (error) {
-      showToast('Error', error, 'error')
+      console.log('Error', error, 'error')
     } finally {
       setUpdating(false)
     }

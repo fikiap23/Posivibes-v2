@@ -86,7 +86,7 @@ const CreatePost = () => {
 
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
       showToast('Success', 'Post created successfully', 'success')
@@ -97,7 +97,7 @@ const CreatePost = () => {
       setPostText('')
       setImgUrl('')
     } catch (error) {
-      showToast('Error', error, 'error')
+      console.log('Error', error, 'error')
     } finally {
       setLoading(false)
       window.location.reload()

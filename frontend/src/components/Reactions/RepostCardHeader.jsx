@@ -36,13 +36,13 @@ const RepostCardHeader = ({
       })
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
       showToast('Success', 'Post deleted', 'success')
       window.location.reload()
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      console.log('Error', error.message, 'error')
     }
   }
   return (

@@ -71,7 +71,7 @@ export default function SignupCard() {
       const data = await response.json()
       // console.log(data)
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
 

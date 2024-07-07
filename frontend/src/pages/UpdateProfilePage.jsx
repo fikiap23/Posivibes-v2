@@ -55,14 +55,14 @@ export default function UpdateProfilePage() {
       })
       const data = await res.json() // updated user object
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
       showToast('Success', 'Profile updated successfully', 'success')
       setUser(data)
       localStorage.setItem('user-posivibes', JSON.stringify(data))
     } catch (error) {
-      showToast('Error', error, 'error')
+      console.log('Error', error, 'error')
     } finally {
       setUpdating(false)
       navigate(`/u/${user.username}`)

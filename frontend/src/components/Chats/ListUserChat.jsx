@@ -66,7 +66,7 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
       console.log(searchedUsers)
 
       // if (searchedUsers.error) {
-      //   showToast('Error', searchedUsers.error, 'error')
+      //   console.log('Error', searchedUsers.error, 'error')
       //   return
       // }
 
@@ -81,7 +81,7 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
 
       const messagingYourself = selectedUser._id === currentUser._id
       if (messagingYourself) {
-        showToast('Error', 'You cannot message yourself', 'error')
+        console.log('Error', 'You cannot message yourself', 'error')
         return
       }
 
@@ -134,7 +134,7 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
         })
         const data = await res.json()
         if (data.error) {
-          showToast('Error', data.error, 'error')
+          console.log('Error', data.error, 'error')
           return
         }
         // console.log(data)

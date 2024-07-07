@@ -40,7 +40,7 @@ const UserPage = () => {
         // console.log(data)
         setPosts(data)
       } catch (error) {
-        // showToast('Error', error.message, 'error')
+        // console.log('Error', error.message, 'error')
         setPosts([])
       } finally {
         setFetchingPosts(false)
@@ -56,7 +56,7 @@ const UserPage = () => {
         // console.log(data)
         setReposts(data)
       } catch (error) {
-        // showToast('Error', error.message, 'error')
+        // console.log('Error', error.message, 'error')
         setReposts([])
       } finally {
         setFetchingReposts(false)

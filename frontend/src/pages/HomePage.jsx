@@ -33,7 +33,7 @@ const HomePage = () => {
         const feedData = await feedRes.json()
 
         if (feedData.error) {
-          showToast('Error', feedData.error, 'error')
+          console.log('Error', feedData.error, 'error')
           return
         }
 
@@ -47,7 +47,7 @@ const HomePage = () => {
         const repostData = await repostRes.json()
 
         if (repostData.error) {
-          showToast('Error', repostData.error, 'error')
+          console.log('Error', repostData.error, 'error')
           return
         }
 
@@ -67,7 +67,8 @@ const HomePage = () => {
 
         setPosts(combinedPosts)
       } catch (error) {
-        showToast('Error', error.message, 'error')
+        // console.log('Error', error.message, 'error')
+        console.log(error)
       } finally {
         setLoading(false)
       }

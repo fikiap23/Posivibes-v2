@@ -60,7 +60,7 @@ const CreateComent = ({ post, currentUser }) => {
         body: JSON.stringify({ text: reply }),
       })
       const data = await res.json()
-      if (data.error) return showToast('Error', data.error, 'error')
+      if (data.error) return console.log('Error', data.error, 'error')
 
       const updatedPosts = posts.map((p) => {
         if (p._id === post._id) {
@@ -73,7 +73,7 @@ const CreateComent = ({ post, currentUser }) => {
 
       setReply('')
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      console.log('Error', error.message, 'error')
     } finally {
       setIsReplying(false)
     }

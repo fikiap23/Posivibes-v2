@@ -18,7 +18,7 @@ const useLogout = () => {
       const data = await res.json()
 
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
 
@@ -26,7 +26,7 @@ const useLogout = () => {
       localStorage.removeItem('token')
       setUser(null)
     } catch (error) {
-      showToast('Error', error, 'error')
+      console.log('Error', error, 'error')
     }
   }
 

@@ -60,7 +60,7 @@ const MessageInput = ({ setMessages }) => {
       })
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
       console.log(data)
@@ -84,7 +84,7 @@ const MessageInput = ({ setMessages }) => {
       setMessageText('')
       setImgUrl('')
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      console.log('Error', error.message, 'error')
     } finally {
       setIsSending(false)
     }

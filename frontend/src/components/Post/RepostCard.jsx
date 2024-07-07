@@ -52,7 +52,7 @@ const RepostCard = ({ repost }) => {
         setUserOrigin(dataUserOrigin)
         setPost(data)
       } catch (error) {
-        showToast('Error', error.message, 'error')
+        console.log('Error', error.message, 'error')
       } finally {
         setLoading(false)
       }

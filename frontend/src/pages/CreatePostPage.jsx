@@ -48,7 +48,7 @@ const CreatePostPage = () => {
     if (editorRef.current) {
       setPostText(editorRef.current.getContent())
     } else {
-      return showToast('Error', 'Tuliskan sesuatu', 'error')
+      return console.log('Error', 'Tuliskan sesuatu', 'error')
     }
     try {
       const res = await fetch(`${apiUrl}/v1/api/posts/create`, {
@@ -68,7 +68,7 @@ const CreatePostPage = () => {
 
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
       showToast('Success', 'Post created successfully', 'success')
@@ -80,7 +80,7 @@ const CreatePostPage = () => {
       setImgUrl('')
       navigate(`/u/${user.username}`)
     } catch (error) {
-      showToast('Error', error, 'error')
+      console.log('Error', error, 'error')
     } finally {
       setLoading(false)
     }

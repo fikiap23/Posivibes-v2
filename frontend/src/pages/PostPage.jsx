@@ -62,14 +62,14 @@ const PostPage = () => {
         const res = await fetch(`${apiUrl}/v1/api/posts/${pid}`)
         const data = await res.json()
         if (data.error) {
-          showToast('Error', data.error, 'error')
+          console.log('Error', data.error, 'error')
           return
         }
         setPosts([data])
         // Perbarui state liked sesuai dengan data post yang diterima
         setLiked(data.likes.includes(currentUser?._id))
       } catch (error) {
-        showToast('Error', error.message, 'error')
+        console.log('Error', error.message, 'error')
       }
     }
     getPost()
@@ -83,7 +83,7 @@ const PostPage = () => {
         console.log(data)
         setReposts(data)
       } catch (error) {
-        // showToast('Error', error.message, 'error')
+        // console.log('Error', error.message, 'error')
         setReposts([])
       } finally {
         //  setFetchingReposts(false)
@@ -102,18 +102,22 @@ const PostPage = () => {
       })
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
       showToast('Success', 'Post deleted', 'success')
       navigate(`/${user.username}`)
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      console.log('Error', error.message, 'error')
     }
   }
   const handleLikeAndUnlike = async () => {
     if (!currentUser)
-      return showToast('Error', 'You must be logged in to like a post', 'error')
+      return console.log(
+        'Error',
+        'You must be logged in to like a post',
+        'error'
+      )
     if (isLiking) return
     setIsLiking(true)
     try {
@@ -128,7 +132,7 @@ const PostPage = () => {
         }
       )
       const data = await res.json()
-      if (data.error) return showToast('Error', data.error, 'error')
+      if (data.error) return console.log('Error', data.error, 'error')
 
       if (!liked) {
         // add the id of the current currentUser to post.likes array
@@ -155,7 +159,7 @@ const PostPage = () => {
 
       setLiked(!liked)
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      console.log('Error', error.message, 'error')
     } finally {
       setIsLiking(false)
     }

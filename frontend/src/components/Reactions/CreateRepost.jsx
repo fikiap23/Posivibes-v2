@@ -71,7 +71,7 @@ const CreateRepost = ({ post, userPost }) => {
 
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
       showToast('Success', 'Repost created successfully', 'success')
@@ -82,7 +82,7 @@ const CreateRepost = ({ post, userPost }) => {
       onClose()
       setPostText('')
     } catch (error) {
-      showToast('Error', error, 'error')
+      console.log('Error', error, 'error')
     } finally {
       setLoading(false)
       // Jika ingin me-refresh halaman

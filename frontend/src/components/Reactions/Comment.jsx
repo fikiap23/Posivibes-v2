@@ -34,7 +34,7 @@ const Comment = ({ reply, currentPost }) => {
       )
       const data = await res.json()
       if (data.error) {
-        showToast('Error', data.error, 'error')
+        console.log('Error', data.error, 'error')
         return
       }
       const updatedReplies = currentPost.replies.filter(
@@ -56,7 +56,7 @@ const Comment = ({ reply, currentPost }) => {
       showToast('Success', 'Reply deleted', 'success')
     } catch (error) {
       console.log(error)
-      showToast('Error', error.message, 'error')
+      console.log('Error', error.message, 'error')
     }
   }
 

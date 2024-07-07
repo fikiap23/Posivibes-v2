@@ -26,12 +26,12 @@ const Rightbar = () => {
         })
         const data = await res.json()
         if (data.error) {
-          // showToast('Error', data.error, 'error')
+          // console.log('Error', data.error, 'error')
           return
         }
         setSuggestedUsers(data)
       } catch (error) {
-        // showToast('Error', error.message, 'error')
+        // console.log('Error', error.message, 'error')
       } finally {
         setLoading(false)
       }

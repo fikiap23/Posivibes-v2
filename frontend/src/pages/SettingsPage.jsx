@@ -24,14 +24,14 @@ export const SettingsPage = () => {
       const data = await res.json()
 
       if (data.error) {
-        return showToast('Error', data.error, 'error')
+        return console.log('Error', data.error, 'error')
       }
       if (data.success) {
         await logout()
         showToast('Success', 'Your account has been deactivation', 'success')
       }
     } catch (error) {
-      showToast('Error', error.message, 'error')
+      console.log('Error', error.message, 'error')
     }
   }
 
