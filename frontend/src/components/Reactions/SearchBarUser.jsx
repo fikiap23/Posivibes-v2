@@ -35,10 +35,10 @@ function SearchBarUser({ isOpen, onClose }) {
         },
       })
       const data = await res.json()
-      if (data.error) {
-        console.log(data.error)
-        return
-      }
+      // if (data.error) {
+      //   console.log(data.error)
+      //   return
+      // }
       setSearchResults(data)
     } catch (error) {
       console.log(error)

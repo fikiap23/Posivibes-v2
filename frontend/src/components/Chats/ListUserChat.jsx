@@ -65,10 +65,10 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
       const searchedUsers = await res.json()
       console.log(searchedUsers)
 
-      if (searchedUsers.error) {
-        showToast('Error', searchedUsers.error, 'error')
-        return
-      }
+      // if (searchedUsers.error) {
+      //   showToast('Error', searchedUsers.error, 'error')
+      //   return
+      // }
 
       // Assuming searchedUsers is an array of users
       if (searchedUsers.length === 0) {
