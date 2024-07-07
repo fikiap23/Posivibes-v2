@@ -71,14 +71,14 @@ export default function SignupCard() {
       const data = await response.json()
       // console.log(data)
       if (data.error) {
-        console.log('Error', data.error, 'error')
+        showToast('Error', data.error, 'error')
         return
       }
 
       localStorage.setItem('user-posivibes', JSON.stringify(data.user))
       localStorage.setItem('token', data.token)
     } catch (error) {
-      console.log(error)
+      showToast(error)
     } finally {
       setLoading(false)
       setAuthScreen('login')

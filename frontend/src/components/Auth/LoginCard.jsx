@@ -69,14 +69,14 @@ export default function LoginCard() {
       })
       const data = await res.json()
       if (data.error) {
-        console.log('Error', data.error, 'error')
+        showToast('Error', data.error, 'error')
         return
       }
       localStorage.setItem('user-posivibes', JSON.stringify(data.user))
       localStorage.setItem('token', data.token)
       setUser(data.user)
     } catch (error) {
-      console.log('Error', error, 'error')
+      showToast('Error', error, 'error')
     } finally {
       setLoading(false)
     }
