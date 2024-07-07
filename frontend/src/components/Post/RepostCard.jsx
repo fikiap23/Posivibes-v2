@@ -12,6 +12,7 @@ import { formatDistanceToNow } from 'date-fns'
 import ShowCardProfile from '../Reactions/ShowCardProfile'
 import { useEffect, useState } from 'react'
 import useShowToast from '../../hooks/useShowToast'
+import { apiUrl } from '../../utils/baseURL'
 
 const RepostCard = ({ repost }) => {
   const { colorMode } = useColorMode()
@@ -33,7 +34,9 @@ const RepostCard = ({ repost }) => {
           `/v1/api/users/profile/${repost.originalPost.userId}`
         )
 
-        const res = await fetch(`/v1/api/posts/${repost.originalPost.postId}`)
+        const res = await fetch(
+          `${apiUrl}/v1/api/posts/${repost.originalPost.postId}`
+        )
         const data = await res.json()
         if (data.error) {
           return

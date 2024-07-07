@@ -4,6 +4,7 @@ import { useSetRecoilState } from 'recoil'
 import { FiLogOut } from 'react-icons/fi'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
+import { apiUrl } from '../../utils/baseURL'
 
 const LogoutButton = () => {
   const setUser = useSetRecoilState(userAtom)
@@ -11,7 +12,7 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await fetch('/v1/api/users/logout', {
+      const res = await fetch(`${apiUrl}/v1/api/users/logout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,6 +26,7 @@ const LogoutButton = () => {
       }
 
       localStorage.removeItem('user-posivibes')
+      localStorage.removeItem('token')
       setUser(null)
       showToast('Success', 'Logged out successfully', 'success')
     } catch (error) {

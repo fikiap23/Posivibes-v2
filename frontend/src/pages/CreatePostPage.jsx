@@ -18,8 +18,11 @@ import useShowToast from '../hooks/useShowToast'
 import postsAtom from '../atoms/postsAtom'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Editor } from '@tinymce/tinymce-react'
+import { apiUrl } from '../utils/baseURL'
+import auth from '../utils/auth'
 
 const CreatePostPage = () => {
+  const token = auth.getToken()
   const [postText, setPostText] = useState('')
 
   const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg()
@@ -48,10 +51,11 @@ const CreatePostPage = () => {
       return showToast('Error', 'Tuliskan sesuatu', 'error')
     }
     try {
-      const res = await fetch('/v1/api/posts/create', {
+      const res = await fetch(`${apiUrl}/v1/api/posts/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           postedBy: user._id,

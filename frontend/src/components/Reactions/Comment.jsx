@@ -11,8 +11,10 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import postsAtom from '../../atoms/postsAtom'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
+import auth from '../../utils/auth'
 
 const Comment = ({ reply, currentPost }) => {
+  const token = auth.getToken()
   const [liked, setLiked] = useState(false)
   const showToast = useShowToast()
   const currentUser = useRecoilValue(userAtom)
@@ -27,6 +29,7 @@ const Comment = ({ reply, currentPost }) => {
         `/v1/api/posts/reply/${currentPost._id}/${reply._id}`,
         {
           method: 'DELETE',
+          Authorization: `Bearer ${token}`,
         }
       )
       const data = await res.json()

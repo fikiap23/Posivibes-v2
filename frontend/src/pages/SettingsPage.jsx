@@ -1,8 +1,11 @@
 import { Button, Text } from '@chakra-ui/react'
 import useShowToast from '../hooks/useShowToast'
 import useLogout from '../hooks/useLogout'
+import { apiUrl } from '../utils/baseURL'
+import auth from '../utils/auth'
 
 export const SettingsPage = () => {
+  const token = auth.getToken()
   const showToast = useShowToast()
   const logout = useLogout()
 
@@ -11,9 +14,12 @@ export const SettingsPage = () => {
       return
 
     try {
-      const res = await fetch('/v1/api/users/deactivation', {
+      const res = await fetch(`${apiUrl}/v1/api/users/deactivation`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
       })
       const data = await res.json()
 

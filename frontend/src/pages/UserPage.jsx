@@ -14,6 +14,7 @@ import Rightbar from '../components/Rightbar/Rightbar'
 import Sidebar from '../components/Sidebar/Sidebar'
 import useGetUserProfile from '../hooks/useGetUserProfile'
 import useShowToast from '../hooks/useShowToast'
+import { apiUrl } from '../utils/baseURL'
 
 const UserPage = () => {
   const { user, loading } = useGetUserProfile()
@@ -34,7 +35,7 @@ const UserPage = () => {
       if (!user) return
       setFetchingPosts(true)
       try {
-        const res = await fetch(`/v1/api/posts/user/${username}`)
+        const res = await fetch(`${apiUrl}/v1/api/posts/user/${username}`)
         const data = await res.json()
         // console.log(data)
         setPosts(data)
@@ -50,7 +51,7 @@ const UserPage = () => {
       if (!user) return
       setFetchingReposts(true)
       try {
-        const res = await fetch(`/v1/api/reposts/${username}`)
+        const res = await fetch(`${apiUrl}/v1/api/reposts/${username}`)
         const data = await res.json()
         // console.log(data)
         setReposts(data)

@@ -3,7 +3,6 @@ import dotenv from 'dotenv'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import path from 'path'
-
 import connectDB from './db/connectDB.js'
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/userRoutes.js'
@@ -12,6 +11,7 @@ import repostRoutes from './routes/repostRoutes.js'
 import messageRoutes from './routes/messageRoutes.js'
 import { v2 as cloudinary } from 'cloudinary'
 import { app, server } from './socket/socket.js'
+import cors from 'cors'
 
 dotenv.config()
 
@@ -25,6 +25,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
+app.use(cors())
 app.use(express.json({ limit: '50mb' })) // for parsing application/json data in the request body
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded data in the request body
 app.use(cookieParser())

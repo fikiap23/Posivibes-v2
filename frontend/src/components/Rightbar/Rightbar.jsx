@@ -4,8 +4,11 @@ import SuggestedUser from './SuggestedUser'
 import useShowToast from '../../hooks/useShowToast'
 import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
 
 const Rightbar = () => {
+  const token = auth.getToken()
   const [loading, setLoading] = useState(true)
   const [suggestedUsers, setSuggestedUsers] = useState([])
   const showToast = useShowToast()
@@ -15,7 +18,12 @@ const Rightbar = () => {
     const getSuggestedUsers = async () => {
       setLoading(true)
       try {
-        const res = await fetch('v1/api/users/suggested')
+        const res = await fetch(`${apiUrl}/v1/api/users/suggested`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         const data = await res.json()
         if (data.error) {
           // showToast('Error', data.error, 'error')

@@ -24,8 +24,11 @@ import postsAtom from '../../atoms/postsAtom'
 import CreateComent from '../Reactions/CreateComent'
 import ShowCardProfile from '../Reactions/ShowCardProfile'
 import CreateRepost from '../Reactions/CreateRepost'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
 
 const Post = ({ post, postedBy }) => {
+  const token = auth.getToken()
   const { colorMode } = useColorMode()
   const [showComments, setShowComments] = useState(false)
   const [user, setUser] = useState(null)
@@ -39,7 +42,7 @@ const Post = ({ post, postedBy }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch('/v1/api/users/profile/' + postedBy)
+        const res = await fetch(`${apiUrl}/v1/api/users/profile/` + postedBy)
         const data = await res.json()
         // console.log(postedBy)
         if (data.error) {
@@ -61,8 +64,11 @@ const Post = ({ post, postedBy }) => {
       e.preventDefault()
       if (!window.confirm('Are you sure you want to delete this post?')) return
 
-      const res = await fetch(`/v1/api/posts/${post._id}`, {
+      const res = await fetch(`${apiUrl}/v1/api/posts/${post._id}`, {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       const data = await res.json()
       if (data.error) {
@@ -82,10 +88,11 @@ const Post = ({ post, postedBy }) => {
     if (isLiking) return
     setIsLiking(true)
     try {
-      const res = await fetch('/v1/api/posts/like/' + post._id, {
+      const res = await fetch(`${apiUrl}/v1/api/posts/like/` + post._id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       })
       const data = await res.json()

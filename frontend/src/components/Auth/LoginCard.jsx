@@ -22,6 +22,7 @@ import { useSetRecoilState } from 'recoil'
 import authScreenAtom from '../../atoms/authAtom'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
+import { apiUrl } from '../../utils/baseURL'
 
 const Blur = (props) => {
   return (
@@ -59,7 +60,7 @@ export default function LoginCard() {
   const handleLogin = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/v1/api/users/login', {
+      const res = await fetch(`${apiUrl}/v1/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,8 +72,9 @@ export default function LoginCard() {
         showToast('Error', data.error, 'error')
         return
       }
-      localStorage.setItem('user-posivibes', JSON.stringify(data))
-      setUser(data)
+      localStorage.setItem('user-posivibes', JSON.stringify(data.user))
+      localStorage.setItem('token', data.token)
+      setUser(data.user)
     } catch (error) {
       showToast('Error', error, 'error')
     } finally {
@@ -128,15 +130,6 @@ export default function LoginCard() {
               {/* Informasi uji coba */}
               Bergabunglah bersama kami di Posivibes: Kumpulan Semangat Positif,
               dan sebarkan kebaikan bersama!
-            </Text>
-            <Text color={'black'} fontSize={{ base: 'sm', sm: 'md' }}>
-              <Text as={'span'} fontWeight={'bold'}>
-                *Untuk uji coba saja, bisa gunakan account berikut:
-              </Text>
-              <br />
-              Username: user123
-              <br />
-              Password: 123
             </Text>
           </Stack>
           <Box as={'form'}>

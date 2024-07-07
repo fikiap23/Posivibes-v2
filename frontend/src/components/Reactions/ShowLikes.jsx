@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react'
 import ListLikes from './ListLikes'
+import { apiUrl } from '../../utils/baseURL'
 
 const ShowLikes = ({ postId }) => {
   const [likes, setLikes] = useState([])
@@ -8,7 +9,7 @@ const ShowLikes = ({ postId }) => {
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const response = await fetch(`/v1/api/posts/${postId}/likes`)
+        const response = await fetch(`${apiUrl}/v1/api/posts/${postId}/likes`)
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }

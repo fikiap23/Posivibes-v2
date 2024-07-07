@@ -26,15 +26,16 @@ import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
 
 import { useParams } from 'react-router-dom'
-
 import { BiRepost } from 'react-icons/bi'
 import { formatDistanceToNow } from 'date-fns'
 import repostsAtom from '../../atoms/repostAtom'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
 
 const CreateRepost = ({ post, userPost }) => {
+  const token = auth.getToken()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [postText, setPostText] = useState('')
-
   const [remainingChar, setRemainingChar] = useState(0)
   const user = useRecoilValue(userAtom)
   const showToast = useShowToast()
@@ -55,10 +56,11 @@ const CreateRepost = ({ post, userPost }) => {
   const handleCreateRepost = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/v1/api/reposts/create', {
+      const res = await fetch(`${apiUrl}/v1/api/reposts/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           postedBy: user._id,

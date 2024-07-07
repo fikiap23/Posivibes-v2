@@ -22,8 +22,10 @@ import Message from './Message'
 import MessageInput from './MessageInput'
 import messageSound from '../../assets/sounds/newMessage.mp3'
 import { Link } from 'react-router-dom'
+import auth from '../../utils/auth'
 
 const MessageContainer = () => {
+  const token = auth.getToken()
   const showToast = useShowToast()
   const [selectedConversation, setSelectedConversation] = useRecoilState(
     selectedConversationAtom
@@ -107,7 +109,13 @@ const MessageContainer = () => {
       try {
         if (selectedConversation.mock) return
         const res = await fetch(
-          `/v1/api/messages/${selectedConversation.userId}`
+          `/v1/api/messages/${selectedConversation.userId}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         )
         const data = await res.json()
         if (data.error) {

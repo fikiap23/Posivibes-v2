@@ -14,8 +14,11 @@ import {
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
 import SuggestedUser from '../Rightbar/SuggestedUser'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
 
 function SearchBarUser({ isOpen, onClose }) {
+  const token = auth.getToken()
   const [searchResults, setSearchResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [searchQuery, setSearchQuery] = useState('') // Misalnya, inisialisasi dengan query awal
@@ -24,10 +27,11 @@ function SearchBarUser({ isOpen, onClose }) {
     setLoading(true)
     setSearchResults([])
     try {
-      const res = await fetch(`v1/api/users/search/${query}`, {
+      const res = await fetch(`${apiUrl}/v1/api/users/search/${query}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       })
       const data = await res.json()

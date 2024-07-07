@@ -36,10 +36,12 @@ import CreateComent from '../components/Reactions/CreateComent'
 import ShowLikes from '../components/Reactions/ShowLikes'
 import ShowCardProfile from '../components/Reactions/ShowCardProfile'
 import Repost from '../components/Reactions/Repost'
+import { apiUrl } from '../utils/baseURL'
+import auth from '../utils/auth'
 
 const PostPage = () => {
+  const token = auth.getToken()
   const [isLiking, setIsLiking] = useState(false)
-
   const [isTabActive, setIsTabActive] = useState('comments')
   const { colorMode } = useColorMode()
   const { user, loading } = useGetUserProfile()
@@ -57,7 +59,7 @@ const PostPage = () => {
     const getPost = async () => {
       setPosts([])
       try {
-        const res = await fetch(`/v1/api/posts/${pid}`)
+        const res = await fetch(`${apiUrl}/v1/api/posts/${pid}`)
         const data = await res.json()
         if (data.error) {
           showToast('Error', data.error, 'error')
@@ -76,7 +78,7 @@ const PostPage = () => {
       if (!user) return
       //  setFetchingReposts(true)
       try {
-        const res = await fetch(`/v1/api/reposts/post/${pid}`)
+        const res = await fetch(`${apiUrl}/v1/api/reposts/post/${pid}`)
         const data = await res.json()
         console.log(data)
         setReposts(data)
@@ -95,7 +97,7 @@ const PostPage = () => {
     try {
       if (!window.confirm('Are you sure you want to delete this post?')) return
 
-      const res = await fetch(`/v1/api/posts/${currentPost._id}`, {
+      const res = await fetch(`${apiUrl}/v1/api/posts/${currentPost._id}`, {
         method: 'DELETE',
       })
       const data = await res.json()
@@ -115,12 +117,16 @@ const PostPage = () => {
     if (isLiking) return
     setIsLiking(true)
     try {
-      const res = await fetch('/v1/api/posts/like/' + currentPost._id, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      const res = await fetch(
+        '${apiUrl}/v1/api/posts/like/' + currentPost._id,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       const data = await res.json()
       if (data.error) return showToast('Error', data.error, 'error')
 

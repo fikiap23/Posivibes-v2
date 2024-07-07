@@ -9,13 +9,14 @@ import Post from '../components/Post/Post'
 import Sidebar from '../components/Sidebar/Sidebar'
 import RepostCard from '../components/Post/RepostCard'
 import SuggestedUsers from '../components/Reactions/SuggestedUsers'
+import { apiUrl } from '../utils/baseURL'
+import auth from '../utils/auth'
 
 const HomePage = () => {
   const [posts, setPosts] = useRecoilState(postsAtom)
-
   const [loading, setLoading] = useState(true)
   const showToast = useShowToast()
-  // console.log(posts)
+  const token = auth.getToken()
 
   useEffect(() => {
     const getFeedPosts = async () => {
@@ -23,7 +24,12 @@ const HomePage = () => {
       setPosts([])
       try {
         // Ambil postingan dari feed pengguna
-        const feedRes = await fetch('/v1/api/posts/feed')
+        const feedRes = await fetch(`${apiUrl}/v1/api/posts/feed`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         const feedData = await feedRes.json()
 
         if (feedData.error) {
@@ -32,7 +38,12 @@ const HomePage = () => {
         }
 
         // Ambil postingan yang merupakan repost
-        const repostRes = await fetch('/v1/api/reposts/feed')
+        const repostRes = await fetch(`${apiUrl}/v1/api/reposts/feed`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         const repostData = await repostRes.json()
 
         if (repostData.error) {

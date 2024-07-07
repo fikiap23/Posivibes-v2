@@ -19,8 +19,11 @@ import userAtom from '../atoms/userAtom'
 import useShowToast from '../hooks/useShowToast'
 import usePreviewImg from '../hooks/usePreviewImg'
 import { useNavigate } from 'react-router-dom'
+import { apiUrl } from '../utils/baseURL'
+import auth from '../utils/auth'
 
 export default function UpdateProfilePage() {
+  const token = auth.getToken()
   const [user, setUser] = useRecoilState(userAtom)
   const [inputs, setInputs] = useState({
     name: user.name,
@@ -42,10 +45,11 @@ export default function UpdateProfilePage() {
     if (updating) return
     setUpdating(true)
     try {
-      const res = await fetch(`v1/api/users/update/${user._id}`, {
+      const res = await fetch(`${apiUrl}/v1/api/users/update/${user._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
       })

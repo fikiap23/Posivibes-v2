@@ -25,6 +25,7 @@ const Header = () => {
   const navigate = useNavigate()
   // Tambahkan state untuk mengelola tampilan elemen "sticky"
   const [isSticky, setIsSticky] = useState(false)
+  console.log(user)
 
   useEffect(() => {
     // keep track of previous scroll position

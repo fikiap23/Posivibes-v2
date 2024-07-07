@@ -18,8 +18,11 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { conversationsAtom } from '../../atoms/messagesAtom'
 import userAtom from '../../atoms/userAtom'
 import { useSocket } from '../../context/SocketContext'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
 
 const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
+  const token = auth.getToken()
   const showToast = useShowToast()
   const [searchingUser, setSearchingUser] = useState(false)
   const [loadingConversations, setLoadingConversations] = useState(true)
@@ -53,7 +56,12 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
     setSearchingUser(true)
 
     try {
-      const res = await fetch(`v1/api/users/search/${searchText}`)
+      const res = await fetch(`${apiUrl}/v1/api/users/search/${searchText}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       const searchedUsers = await res.json()
       console.log(searchedUsers)
 
@@ -118,7 +126,12 @@ const ListUserChat = ({ setCloseProfile, setSelectedConversation }) => {
   useEffect(() => {
     const getConversations = async () => {
       try {
-        const res = await fetch('/v1/api/messages/conversations')
+        const res = await fetch(`${apiUrl}/v1/api/messages/conversations`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         const data = await res.json()
         if (data.error) {
           showToast('Error', data.error, 'error')

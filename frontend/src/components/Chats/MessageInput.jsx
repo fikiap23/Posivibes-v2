@@ -24,8 +24,11 @@ import {
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { BsFillImageFill } from 'react-icons/bs'
 import usePreviewImg from '../../hooks/usePreviewImg'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
 
 const MessageInput = ({ setMessages }) => {
+  const token = auth.getToken()
   const [messageText, setMessageText] = useState('')
   const showToast = useShowToast()
   const selectedConversation = useRecoilValue(selectedConversationAtom)
@@ -43,10 +46,11 @@ const MessageInput = ({ setMessages }) => {
     setIsSending(true)
 
     try {
-      const res = await fetch('/v1/api/messages', {
+      const res = await fetch(`${apiUrl}/v1/api/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           message: messageText,

@@ -2,8 +2,10 @@ import { useState } from 'react'
 import useShowToast from './useShowToast'
 import userAtom from '../atoms/userAtom'
 import { useRecoilValue } from 'recoil'
+import auth from '../utils/auth'
 
 const useFollowUnfollow = (user) => {
+  const token = auth.getToken()
   const currentUser = useRecoilValue(userAtom)
   const [following, setFollowing] = useState(
     user.followers.includes(currentUser?._id)
@@ -26,6 +28,7 @@ const useFollowUnfollow = (user) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         }
       )

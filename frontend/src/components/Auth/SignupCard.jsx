@@ -22,6 +22,7 @@ import { useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import authScreenAtom from '../../atoms/authAtom'
 import useShowToast from '../../hooks/useShowToast'
+import { apiUrl } from '../../utils/baseURL'
 
 const Blur = (props) => {
   return (
@@ -60,7 +61,7 @@ export default function SignupCard() {
   const handleSignup = async () => {
     setLoading(true)
     try {
-      const response = await fetch('/v1/api/users/signup', {
+      const response = await fetch(`${apiUrl}/v1/api/users/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +75,8 @@ export default function SignupCard() {
         return
       }
 
-      localStorage.setItem('user-posivibes', JSON.stringify(data))
+      localStorage.setItem('user-posivibes', JSON.stringify(data.user))
+      localStorage.setItem('token', data.token)
     } catch (error) {
       console.log(error)
     } finally {

@@ -11,8 +11,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import postsAtom from '../../atoms/postsAtom'
 import useShowToast from '../../hooks/useShowToast'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
 const MAX_CHAR = 500
 const CreateComent = ({ post, currentUser }) => {
+  const token = auth.getToken()
   const textareaRef = useRef(null)
   const [isReplying, setIsReplying] = useState(false)
   const [reply, setReply] = useState('')
@@ -48,10 +51,11 @@ const CreateComent = ({ post, currentUser }) => {
     if (isReplying) return
     setIsReplying(true)
     try {
-      const res = await fetch('/v1/api/posts/reply/' + post._id, {
+      const res = await fetch(`${apiUrl}/v1/api/posts/reply/` + post._id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ text: reply }),
       })

@@ -9,6 +9,8 @@ import { useRecoilValue } from 'recoil'
 import userAtom from '../../atoms/userAtom'
 import useShowToast from '../../hooks/useShowToast'
 import ShowCardProfile from './ShowCardProfile'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
 
 const RepostCardHeader = ({
   user,
@@ -17,6 +19,7 @@ const RepostCardHeader = ({
   repostText,
   repostId,
 }) => {
+  const token = auth.getToken()
   const navigate = useNavigate()
   const showToast = useShowToast()
   const currentUser = useRecoilValue(userAtom)
@@ -25,8 +28,11 @@ const RepostCardHeader = ({
     try {
       if (!window.confirm('Are you sure you want to delete this post?')) return
 
-      const res = await fetch(`/v1/api/reposts/${repostId}`, {
+      const res = await fetch(`${apiUrl}/v1/api/reposts/${repostId}`, {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       const data = await res.json()
       if (data.error) {

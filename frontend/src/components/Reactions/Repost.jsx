@@ -12,7 +12,9 @@ const Repost = ({ repost, nameWhoPost }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`/v1/api/users/profile/${repost.user.userId}`)
+        const res = await fetch(
+          `${apiUrl}/v1/api/users/profile/${repost.user.userId}`
+        )
         const data = await res.json()
         if (data.error) {
           // showToast('Error', data.error, 'error')

@@ -1,6 +1,7 @@
 import userAtom from '../atoms/userAtom'
 import { useSetRecoilState } from 'recoil'
 import useShowToast from './useShowToast'
+import { apiUrl } from '../utils/baseURL'
 
 const useLogout = () => {
   const setUser = useSetRecoilState(userAtom)
@@ -8,7 +9,7 @@ const useLogout = () => {
 
   const logout = async () => {
     try {
-      const res = await fetch('/v1/api/users/logout', {
+      const res = await fetch(`${apiUrl}/v1/api/users/logout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -22,6 +23,7 @@ const useLogout = () => {
       }
 
       localStorage.removeItem('user-posivibes')
+      localStorage.removeItem('token')
       setUser(null)
     } catch (error) {
       showToast('Error', error, 'error')

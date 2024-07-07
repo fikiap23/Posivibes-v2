@@ -27,8 +27,12 @@ import useShowToast from '../../hooks/useShowToast'
 import postsAtom from '../../atoms/postsAtom'
 import { useNavigate, useParams } from 'react-router-dom'
 import { MdOutlineCreate } from 'react-icons/md'
+import { apiUrl } from '../../utils/baseURL'
+import auth from '../../utils/auth'
+
 const MAX_CHAR = 100
 const CreatePost = () => {
+  const token = auth.getToken()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [postText, setPostText] = useState('')
   const [titlePostText, setTitlePostText] = useState('')
@@ -66,10 +70,11 @@ const CreatePost = () => {
   const handleCreatePost = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/v1/api/posts/create', {
+      const res = await fetch(`${apiUrl}/v1/api/posts/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           postedBy: user._id,
