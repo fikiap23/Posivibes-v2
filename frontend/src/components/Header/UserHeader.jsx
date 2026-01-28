@@ -1,8 +1,17 @@
 /* eslint-disable react/prop-types */
-import { Avatar } from '@chakra-ui/avatar'
-import { Box, Flex, Link, Text, VStack } from '@chakra-ui/layout'
-import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
-import { Portal } from '@chakra-ui/portal'
+import {
+  Avatar,
+  Box,
+  Flex,
+  Link,
+  Text,
+  VStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Portal,
+} from '@chakra-ui/react'
 import { Button, Image, Toast, useColorMode } from '@chakra-ui/react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { CgMoreO } from 'react-icons/cg'
@@ -19,7 +28,7 @@ const UserHeader = ({ user }) => {
   const { colorMode } = useColorMode()
   const currentUser = useRecoilValue(userAtom)
   const [selectedConversation, setSelectedConversation] = useRecoilState(
-    selectedConversationAtom
+    selectedConversationAtom,
   )
   const [conversations, setConversations] = useRecoilState(conversationsAtom)
   const navigate = useNavigate()

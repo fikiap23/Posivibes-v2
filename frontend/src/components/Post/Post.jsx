@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { Avatar } from '@chakra-ui/avatar'
-import { Image } from '@chakra-ui/image'
-import { Box, Flex, Text } from '@chakra-ui/layout'
+import { Avatar, Image, Box, Flex, Text } from '@chakra-ui/react'
 import { BsThreeDots } from 'react-icons/bs'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { FaRegComment } from 'react-icons/fa6'
@@ -87,7 +85,7 @@ const Post = ({ post, postedBy }) => {
       return console.log(
         'Error',
         'You must be logged in to like a post',
-        'error'
+        'error',
       )
     if (isLiking) return
     setIsLiking(true)

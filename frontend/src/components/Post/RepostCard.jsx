@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { Avatar } from '@chakra-ui/avatar'
-import { Image } from '@chakra-ui/image'
-import { Box, Flex, Text } from '@chakra-ui/layout'
+import { Avatar, Image, Box, Flex, Text } from '@chakra-ui/react'
 
 import { Button, Spinner, useColorMode } from '@chakra-ui/react'
 
@@ -27,15 +25,15 @@ const RepostCard = ({ repost }) => {
     const getUser = async () => {
       try {
         const resDataUser = await fetch(
-          `/v1/api/users/profile/${repost.repostedBy.userId}`
+          `/v1/api/users/profile/${repost.repostedBy.userId}`,
         )
 
         const resDataUserOrigin = await fetch(
-          `/v1/api/users/profile/${repost.originalPost.userId}`
+          `/v1/api/users/profile/${repost.originalPost.userId}`,
         )
 
         const res = await fetch(
-          `${apiUrl}/v1/api/posts/${repost.originalPost.postId}`
+          `${apiUrl}/v1/api/posts/${repost.originalPost.postId}`,
         )
         const data = await res.json()
         if (data.error) {
